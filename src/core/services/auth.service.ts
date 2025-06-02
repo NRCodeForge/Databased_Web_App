@@ -37,6 +37,7 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -68,6 +69,8 @@ export class AuthService {
   {
     return this.http.get("api/user");
   }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 }
