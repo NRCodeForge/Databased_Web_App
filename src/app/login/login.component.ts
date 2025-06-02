@@ -1,30 +1,30 @@
 import { Component } from '@angular/core';
-import { AuthService} from '../../core/services/auth.service'
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ResetPasswordComponent } from '../reset-password/reset-password.component';
-
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, ResetPasswordComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css'],
 })
-
 export class LoginComponent {
-  /*
-  this.authService.login({ email, password }).subscribe({
-    next: (res: any) => {
-      this.authService.setSession(res.token, res.role);
-      this.router.navigate(['/']);
-    },
-    error: (err) => {
-      console.error('Login fehlgeschlagen', err);
-    }
-  });
-  {
-    "token": "eyJhbGciOiJIUzI1...",
-    "role": "Admin"
+  emailOrUsername = '';
+  password = '';
+  error = '';
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSubmit() {
+    this.authService.login({ emailOrUsername: this.emailOrUsername, password: this.password })
+      .subscribe({
+        next: (res: any) => {
+          this.authService.setSession(res.token, res.userId, res.role);
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.error = 'Login fehlgeschlagen. Bitte überprüfe deine Eingaben.';
+          console.error(err);
+        }
+      });
   }
-  */
 }

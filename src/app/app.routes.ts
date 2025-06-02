@@ -7,6 +7,7 @@ import { NewsComponent } from './news/news.component';
 import { TermineComponent } from './termine/termine.component';
 import { ForumComponent } from './forum/forum.component';
 
+
 export const routes: Routes = [
     {path:"login-component", component:LoginComponent},
     {path:"navbar-component", component:NavbarComponent},

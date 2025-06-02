@@ -1,4 +1,5 @@
 <div class="login-container">
+<<<<<<< Updated upstream
     <h2>Login</h2>
     <form action="#" method="POST">
         <input type="text" name="Benutzername" class="eingabe-feld" placeholder="Benutzername" required>
@@ -11,3 +12,18 @@
 </div>
 
 <!-- Felder als Klasse -->
+=======
+  <h2>Login</h2>
+  <form (ngSubmit)="onSubmit()">
+    <input [(ngModel)]="emailOrUsername" name="emailOrUsername" class="eingabe-feld" placeholder="Benutzername oder E-Mail" required>
+    <input [(ngModel)]="password" name="password" type="password" class="eingabe-feld" placeholder="Passwort" required>
+    <button type="submit" class="Anmelden-button">Einloggen</button>
+  </form>
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="password_vergessen">
+    <a routerLink="/reset-password" routerLinkActive="active">Passwort vergessen?</a>
+  </div>
+</div>
+>>>>>>> Stashed changes
