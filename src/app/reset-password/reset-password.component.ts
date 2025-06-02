@@ -18,7 +18,7 @@ export class ResetPasswordComponent {
 
   buttonClick(): void{
 
-    this.authService.getHomeData().subscribe(
+    this.authService.getCheckData().subscribe(
       data => {
         console.log(data);
       }

@@ -50,7 +50,7 @@ export class AuthService {
     return "Antwort";
   }
   
-  getHomeData()
+  getCheckData()
   {
     return this.http.get("api/user");
   }
