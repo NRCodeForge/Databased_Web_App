@@ -1,0 +1,32 @@
+<section>
+  <div class="separator" [ngSwitch]="mode">
+
+    <!-- Mode 1: Text über Bild -->
+    <ng-container *ngSwitchCase="1">
+      <p>{{ text }}</p>
+      <img [src]="imgsource" alt="Bild">
+    </ng-container>
+
+    <!-- Mode 2: Bild über Text -->
+    <ng-container *ngSwitchCase="2">
+      <img [src]="imgsource" alt="Bild">
+      <p>{{ text }}</p>
+    </ng-container>
+
+    <!-- Mode 3: Nur Bild -->
+    <ng-container *ngSwitchCase="3">
+      <img [src]="imgsource" alt="Bild">
+    </ng-container>
+
+    <!-- Mode 4: Nur Text -->
+    <ng-container *ngSwitchCase="4">
+      <p>{{ text }}</p>
+    </ng-container>
+
+    <!-- Fallback -->
+    <ng-container *ngSwitchDefault>
+      <p>Ungültiger Modus</p>
+    </ng-container>
+
+  </div>
+</section>

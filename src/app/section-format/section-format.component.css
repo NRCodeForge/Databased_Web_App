@@ -1,0 +1,10 @@
+.separator {
+  text-align: center;
+  margin: 1rem;
+}
+
+.separator img {
+  max-width: 200px;
+  height: auto;
+  margin-top: 0.5rem;
+}
