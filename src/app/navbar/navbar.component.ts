@@ -15,6 +15,7 @@ import { ForumComponent } from '../forum/forum.component';
   selector: 'app-navbar',
   imports: [NgIf, RouterOutlet, RouterLink, RouterLinkActive, LoginComponent, RegistrationComponent, NewsComponent, TermineComponent, ForumComponent],
   templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
   constructor(private authService: AuthService) {}
