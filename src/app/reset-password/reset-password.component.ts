@@ -18,8 +18,9 @@ export class ResetPasswordComponent {
 
   buttonClick(): void{
 
+    // @ts-ignore
     this.authService.getCheckData().subscribe(
-      data => {
+        (data: any) => {
         console.log(data);
       }
     );

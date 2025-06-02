@@ -20,7 +20,7 @@ export class AuthService {
     localStorage.setItem('role', role);
   }
 
-  getRole(): string | null {
+  getUserRole(): string | null {
     return localStorage.getItem('role');
   }
 
@@ -36,41 +36,12 @@ export class AuthService {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getData() {
+    return null
   }
 
-  setSession(token: string, role: string): void {
-    localStorage.setItem('token', token);
-    localStorage.setItem('role', role);
+  getCheckData() {
+    return null
   }
-
-  getUserRole(): string | null {
-    return localStorage.getItem('role');
-  }
-
-  isAdmin(): boolean {
-    return this.getUserRole() === 'Admin';
-  }
-
-  isLeader(): boolean {
-    return this.getUserRole() === 'Abteilungsleiter';
-  }
-
-  getData()
-  {
-    return "Antwort";
-  }
-  
-  getCheckData()
-  {
-    return this.http.get("api/user");
-  }
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
