@@ -4,6 +4,7 @@
 }
 
 .navbar div{
+  width: 100%;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -42,4 +43,14 @@
   font-weight: bold;
   border-bottom: 3px solid rgb(255, 55, 55);
   background-color: rgb(29, 29, 29);
+}
+
+.navbar responsive-img{
+    max-width: 100%;
+  height: auto;
+}
+
+.responsive-img{
+  max-width: 100%;
+  height: auto;
 }
