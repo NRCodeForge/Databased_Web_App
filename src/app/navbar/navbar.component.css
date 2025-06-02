@@ -5,6 +5,8 @@
 
 .navbar div{
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar ul{
