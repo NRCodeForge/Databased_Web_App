@@ -44,4 +44,14 @@ export class AuthService {
   isLeader(): boolean {
     return this.getUserRole() === 'Abteilungsleiter';
   }
+
+  getData()
+  {
+    return "Antwort";
+  }
+  
+  getHomeData()
+  {
+    return this.http.get("api/user");
+  }
 }

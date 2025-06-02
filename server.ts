@@ -24,6 +24,12 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
+  server.get('/api/user', (req, res) => {
+    console.log("Anfrage angekommen");
+    res.send({answer:"hat geklappt"}); 
+    // Handle API request
+   });
+
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;

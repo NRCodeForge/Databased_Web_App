@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 
 @Component({
@@ -10,4 +12,17 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class ResetPasswordComponent {
 
+  constructor(private http:HttpClient, private authService:AuthService){
+
+  }
+
+  buttonClick(): void{
+
+    this.authService.getHomeData().subscribe(
+      data => {
+        console.log(data);
+      }
+    );
+    console.log(this.authService.getData());
+  }
 }
