@@ -1,5 +1,7 @@
 # 📦 Datenbankbasierte Webanwendung (MySQL + Angular)
-
+Run:
+ng build
+node dist/databased-web-app/server/server.mjs
 Dies ist eine Webanwendung, die im Rahmen des Kurses **„Datenbankbasierte Webanwendung“** entwickelt wurde. Die Anwendung basiert auf einer MySQL-Datenbank im Backend und verwendet Angular für das Frontend.
 
 ---

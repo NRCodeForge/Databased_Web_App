@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-registration',
+  // KEIN 'imports'-Array hier!
   templateUrl: './registration.component.html',
+  imports: [
+    FormsModule
+  ],
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
@@ -25,7 +30,6 @@ export class RegistrationComponent {
       next: (response) => {
         this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet...';
         console.log(response);
-        // Nach 2 Sekunden zum Login weiterleiten
         setTimeout(() => {
           this.router.navigate(['/login-component']);
         }, 2000);

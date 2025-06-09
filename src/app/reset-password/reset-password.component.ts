@@ -1,29 +1,18 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-
+import { Router } from '@angular/router'; // Router importieren
 
 @Component({
   selector: 'app-reset-password',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css'
+  styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent {
 
-  constructor(private http:HttpClient, private authService:AuthService){
+  // Den Router im Konstruktor injizieren
+  constructor(private router: Router) {}
 
-  }
-
-  buttonClick(): void{
-
-    // @ts-ignore
-    this.authService.getCheckData().subscribe(
-        (data: any) => {
-        console.log(data);
-      }
-    );
-    console.log(this.authService.getData());
+  // Methode zum Navigieren
+  goToLogin(): void {
+    this.router.navigate(['/login-component']);
   }
 }
