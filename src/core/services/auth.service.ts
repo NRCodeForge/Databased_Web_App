@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,40 +8,36 @@ import { Router } from '@angular/router';
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/auth';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
-  login(credentials: { emailOrUsername: string, password: string }) {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials);
+  // NEUE register Methode
+  register(userData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
-  setSession(token: string, userId: number, role: string) {
+  login(credentials: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, credentials);
+  }
+
+  setSession(token: string, userId: string, role: string): void {
     localStorage.setItem('token', token);
-    localStorage.setItem('userId', userId.toString());
-    localStorage.setItem('role', role);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userRole', role);
   }
 
-  getUserRole(): string | null {
-    return localStorage.getItem('role');
-  }
-
-  getUserId(): string | null {
-    return localStorage.getItem('userId');
-  }
-
-  logout() {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
   }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  getData() {
-    return null
+  getUserRole(): string | null {
+    return localStorage.getItem('userRole');
   }
 
-  getCheckData() {
-    return null
-  }
+  // ... (andere Methoden, falls vorhanden)
 }

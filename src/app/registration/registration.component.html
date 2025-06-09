@@ -1,1 +1,46 @@
-<p>registration works!</p>
+<div class="form-container">
+  <h2>Registrierung</h2>
+  <p>Erstellen Sie ein neues Konto.</p>
+
+  <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+    <div class="form-group">
+      <label for="username">Benutzername</label>
+      <input type="text" id="username" name="username" [(ngModel)]="model.username" required #username="ngModel">
+      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error">
+        Benutzername ist erforderlich.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" name="email" [(ngModel)]="model.email" required email #email="ngModel">
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
+        <span *ngIf="email.errors?.['required']">E-Mail ist erforderlich.</span>
+        <span *ngIf="email.errors?.['email']">Bitte geben Sie eine gültige E-Mail an.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Passwort</label>
+      <input type="password" id="password" name="password" [(ngModel)]="model.password" required minlength="6" #password="ngModel">
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <span *ngIf="password.errors?.['required']">Passwort ist erforderlich.</span>
+        <span *ngIf="password.errors?.['minlength']">Das Passwort muss mindestens 6 Zeichen lang sein.</span>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <button type="submit" [disabled]="!registrationForm.form.valid">Registrieren</button>
+  </form>
+
+  <div class="link-to-login">
+    <span>Bereits ein Konto? </span><a routerLink="/login-component">Hier einloggen</a>
+  </div>
+</div>
