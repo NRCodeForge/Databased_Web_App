@@ -7,32 +7,26 @@
     <li><a routerLink="/termine-component" routerLinkActive="active">Termine</a></li>
     <li><a routerLink="/forum-component" routerLinkActive="active">Forum</a></li>
 
-    <!-- Nur sichtbar wenn angemeldet -->
     <ng-container *ngIf="isLoggedIn">
       <li><a routerLink="/profile" routerLinkActive="active">Profil</a></li>
 
-      <!-- Admin-Link -->
       <li *ngIf="isAdmin"><a routerLink="/dashboard/admin" routerLinkActive="active">Admin</a></li>
 
-      <!-- Abteilungsleiter-Link -->
       <li *ngIf="isLeader"><a routerLink="/dashboard/leiter" routerLinkActive="active">Leiter-Dashboard</a></li>
 
       <li><a (click)="logout()">Logout</a></li>
     </ng-container>
 
-    <!-- Wenn nicht angemeldet -->
     <ng-container *ngIf="!isLoggedIn">
       <li><a routerLink="/login-component" routerLinkActive="active">Login</a></li>
       <li><a routerLink="/registration-component" routerLinkActive="active">Registration</a></li>
     </ng-container>
   </ul>
 
-  
+
   <div class="navbar-brand">
-    
+
     <img src="assets/Schützenverein.png" title="Schützenverein Huchting und Umgegend v. 1911" class="responsive-img">
-  <h1>Schützenverein Huchting und Umgegend v. 1911</h1>
+    <h1>Schützenverein Huchting und Umgegend v. 1911</h1>
   </div>
 </nav>
-
-

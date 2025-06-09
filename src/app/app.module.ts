@@ -10,23 +10,30 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SectionFormatComponent } from './section-format/section-format.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { LeiterDashboardComponent } from './leiter-dashboard/leiter-dashboard.component';
+import { NewsBuilderComponent } from './news-builder/news-builder.component';
 
 import { routes } from './app.routes';
 
 @NgModule({
   declarations: [
-    TermineComponent,
-    LoginComponent,
-    NavbarComponent,
-    RegistrationComponent,
-    ResetPasswordComponent,
-    SectionFormatComponent
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    TermineComponent,
+    NavbarComponent,
+    LoginComponent,
+    RegistrationComponent,
+    ResetPasswordComponent,
+    SectionFormatComponent,
+    AdminDashboardComponent,
+    LeiterDashboardComponent,
+    NewsBuilderComponent
   ],
   providers: [],
   bootstrap: []

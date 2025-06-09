@@ -1,0 +1,32 @@
+<div class="news-builder">
+  <h3>Neuen News-Artikel erstellen</h3>
+  <form (ngSubmit)="addSection()">
+    <div>
+      <label for="section-mode">Sektionstyp:</label>
+      <select id="section-mode" [(ngModel)]="currentSection.mode" name="sectionMode">
+        <option [ngValue]="1">Text über Bild</option>
+        <option [ngValue]="2">Bild über Text</option>
+        <option [ngValue]="3">Nur Bild</option>
+        <option [ngValue]="4">Nur Text</option>
+      </select>
+    </div>
+    <div *ngIf="currentSection.mode !== 3">
+      <label for="section-text">Text:</label>
+      <textarea id="section-text" [(ngModel)]="currentSection.text" name="sectionText" rows="4"></textarea>
+    </div>
+    <div *ngIf="currentSection.mode !== 4">
+      <label for="section-image">Bild-URL:</label>
+      <input type="text" id="section-image" [(ngModel)]="currentSection.imgsource" name="sectionImage">
+    </div>
+    <button type="submit">Sektion hinzufügen</button>
+  </form>
+
+  <div class="preview">
+    <h4>Vorschau</h4>
+    <div *ngFor="let section of sections">
+      <app-section-format [mode]="section.mode" [text]="section.text" [imgsource]="section.imgsource"></app-section-format>
+    </div>
+  </div>
+
+  <button (click)="saveArticle()">Artikel speichern</button>
+</div>
