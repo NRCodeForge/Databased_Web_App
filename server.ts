@@ -1,3 +1,4 @@
+/*
 import express, { Request, Response } from 'express';
 import path from 'path';
 import mysql from 'mysql2/promise';
@@ -99,3 +100,4 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`Server läuft auf http://localhost:${port}`);
 });
+*/
