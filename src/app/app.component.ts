@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./navbar/navbar.component";
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
+  //standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive], // Bereinigt
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [RouterOutlet, NavbarComponent] // Bereinigt
 })
 export class AppComponent {
   title = 'Databased_Web_App';

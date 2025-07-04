@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import {NgIf} from "@angular/common";
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-navbar',
   // KEIN 'imports'-Array hier!
   templateUrl: './navbar.component.html',
   imports: [
-    NgIf
+    NgIf, RouterLink, RouterLinkActive, RouterOutlet, LoginComponent
   ],
   styleUrls: ['./navbar.component.css']
 })
