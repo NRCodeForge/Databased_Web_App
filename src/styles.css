@@ -1,5 +1,106 @@
-/* You can add global styles to this file, and also import other style files */
-body{
-    margin: 0px;
-    padding: 0;
+/* Globale Stile im Apple-Stil */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --background-color: #f5f5f7;
+  --text-color: #1d1d1f;
+  --primary-blue: #007aff;
+  --secondary-text: #6e6e73;
+  --border-color: #d2d2d7;
+  --card-background: #ffffff;
+  --hover-background: #e8e8ea;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+button {
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 500;
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button:hover {
+  background-color: #005ecb;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background-color: #d2d2d7;
+  cursor: not-allowed;
+}
+
+/* Globale Formularstile */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--secondary-text);
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: #f5f5f7;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+}
+
+/* Nachrichten-Stile */
+.error-message {
+  color: #d32f2f;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.success-message {
+  color: #388e3c;
+  margin-top: 8px;
+  font-size: 14px;
 }
