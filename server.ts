@@ -1,9 +1,16 @@
 import express, { Request, Response } from 'express';
 import mysql from 'mysql2/promise';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import {Query} from "mysql2";
+
+// Diese Zeilen stellen die fehlenden __filename und __dirname Variablen bereit
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 
@@ -87,7 +94,7 @@ app.post('/api/auth/login', async (req: Request, res: Response) => {
   }
 });
 
-// KORREKTUR: Klammer-Notation für process.env
+
 const PORT = process.env['PORT'] || 3000;
 app.listen(PORT, () => {
   console.log(`Server läuft auf Port ${PORT}`);
