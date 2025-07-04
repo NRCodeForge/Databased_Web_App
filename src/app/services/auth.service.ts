@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common'; // Import this
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
 
@@ -8,35 +9,41 @@ import { jwtDecode } from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = new BehaviorSubject<boolean>(this.isTokenAvailable());
+  private loggedIn: BehaviorSubject<boolean>;
 
-  constructor(private http: HttpClient) { }
-
-  /**
-   * Prüft, ob ein Token im Local Storage vorhanden ist.
-   * @returns boolean
-   */
-  private isTokenAvailable(): boolean {
-    return !!localStorage.getItem('token');
+  // Inject PLATFORM_ID to determine the execution environment
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
+    // Initialize loggedIn state safely
+    this.loggedIn = new BehaviorSubject<boolean>(this.isTokenAvailable());
   }
 
   /**
-   * Gibt den aktuellen Login-Status als Observable zurück.
-   * @returns Observable<boolean>
+   * Safely checks if a token is available in localStorage, only if running in a browser.
+   */
+  private isTokenAvailable(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return !!localStorage.getItem('token');
+    }
+    return false;
+  }
+
+  /**
+   * Returns the current login status as an Observable.
    */
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
   /**
-   * Sendet Login-Daten an den Server, speichert das Token und aktualisiert den Login-Status.
-   * @param credentials - Die Anmeldeinformationen (z. B. Email und Passwort).
-   * @returns Observable mit der Server-Antwort.
+   * Sends login data, saves the token only if in a browser, and updates login status.
    */
   login(credentials: any): Observable<any> {
     return this.http.post<any>('/api/login', credentials).pipe(
       tap(response => {
-        if (response && response.token) {
+        if (isPlatformBrowser(this.platformId) && response?.token) {
           localStorage.setItem('token', response.token);
           this.loggedIn.next(true);
         }
@@ -45,37 +52,37 @@ export class AuthService {
   }
 
   /**
-   * Sendet Registrierungsdaten an den Server.
-   * @param userData - Die Benutzerdaten für die Registrierung.
-   * @returns Observable mit der Server-Antwort.
+   * Sends registration data to the server.
    */
   register(userData: any): Observable<any> {
     return this.http.post<any>('/api/register', userData);
   }
 
   /**
-   * Entfernt das Token aus dem Local Storage und aktualisiert den Login-Status.
+   * Safely removes the token from localStorage and updates login status.
    */
   logout(): void {
-    localStorage.removeItem('token');
-    this.loggedIn.next(false);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+      this.loggedIn.next(false);
+    }
   }
 
   /**
-   * Entschlüsselt das JWT und gibt die Rolle des Benutzers zurück.
-   * @returns Die Rollen-ID (z.B. 1, 2, 3) oder null, wenn kein gültiges Token vorhanden ist.
+   * Safely decodes the JWT and returns the user's role, only if in a browser.
    */
   getUserRole(): number | null {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        // Definiere eine Struktur für das erwartete Token-Payload
-        const decodedToken: { id: number, role: number, iat: number, exp: number } = jwtDecode(token);
-        return decodedToken.role;
-      } catch (error) {
-        console.error('Ungültiges Token, Logout wird durchgeführt:', error);
-        this.logout(); // Bei ungültigem Token wird der Benutzer sicherheitshalber ausgeloggt.
-        return null;
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken: { id: number, role: number } = jwtDecode(token);
+          return decodedToken.role;
+        } catch (error) {
+          console.error('Invalid token, logging out:', error);
+          this.logout();
+          return null;
+        }
       }
     }
     return null;
