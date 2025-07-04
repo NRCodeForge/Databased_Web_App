@@ -8,7 +8,7 @@ import { routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
-// RegistrationComponent wird nicht mehr importiert
+// Die RegistrationComponent wird hier NICHT mehr importiert oder deklariert
 import { NewsComponent } from './news/news.component';
 import { TermineComponent } from './termine/termine.component';
 import { ForumComponent } from './forum/forum.component';
@@ -21,23 +21,18 @@ import { StartseiteComponent } from './startseite/startseite.component';
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    // RegistrationComponent entfernt
+    // RegistrationComponent wurde hier entfernt
     NewsComponent,
     ResetPasswordComponent,
     StartseiteComponent
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    RouterModule.forRoot(routes),
-    CommonModule,
-    FormsModule,
-    SectionFormatComponent,
-    // Standalone-Komponenten werden hier importiert, wenn sie in Templates von Nicht-Standalone-Komponenten verwendet werden
+    // ... andere Module
+    // Standalone-Komponenten müssen hier importiert werden,
+    // wenn sie in den Templates der deklarierten Komponenten verwendet werden.
     TermineComponent,
     ForumComponent
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  // ...
 })
 export class AppModule { }

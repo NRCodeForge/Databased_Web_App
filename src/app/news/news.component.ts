@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-
 
 @Component({
   selector: 'app-news',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  standalone: true,
+  imports: [], // Array leeren
   templateUrl: './news.component.html',
   styleUrl: './news.component.css'
 })
