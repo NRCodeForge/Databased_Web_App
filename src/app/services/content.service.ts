@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Post } from '../models/post'; // Sie müssen dieses Modell erstellen
+import { Post } from '../models/post'; // Behalten Sie diesen Import
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +24,3 @@ export class ContentService {
   }
 }
 
-// Erstellen Sie auch das Post-Modell
-// models/post.ts.ts
-export interface Post {
-  BeitragsID: number;
-  Titel: string;
-  Inhalt: string;
-  KategorieID: number;
-  Kategorie: string; // Optional, je nach API-Antwort
-  Erstellungsdatum: string;
-  Aenderungsdatum?: string;
-}
