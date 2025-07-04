@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jul 2025 um 20:58
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.0.30
+-- Erstellungszeit: 04. Jul 2025 um 21:24
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -84,7 +84,9 @@ CREATE TABLE `nutzer_daten` (
 --
 
 INSERT INTO `nutzer_daten` (`NutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RoleID`, `LastLogin`) VALUES
-(5, 'Niclas Jeremy Martin', 'Rieckers', 'rieckersniclas@gmail.com', '$2b$10$cge0N1Z8LeEaMomycvgizetVjYfCipLzXALBBn', 3, NULL);
+(5, 'Niclas Jeremy Martin', 'Rieckers', 'rieckersniclas@gmail.com', '$2b$10$cge0N1Z8LeEaMomycvgizetVjYfCipLzXALBBn', 3, NULL),
+(7, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$5MDlY.CfomMdsITWV7ijZ.TrrDmDf2vHWmqxYw', 1, NULL),
+(8, 'Franz', 'osen', 'OF@g.g', '$2b$10$wOA..4aXNAI0MG2fovXy8uhqjlSh7VXtSsNyLo', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -225,7 +227,7 @@ ALTER TABLE `kommentar_daten`
 -- AUTO_INCREMENT für Tabelle `nutzer_daten`
 --
 ALTER TABLE `nutzer_daten`
-  MODIFY `NutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `NutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `rechts_daten`
