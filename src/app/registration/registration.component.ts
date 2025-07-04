@@ -9,11 +9,11 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule, // Wichtig für reaktive Formulare
+    ReactiveFormsModule,
     RouterModule
   ],
   templateUrl: './registration.component.html',
-  // styleUrls: ['./registration.component.css'] // Ggf. wieder einkommentieren
+  styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
   registrationForm: FormGroup;
@@ -26,10 +26,10 @@ export class RegistrationComponent {
     private router: Router
   ) {
     this.registrationForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      // Optional: Fügen Sie eine E-Mail-Validierung hinzu, wenn das Feld existiert
-      // email: ['', [Validators.required, Validators.email]],
+      vorname: ['', Validators.required],
+      nachname: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
@@ -42,15 +42,14 @@ export class RegistrationComponent {
         next: (response) => {
           this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet.';
           console.log(response);
-          // Nach einer kurzen Verzögerung zum Login weiterleiten
-          setTimeout(() => this.router.navigate(['/login']), 2000);
+          setTimeout(() => this.router.navigate(['/login-component']), 2000);
         },
         error: (err) => {
           console.error('Registrierung fehlgeschlagen', err);
           if (err.status === 409) {
-            this.error = 'Dieser Benutzername ist bereits vergeben.';
+            this.error = 'Diese E-Mail-Adresse ist bereits registriert.';
           } else {
-            this.error = 'Ein unerwarteter Fehler ist aufgetreten.';
+            this.error = 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
           }
         }
       });

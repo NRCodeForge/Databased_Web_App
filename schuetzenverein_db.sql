@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jul 2025 um 16:42
+-- Erstellungszeit: 04. Jul 2025 um 20:58
 -- Server-Version: 10.4.32-MariaDB
 -- PHP-Version: 8.0.30
 
@@ -79,6 +79,13 @@ CREATE TABLE `nutzer_daten` (
   `LastLogin` datetime(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Daten für Tabelle `nutzer_daten`
+--
+
+INSERT INTO `nutzer_daten` (`NutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RoleID`, `LastLogin`) VALUES
+(5, 'Niclas Jeremy Martin', 'Rieckers', 'rieckersniclas@gmail.com', '$2b$10$cge0N1Z8LeEaMomycvgizetVjYfCipLzXALBBn', 3, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -91,6 +98,15 @@ CREATE TABLE `rechts_daten` (
   `Text` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Daten für Tabelle `rechts_daten`
+--
+
+INSERT INTO `rechts_daten` (`RechteID`, `Code`, `Text`) VALUES
+(1, 'READ_ALL', 'Nutzer kann alle öffentlichen Inhalte sehen und kommentieren.'),
+(2, 'WRITE_SECTION', 'Nutzer kann Beiträge und Termine für die eigene Abteilung erstellen und verwalten.'),
+(3, 'ADMIN_FULL_ACCESS', 'Nutzer hat vollen administrativen Zugriff auf alle Bereiche der Anwendung.');
+
 -- --------------------------------------------------------
 
 --
@@ -102,6 +118,15 @@ CREATE TABLE `rollen_daten` (
   `RollenName` varchar(45) DEFAULT NULL,
   `RechteID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `rollen_daten`
+--
+
+INSERT INTO `rollen_daten` (`RollenID`, `RollenName`, `RechteID`) VALUES
+(1, 'Mitglied', 1),
+(2, 'Abteilungsleiter', 2),
+(3, 'Admin', 3);
 
 -- --------------------------------------------------------
 
@@ -200,19 +225,19 @@ ALTER TABLE `kommentar_daten`
 -- AUTO_INCREMENT für Tabelle `nutzer_daten`
 --
 ALTER TABLE `nutzer_daten`
-  MODIFY `NutzerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `NutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `rechts_daten`
 --
 ALTER TABLE `rechts_daten`
-  MODIFY `RechteID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RechteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `rollen_daten`
 --
 ALTER TABLE `rollen_daten`
-  MODIFY `RollenID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RollenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `termin_daten`

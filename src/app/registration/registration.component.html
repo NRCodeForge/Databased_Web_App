@@ -1,27 +1,32 @@
 <div class="registration-container">
-  <h2>Registrierung</h2>
+  <h2>Account erstellen</h2>
+  <p>Trete dem Verein bei und bleibe immer auf dem Laufenden.</p>
+
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="username">Benutzername</label>
-      <input type="text" id="username" formControlName="username" required>
-      <!-- Optional: Fehlermeldungen für die Validierung anzeigen -->
-      <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched" class="validation-error">
-        Benutzername ist erforderlich (mind. 3 Zeichen).
+    <div class="form-row">
+      <div class="form-group">
+        <label for="vorname">Vorname</label>
+        <input type="text" id="vorname" formControlName="vorname" required>
+      </div>
+      <div class="form-group">
+        <label for="nachname">Nachname</label>
+        <input type="text" id="nachname" formControlName="nachname" required>
       </div>
     </div>
 
-    <!-- Das E-Mail-Feld wurde im SQL-Schema und Server entfernt.
-         Wenn Sie es benötigen, fügen Sie es hier und im FormGroup wieder hinzu. -->
+    <div class="form-group">
+      <label for="email">E-Mail</label>
+      <input type="email" id="email" formControlName="email" required>
+    </div>
 
     <div class="form-group">
       <label for="password">Passwort</label>
       <input type="password" id="password" formControlName="password" required>
       <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="validation-error">
-        Passwort ist erforderlich (mind. 6 Zeichen).
+        Das Passwort muss mindestens 6 Zeichen lang sein.
       </div>
     </div>
 
-    <!-- Erfolgs- und Fehlermeldungen -->
     <div *ngIf="error" class="error-message">
       {{ error }}
     </div>
@@ -31,7 +36,9 @@
 
     <button type="submit" [disabled]="registrationForm.invalid">Registrieren</button>
   </form>
-  <div class="links">
-    <a routerLink="/login">Bereits ein Konto? Zum Login</a>
+
+  <div class="login-link">
+    <span>Bereits Mitglied?</span>
+    <a routerLink="/login-component">Anmelden</a>
   </div>
 </div>

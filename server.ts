@@ -1,36 +1,43 @@
 import { APP_BASE_HREF } from '@angular/common';
-// HIER IST DIE KORREKTE IMPORT-ZEILE
 import { CommonEngine } from '@angular/ssr/node';
 import express from 'express';
-import { fileURLToPath } from 'node:url';
+import {fileURLToPath, pathToFileURL} from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 
-// Importe für die API-Logik
 import mysql from 'mysql2/promise';
 import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// Die Express-App wird exportiert, um sie z.B. für Serverless Functions zu nutzen
 export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
   const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.html');
+  const indexHtml = join(browserDistFolder, 'index.html');
 
   const commonEngine = new CommonEngine();
+
+  const projectRoot = resolve(serverDistFolder, '../../../');
+  dotenv.config({ path: join(projectRoot , 'data.env') });
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Middleware
-  dotenv.config();
   server.use(cors());
   server.use(express.json());
 
-  // ---- Korrigierte API-Routen ----
+  // Middleware für DevTools-Anfragen
+  server.use((req, res, next) => {
+    if (req.url.startsWith('/.well-known')) {
+      return res.status(204).send();
+    }
+    // HIER IST DIE KORREKTUR:
+    return next();
+  });
+
+  // ---- API-Routen ----
   const pool = mysql.createPool({
     host: process.env['DB_HOST'],
     user: process.env['DB_USER'],
@@ -42,18 +49,28 @@ export function app(): express.Express {
   });
 
   server.post('/api/auth/register', async (req, res) => {
-    const { username, password, role = 'user' } = req.body;
-    if (!username || !password) {
-      return res.status(400).json({ message: 'Benutzername und Passwort sind erforderlich.' });
+    // Die neuen Felder aus dem Request-Body extrahieren
+    const { vorname, nachname, email, password } = req.body;
+
+    // Validierung der neuen Felder
+    if (!vorname || !nachname || !email || !password) {
+      return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
     }
+
     try {
       const passwordHash = await bcrypt.hash(password, 10);
-      const query = 'INSERT INTO nutzer_daten (Email, Passwort, RoleID) VALUES (?, ?, ?)';
-      await pool.query(query, [username, passwordHash, 1]); // Annahme: RoleID 1 ist 'user'
+
+      // Die SQL-Abfrage an die 'nutzer_daten'-Tabelle anpassen
+      const query = 'INSERT INTO nutzer_daten (Vorname, Nachname, Email, Passwort, RoleID) VALUES (?, ?, ?, ?, ?)';
+
+      // Annahme: Standard-Rolle ist 'user' mit der ID 1
+      await pool.query(query, [vorname, nachname, email, passwordHash, 1]);
+
       return res.status(201).json({ message: 'Benutzer erfolgreich registriert.' });
     } catch (error: any) {
+      // Fehlerbehandlung für doppelte E-Mail-Adressen
       if (error.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ message: 'Dieser Benutzername ist bereits vergeben.' });
+        return res.status(409).json({ message: 'Diese E-Mail-Adresse ist bereits registriert.' });
       }
       console.error(error);
       return res.status(500).json({ message: 'Serverfehler bei der Registrierung.' });
@@ -93,15 +110,10 @@ export function app(): express.Express {
     }
   });
 
-  // Statische Dateien aus dem `browser`-Ordner bereitstellen
-  server.get('*.*', express.static(browserDistFolder, {
-    maxAge: '1y'
-  }));
+  server.get('*.*', express.static(browserDistFolder, { maxAge: '1y' }));
 
-  // Alle anderen Routen an die Angular-Engine übergeben
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
-
     commonEngine
       .render({
         bootstrap,
@@ -119,13 +131,10 @@ export function app(): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 3000;
-
-  // Node-Server starten
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 
-// Starten der Anwendung
 run();
