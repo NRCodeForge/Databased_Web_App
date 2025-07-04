@@ -3,9 +3,9 @@
 
 
   <ul class="nav-links">
-    <li><a routerLink="/news-component" routerLinkActive="active">News</a></li>
-    <li><a routerLink="/termine-component" routerLinkActive="active">Termine</a></li>
-    <li><a routerLink="/forum-component" routerLinkActive="active">Forum</a></li>
+    <li><a routerLink="/news-component" routerLinkActive="active">News </a></li>
+    <li><a routerLink="/termine-component" routerLinkActive="active">Termine </a></li>
+    <li><a routerLink="/forum-component" routerLinkActive="active">Forum </a></li>
 
     <ng-container *ngIf="isLoggedIn">
       <li><a routerLink="/profile" routerLinkActive="active">Profil</a></li>
@@ -18,8 +18,8 @@
     </ng-container>
 
     <ng-container *ngIf="!isLoggedIn">
-      <li><a routerLink="/login-component" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/registration-component" routerLinkActive="active">Registration</a></li>
+      <li><a routerLink="/login-component" routerLinkActive="active">Login  </a></li>
+      <li><a routerLink="/registration-component" routerLinkActive="active">Registration </a></li>
     </ng-container>
   </ul>
 
