@@ -1,43 +1,35 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importieren
+import { FormsModule } from '@angular/forms'; // Importieren
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-registration',
-  // KEIN 'imports'-Array hier!
+  standalone: true, // Als standalone markieren
+  imports: [CommonModule, FormsModule], // Module importieren
   templateUrl: './registration.component.html',
-  imports: [
-    FormsModule
-  ],
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
-  model: any = {};
-  error = '';
+  // ... Rest des Codes bleibt unverändert
+  username = '';
+  password = '';
+  errorMessage = '';
   successMessage = '';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  onSubmit() {
-    this.error = '';
-    this.successMessage = '';
-
-    this.authService.register(this.model).subscribe({
-      next: (response) => {
-        this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet...';
-        console.log(response);
-        setTimeout(() => {
-          this.router.navigate(['/login-component']);
-        }, 2000);
-      },
-      error: (err) => {
-        this.error = err.error.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
-        console.error(err);
-      }
-    });
+  register() {
+    this.http.post('/api/register', { username: this.username, password: this.password })
+      .subscribe({
+        next: (response) => {
+          this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet.';
+          setTimeout(() => this.router.navigate(['/login-component']), 2000);
+        },
+        error: (error) => {
+          this.errorMessage = 'Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.';
+        }
+      });
   }
 }
