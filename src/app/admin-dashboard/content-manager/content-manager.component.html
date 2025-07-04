@@ -1,0 +1,25 @@
+<div>
+  <h2>Content Manager</h2>
+  <button (click)="addPost()">Neuen Beitrag hinzufügen</button>
+  <table>
+    <thead>
+    <tr>
+      <th>Titel</th>
+      <th>Kategorie</th>
+      <th>Erstellungsdatum</th>
+      <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of posts">
+      <td>{{ post.Titel }}</td>
+      <td>{{ post.Kategorie }}</td>
+      <td>{{ post.Erstellungsdatum | date }}</td>
+      <td>
+        <button (click)="editPost(post)">Bearbeiten</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<app-post-editor *ngIf="showPostEditor" [post]="selectedPost" (postSaved)="onPostSaved($event)"></app-post-editor>

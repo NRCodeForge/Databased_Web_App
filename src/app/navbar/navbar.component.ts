@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Notwendig für *ngIf, *ngFor etc.
 import { Router, RouterModule } from '@angular/router'; // Notwendig für routerLink
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
