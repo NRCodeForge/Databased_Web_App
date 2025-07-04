@@ -1,22 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { ContentService } from '../../services/content.service';
 import { CategoryService } from '../../services/category.service';
-import { Post } from '../../models/post.model';
-import { Category } from '../../models/category.model';
-import {NewsBuilderComponent} from "../../news-builder/news-builder.component";
-import {ContentManagerComponent} from "../content-manager/content-manager.component";
+import { Post } from '../../models/post';
+import { Category } from '../../models/category';
 
 @Component({
   selector: 'app-post-editor',
+  standalone: true,
+  // KORREKTUR: Nur die benötigten Module importieren
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './post-editor.component.html',
-  imports: [
-    NewsBuilderComponent,
-    ContentManagerComponent
-  ],
   styleUrls: ['./post-editor.component.css']
 })
 export class PostEditorComponent implements OnInit {
+  // ... restlicher Code bleibt unverändert
   @Input() post: Post | null = null;
   @Output() postSaved = new EventEmitter<Post>();
   postForm: FormGroup;

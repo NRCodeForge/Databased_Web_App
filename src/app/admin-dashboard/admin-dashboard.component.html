@@ -1,5 +1,11 @@
 <div>
   <h2>Admin Dashboard</h2>
-  <p>Willkommen im Admin-Bereich.</p>
-  <app-news-builder></app-news-builder>
+  <p>Willkommen im Admin-Bereich. Wähle eine Option zum Verwalten.</p>
+
+  <nav>
+    <a routerLink="content">Inhalte verwalten</a>
+    <a routerLink="departments">Abteilungen verwalten</a>
+  </nav>
+
+  <router-outlet></router-outlet>
 </div>

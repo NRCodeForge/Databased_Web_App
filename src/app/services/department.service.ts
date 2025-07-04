@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Department } from '../models/department.model'; // Sie müssen dieses Modell erstellen
+import { Department } from '../models/department'; // Sie müssen dieses Modell erstellen
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class DepartmentService {
 }
 
 // Erstellen Sie auch das Department-Modell
-// models/department.model.ts
+// models/department.ts.ts
 export interface Department {
   AbteilungsID: number;
   Abteilungsname: string;

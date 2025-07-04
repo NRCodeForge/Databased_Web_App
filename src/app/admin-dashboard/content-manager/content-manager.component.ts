@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importieren
 import { ContentService } from '../../services/content.service';
-import { Post } from '../../models/post.model';
+import { Post } from '../../models/post';
+import { PostEditorComponent } from '../post-editor/post-editor.component'; // Importieren
 
 @Component({
   selector: 'app-content-manager',
+  standalone: true, // Sicherstellen, dass die Komponente eigenständig ist
+  imports: [CommonModule, PostEditorComponent], // CommonModule und PostEditorComponent hinzufügen
   templateUrl: './content-manager.component.html',
   styleUrls: ['./content-manager.component.css']
 })

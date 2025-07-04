@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Category } from '../models/category.model'; // Sie müssen dieses Modell erstellen
+import { Category } from '../models/category'; // Sie müssen dieses Modell erstellen
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class CategoryService {
 }
 
 // Erstellen Sie auch das Category-Modell
-// models/category.model.ts
+// models/category.ts.ts
 export interface Category {
   KategorieID: number;
   Name: string;

@@ -1,6 +1,22 @@
-<div>
-  <h2>Admin Dashboard</h2>
-  <p>Willkommen im Admin-Bereich.</p>
-  <app-news-builder></app-news-builder>
-  <app-content-manager></app-content-manager>
+<div class="modal">
+  <div class="modal-content">
+    <h3>Beitrag bearbeiten</h3>
+    <form [formGroup]="postForm" (ngSubmit)="savePost()">
+      <div>
+        <label for="title">Titel</label>
+        <input id="title" formControlName="Titel">
+      </div>
+      <div>
+        <label for="category">Kategorie</label>
+        <select id="category" formControlName="KategorieID">
+          <option *ngFor="let category of categories" [value]="category.KategorieID">{{ category.Name }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="content">Inhalt</label>
+        <textarea id="content" formControlName="Inhalt" rows="10"></textarea>
+      </div>
+      <button type="submit">Speichern</button>
+    </form>
+  </div>
 </div>
