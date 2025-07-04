@@ -15,8 +15,8 @@ app.use(express.static(path.join(__dirname, '../dist/databased-web-app/browser')
 
 const dbConfig = {
   host: 'localhost',
-  user: 'root',
-  password: '',
+  user: 'sv_host',
+  password: '$N_DB_JE%(NBD',
   database: 'schuetzenverein'
 };
 
