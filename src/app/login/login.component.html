@@ -1,21 +1,25 @@
-<div class="form-container">
+<div class="login-container">
   <h2>Login</h2>
-  <form (ngSubmit)="onSubmit()">
+  <!-- Das Formular an die FormGroup binden -->
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="emailOrUsername">E-Mail oder Benutzername</label>
-      <input type="text" id="emailOrUsername" name="emailOrUsername" [(ngModel)]="emailOrUsername" required>
+      <label for="username">Benutzername</label>
+      <!-- formControlName verwenden anstatt ngModel -->
+      <input type="text" id="username" formControlName="username" required>
     </div>
     <div class="form-group">
       <label for="password">Passwort</label>
-      <input type="password" id="password" name="password" [(ngModel)]="password" required>
+      <!-- formControlName verwenden anstatt ngModel -->
+      <input type="password" id="password" formControlName="password" required>
     </div>
+    <!-- Fehlermeldung anzeigen -->
     <div *ngIf="error" class="error-message">
       {{ error }}
     </div>
-    <button type="submit">Login</button>
+    <button type="submit" [disabled]="loginForm.invalid">Anmelden</button>
   </form>
-
-  <div class="link-to-register">
-    <span>Noch kein Konto? </span><a routerLink="/registration-component">Jetzt registrieren</a>
+  <div class="links">
+    <a routerLink="/registration">Noch kein Konto? Registrieren</a>
+    <a routerLink="/reset-password">Passwort vergessen?</a>
   </div>
 </div>

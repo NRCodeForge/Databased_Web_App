@@ -1,38 +1,59 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule, // Wichtig für reaktive Formulare
+    RouterModule
+  ],
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  // styleUrls: ['./registration.component.css'] // Ggf. wieder einkommentieren
 })
 export class RegistrationComponent {
-  // Das 'model'-Objekt für das Formular hinzufügen
-  model: any = {};
+  registrationForm: FormGroup;
+  error: string | null = null;
+  successMessage: string | null = null;
 
-  // Die 'error'-Variable für Fehlermeldungen hinzufügen
-  error = '';
-  successMessage = '';
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.registrationForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      // Optional: Fügen Sie eine E-Mail-Validierung hinzu, wenn das Feld existiert
+      // email: ['', [Validators.required, Validators.email]],
+    });
+  }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  onSubmit(): void {
+    this.error = null;
+    this.successMessage = null;
 
-  // Die Methode so umbenennen, dass sie zum Template passt
-  onSubmit() {
-    this.http.post('/api/register', this.model)
-      .subscribe({
+    if (this.registrationForm.valid) {
+      this.authService.register(this.registrationForm.value).subscribe({
         next: (response) => {
           this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet.';
-          setTimeout(() => this.router.navigate(['/login-component']), 2000);
+          console.log(response);
+          // Nach einer kurzen Verzögerung zum Login weiterleiten
+          setTimeout(() => this.router.navigate(['/login']), 2000);
         },
         error: (err) => {
-          // Die 'error'-Variable setzen
-          this.error = 'Registrierung fehlgeschlagen. Bitte versuchen Sie es erneut.';
+          console.error('Registrierung fehlgeschlagen', err);
+          if (err.status === 409) {
+            this.error = 'Dieser Benutzername ist bereits vergeben.';
+          } else {
+            this.error = 'Ein unerwarteter Fehler ist aufgetreten.';
+          }
         }
       });
+    }
   }
 }

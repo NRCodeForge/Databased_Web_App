@@ -1,36 +1,57 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
-import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  standalone: true,
   imports: [
-    FormsModule,
-    NgIf
-  ]
+    CommonModule,
+    ReactiveFormsModule, // Wichtig für reaktive Formulare
+    RouterModule
+  ],
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  emailOrUsername = '';
-  password = '';
-  error = '';
+  loginForm: FormGroup;
+  error: string | null = null; // Eigenschaft für Fehlermeldungen
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.fb.group({
+      // Die Namen hier müssen mit 'formControlName' im HTML übereinstimmen
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
-  onSubmit() {
-    this.authService.login({ emailOrUsername: this.emailOrUsername, password: this.password })
-      .subscribe({
-        next: (res: any) => {
-          this.authService.setSession(res.token, res.userId, res.role);
-          this.router.navigate(['/']);
+  onSubmit(): void {
+    this.error = null; // Fehler zurücksetzen
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe({
+        next: () => {
+          console.log('Login erfolgreich!');
+          const role = this.authService.getUserRole();
+          // Zum passenden Dashboard weiterleiten
+          if (role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else if (role === 'leader') {
+            this.router.navigate(['/leiter-dashboard']);
+          } else {
+            this.router.navigate(['/']);
+          }
         },
         error: (err) => {
-          this.error = 'Login fehlgeschlagen. Bitte überprüfe deine Eingaben.';
-          console.error(err);
+          console.error('Login fehlgeschlagen', err);
+          this.error = 'Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.'; // Fehlermeldung setzen
         }
       });
+    }
   }
 }

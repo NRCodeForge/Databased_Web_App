@@ -1,46 +1,37 @@
-<div class="form-container">
+<div class="registration-container">
   <h2>Registrierung</h2>
-  <p>Erstellen Sie ein neues Konto.</p>
-
-  <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="username">Benutzername</label>
-      <input type="text" id="username" name="username" [(ngModel)]="model.username" required #username="ngModel">
-      <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error">
-        Benutzername ist erforderlich.
+      <input type="text" id="username" formControlName="username" required>
+      <!-- Optional: Fehlermeldungen für die Validierung anzeigen -->
+      <div *ngIf="registrationForm.get('username')?.invalid && registrationForm.get('username')?.touched" class="validation-error">
+        Benutzername ist erforderlich (mind. 3 Zeichen).
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="email">E-Mail</label>
-      <input type="email" id="email" name="email" [(ngModel)]="model.email" required email #email="ngModel">
-      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
-        <span *ngIf="email.errors?.['required']">E-Mail ist erforderlich.</span>
-        <span *ngIf="email.errors?.['email']">Bitte geben Sie eine gültige E-Mail an.</span>
-      </div>
-    </div>
+    <!-- Das E-Mail-Feld wurde im SQL-Schema und Server entfernt.
+         Wenn Sie es benötigen, fügen Sie es hier und im FormGroup wieder hinzu. -->
 
     <div class="form-group">
       <label for="password">Passwort</label>
-      <input type="password" id="password" name="password" [(ngModel)]="model.password" required minlength="6" #password="ngModel">
-      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
-        <span *ngIf="password.errors?.['required']">Passwort ist erforderlich.</span>
-        <span *ngIf="password.errors?.['minlength']">Das Passwort muss mindestens 6 Zeichen lang sein.</span>
+      <input type="password" id="password" formControlName="password" required>
+      <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="validation-error">
+        Passwort ist erforderlich (mind. 6 Zeichen).
       </div>
     </div>
 
+    <!-- Erfolgs- und Fehlermeldungen -->
     <div *ngIf="error" class="error-message">
       {{ error }}
     </div>
-
     <div *ngIf="successMessage" class="success-message">
       {{ successMessage }}
     </div>
 
-    <button type="submit" [disabled]="!registrationForm.form.valid">Registrieren</button>
+    <button type="submit" [disabled]="registrationForm.invalid">Registrieren</button>
   </form>
-
-  <div class="link-to-login">
-    <span>Bereits ein Konto? </span><a routerLink="/login-component">Hier einloggen</a>
+  <div class="links">
+    <a routerLink="/login">Bereits ein Konto? Zum Login</a>
   </div>
 </div>
