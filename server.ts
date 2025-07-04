@@ -7,7 +7,7 @@ import cors from 'cors';
 
 const app = express();
 // KORREKTUR: Zugriff auf process.env mit eckigen Klammern
-const port = process.env['PORT'] || 3000;
+const port = process.env['PORT'] || 3306;
 
 app.use(cors());
 app.use(express.json());
@@ -17,7 +17,7 @@ const dbConfig = {
   host: 'localhost',
   user: 'sv_host',
   password: '$N_DB_JE%(NBD',
-  database: 'schuetzenverein'
+  database: 'schuetzenverein_db'
 };
 
 const pool = mysql.createPool(dbConfig);
