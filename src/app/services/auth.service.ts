@@ -1,82 +1,83 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common'; // Wichtig für die Plattform-Prüfung
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode'; // Importieren Sie jwt-decode
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth';
-  private token: string | null = null;
+  private loggedIn = new BehaviorSubject<boolean>(this.isTokenAvailable());
 
-  // PLATFORM_ID injizieren, um die Ausführungsumgebung zu erkennen
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) private platformId: Object
-  ) {
-    this.loadToken(); // Token beim Initialisieren laden
+  constructor(private http: HttpClient) { }
+
+  /**
+   * Prüft, ob ein Token im Local Storage vorhanden ist.
+   * @returns boolean
+   */
+  private isTokenAvailable(): boolean {
+    return !!localStorage.getItem('token');
   }
 
-  // Lädt den Token nur, wenn wir im Browser sind
-  private loadToken(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.token = localStorage.getItem('token');
-    }
+  /**
+   * Gibt den aktuellen Login-Status als Observable zurück.
+   * @returns Observable<boolean>
+   */
+  isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
-  }
-
+  /**
+   * Sendet Login-Daten an den Server, speichert das Token und aktualisiert den Login-Status.
+   * @param credentials - Die Anmeldeinformationen (z. B. Email und Passwort).
+   * @returns Observable mit der Server-Antwort.
+   */
   login(credentials: any): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, credentials).pipe(
+    return this.http.post<any>('/api/login', credentials).pipe(
       tap(response => {
-        if (response.token) {
-          // Speichert den Token nur, wenn wir im Browser sind
-          if (isPlatformBrowser(this.platformId)) {
-            localStorage.setItem('token', response.token);
-          }
-          this.token = response.token;
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          this.loggedIn.next(true);
         }
       })
     );
   }
 
+  /**
+   * Sendet Registrierungsdaten an den Server.
+   * @param userData - Die Benutzerdaten für die Registrierung.
+   * @returns Observable mit der Server-Antwort.
+   */
+  register(userData: any): Observable<any> {
+    return this.http.post<any>('/api/register', userData);
+  }
+
+  /**
+   * Entfernt das Token aus dem Local Storage und aktualisiert den Login-Status.
+   */
   logout(): void {
-    // Entfernt den Token nur, wenn wir im Browser sind
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-    }
-    this.token = null;
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
   }
 
-  isLoggedIn(): boolean {
-    // Prüft nur im Browser auf den Token
-    if (!isPlatformBrowser(this.platformId)) {
-      return false;
+  /**
+   * Entschlüsselt das JWT und gibt die Rolle des Benutzers zurück.
+   * @returns Die Rollen-ID (z.B. 1, 2, 3) oder null, wenn kein gültiges Token vorhanden ist.
+   */
+  getUserRole(): number | null {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        // Definiere eine Struktur für das erwartete Token-Payload
+        const decodedToken: { id: number, role: number, iat: number, exp: number } = jwtDecode(token);
+        return decodedToken.role;
+      } catch (error) {
+        console.error('Ungültiges Token, Logout wird durchgeführt:', error);
+        this.logout(); // Bei ungültigem Token wird der Benutzer sicherheitshalber ausgeloggt.
+        return null;
+      }
     }
-    return !!localStorage.getItem('token');
-  }
-
-  // Diese Methode decodiert das JWT, um die Rolle zu erhalten
-  getUserRole(): 'user' | 'admin' | 'leader' | null {
-    if (!this.token) {
-      this.loadToken(); // Sicherstellen, dass der Token geladen ist
-    }
-
-    if (!this.token) {
-      return null;
-    }
-
-    try {
-      const decodedToken: { id: number, role: 'user' | 'admin' | 'leader' } = jwtDecode(this.token);
-      return decodedToken.role;
-    } catch (error) {
-      console.error("Ungültiger Token", error);
-      return null;
-    }
+    return null;
   }
 }

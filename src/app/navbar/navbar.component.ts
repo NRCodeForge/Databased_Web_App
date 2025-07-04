@@ -1,36 +1,23 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Notwendig für *ngIf, *ngFor etc.
-import { Router, RouterModule } from '@angular/router'; // Notwendig für routerLink
-import { AuthService } from '../services/auth.service';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common'; // CommonModule importieren
+import { AuthService } from '../services/auth.service'; // AuthService importieren
 
 @Component({
   selector: 'app-navbar',
-  standalone: true, // Als Standalone-Komponente markieren
-  imports: [CommonModule, RouterModule], // Benötigte Module importieren
+  standalone: true,
+  imports: [RouterModule, CommonModule], // CommonModule hinzufügen
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  // AuthService öffentlich machen, damit das Template darauf zugreifen kann
+  constructor(public authService: AuthService) { }
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  get isAdmin(): boolean {
-    // HINWEIS: Dies ist eine temporäre Lösung.
-    // In einer echten Anwendung würden Sie das JWT decodieren, um die Rolle zu erhalten.
-    return this.authService.getUserRole() === 'admin';
-  }
-
-  get isLeader(): boolean {
-    // HINWEIS: Dies ist eine temporäre Lösung.
-    return this.authService.getUserRole() === 'leader';
-  }
-
-  logout(): void {
+  // Logout-Funktion für den Button im Template
+  onLogout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    // Optional: zur Start- oder Login-Seite navigieren
+    // this.router.navigate(['/login-component']);
   }
 }

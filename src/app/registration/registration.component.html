@@ -1,44 +1,46 @@
 <div class="registration-container">
-  <h2>Account erstellen</h2>
-  <p>Trete dem Verein bei und bleibe immer auf dem Laufenden.</p>
-
+  <h2>Registrierung</h2>
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-    <div class="form-row">
-      <div class="form-group">
-        <label for="vorname">Vorname</label>
-        <input type="text" id="vorname" formControlName="vorname" required>
+    <div class="form-group">
+      <label for="vorname">Vorname</label>
+      <input id="vorname" type="text" formControlName="vorname" class="form-control">
+      <div *ngIf="registrationForm.get('vorname')?.touched && registrationForm.get('vorname')?.invalid" class="error-message">
+        Vorname ist ein Pflichtfeld.
       </div>
-      <div class="form-group">
-        <label for="nachname">Nachname</label>
-        <input type="text" id="nachname" formControlName="nachname" required>
+    </div>
+
+    <div class="form-group">
+      <label for="nachname">Nachname</label>
+      <input id="nachname" type="text" formControlName="nachname" class="form-control">
+      <div *ngIf="registrationForm.get('nachname')?.touched && registrationForm.get('nachname')?.invalid" class="error-message">
+        Nachname ist ein Pflichtfeld.
       </div>
     </div>
 
     <div class="form-group">
       <label for="email">E-Mail</label>
-      <input type="email" id="email" formControlName="email" required>
+      <input id="email" type="email" formControlName="email" class="form-control">
+      <div *ngIf="registrationForm.get('email')?.touched && registrationForm.get('email')?.invalid" class="error-message">
+        Bitte geben Sie eine gültige E-Mail an.
+      </div>
     </div>
 
     <div class="form-group">
       <label for="password">Passwort</label>
-      <input type="password" id="password" formControlName="password" required>
-      <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched" class="validation-error">
-        Das Passwort muss mindestens 6 Zeichen lang sein.
+      <input id="password" type="password" formControlName="password" class="form-control">
+      <div *ngIf="registrationForm.get('password')?.touched && registrationForm.get('password')?.invalid" class="error-message">
+        Das Passwort muss mindestens 8 Zeichen lang sein.
       </div>
     </div>
 
-    <div *ngIf="error" class="error-message">
-      {{ error }}
-    </div>
     <div *ngIf="successMessage" class="success-message">
       {{ successMessage }}
     </div>
 
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <button type="submit" [disabled]="registrationForm.invalid">Registrieren</button>
   </form>
-
-  <div class="login-link">
-    <span>Bereits Mitglied?</span>
-    <a routerLink="/login-component">Anmelden</a>
-  </div>
 </div>

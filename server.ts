@@ -1,7 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr/node';
 import express from 'express';
-import {fileURLToPath, pathToFileURL} from 'node:url';
+import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
 
@@ -20,7 +20,7 @@ export function app(): express.Express {
   const commonEngine = new CommonEngine();
 
   const projectRoot = resolve(serverDistFolder, '../../../');
-  dotenv.config({ path: join(projectRoot , 'data.env') });
+  dotenv.config({ path: join(projectRoot, 'data.env') });
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
@@ -38,9 +38,58 @@ export function app(): express.Express {
     queueLimit: 0
   });
 
-  // Bestehende API-Routen...
+  // API-Endpunkt für die Registrierung
+  server.post('/api/register', async (req, res) => {
+    const { email, password, vorname, nachname } = req.body;
 
-  // Neue API-Routen für Content-Management
+    if (!email || !password || !vorname || !nachname) {
+      return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
+    }
+
+    try {
+      const [users] = await pool.query('SELECT BenutzerID FROM benutzer WHERE email = ?', [email]);
+      if (Array.isArray(users) && users.length > 0) {
+        return res.status(409).json({ message: 'Ein Benutzer mit dieser E-Mail existiert bereits.' });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const defaultRole = 1;
+
+      const [result] = await pool.query(
+        'INSERT INTO benutzer (email, passwort, vorname, nachname, rollen_id) VALUES (?, ?, ?, ?, ?)',
+        [email, hashedPassword, vorname, nachname, defaultRole]
+      );
+
+      return res.status(201).json({ message: 'Benutzer erfolgreich registriert.', userId: (result as any).insertId });
+    } catch (error) {
+      console.error('Fehler bei der Registrierung:', error);
+      return res.status(500).json({ message: 'Serverfehler bei der Registrierung.' });
+    }
+  });
+
+  // API-Endpunkt für den Login
+  server.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+      const [rows] = await pool.query('SELECT * FROM benutzer WHERE email = ?', [email]);
+      const users = rows as any[];
+      if (users.length === 0) {
+        return res.status(401).json({ message: 'Ungültige Anmeldeinformationen.' });
+      }
+      const user = users[0];
+      const isPasswordValid = await bcrypt.compare(password, user.passwort);
+      if (!isPasswordValid) {
+        return res.status(401).json({ message: 'Ungültige Anmeldeinformationen.' });
+      }
+      const token = jwt.sign({ id: user.BenutzerID, role: user.rollen_id }, process.env['JWT_SECRET'] as string, { expiresIn: '1h' });
+      return res.json({ token });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send('Serverfehler');
+    }
+  });
+
+  // Content-Management Routen...
   server.get('/api/posts', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM beitrags_daten');
     res.json(rows);
@@ -64,13 +113,12 @@ export function app(): express.Express {
     res.json(rows);
   });
 
-  // Neue API-Routen für Abteilungen
   server.get('/api/departments', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM abteilungs_daten');
     res.json(rows);
   });
 
-
+  // Angular Universal & Static Files
   server.get('*.*', express.static(browserDistFolder, { maxAge: '1y' }));
 
   server.get('*', (req, res, next) => {
@@ -91,7 +139,7 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 3000;
+  const port = process.env['PORT'] || 4200;
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);

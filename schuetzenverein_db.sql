@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jul 2025 um 21:24
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 04. Jul 2025 um 23:02
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,127 +24,131 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `abteilungs_daten`
+-- Tabellenstruktur für Tabelle `abteilungen`
 --
 
-CREATE TABLE `abteilungs_daten` (
+CREATE TABLE `abteilungen` (
   `AbteilungsID` int(11) NOT NULL,
-  `Abteilungsname` varchar(45) DEFAULT NULL,
-  `Abteilungsbeschreibung` longtext DEFAULT NULL
+  `Abteilungsname` varchar(100) NOT NULL,
+  `Beschreibung` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `abteilungen`
+--
+
+INSERT INTO `abteilungen` (`AbteilungsID`, `Abteilungsname`, `Beschreibung`) VALUES
+(1, 'Jugend und Schüler', 'Unsere Abteilung für den Nachwuchs.'),
+(2, 'Senioren', 'Die Abteilung für unsere erfahrenen Mitglieder.'),
+(3, 'Bogen', 'Alles rund um den Bogensport.'),
+(4, 'Pistolensport', 'Präzisionsschießen mit Kurz- und Langwaffen.');
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `beitrags_daten`
+-- Tabellenstruktur für Tabelle `beitraege`
 --
 
-CREATE TABLE `beitrags_daten` (
+CREATE TABLE `beitraege` (
   `BeitragsID` int(11) NOT NULL,
-  `Titel` varchar(45) DEFAULT NULL,
-  `Inhalt` longtext DEFAULT NULL,
-  `Erstellungsdatum` date DEFAULT NULL,
-  `Aenderungsdatum` date DEFAULT NULL,
-  `CreatorID` int(11) DEFAULT NULL,
-  `AbteilungsID` int(11) DEFAULT NULL
+  `Titel` varchar(255) NOT NULL,
+  `KategorieID` int(11) NOT NULL,
+  `ErstelltVon` int(11) NOT NULL,
+  `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `kommentar_daten`
+-- Tabellenstruktur für Tabelle `benutzer`
 --
 
-CREATE TABLE `kommentar_daten` (
-  `KommentarID` int(11) NOT NULL,
-  `Inhalt` longtext DEFAULT NULL,
-  `Erstellungsdatum` date DEFAULT NULL,
-  `BeitragsID` int(11) DEFAULT NULL,
-  `NutzerID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `nutzer_daten`
---
-
-CREATE TABLE `nutzer_daten` (
-  `NutzerID` int(11) NOT NULL,
-  `Vorname` varchar(45) DEFAULT NULL,
-  `Nachname` varchar(45) DEFAULT NULL,
-  `Email` varchar(45) DEFAULT NULL,
-  `Passwort` varchar(45) DEFAULT NULL,
-  `RoleID` int(11) DEFAULT NULL,
-  `LastLogin` datetime(6) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `nutzer_daten`
---
-
-INSERT INTO `nutzer_daten` (`NutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RoleID`, `LastLogin`) VALUES
-(5, 'Niclas Jeremy Martin', 'Rieckers', 'rieckersniclas@gmail.com', '$2b$10$cge0N1Z8LeEaMomycvgizetVjYfCipLzXALBBn', 3, NULL),
-(7, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$5MDlY.CfomMdsITWV7ijZ.TrrDmDf2vHWmqxYw', 1, NULL),
-(8, 'Franz', 'osen', 'OF@g.g', '$2b$10$wOA..4aXNAI0MG2fovXy8uhqjlSh7VXtSsNyLo', 1, NULL);
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `rechts_daten`
---
-
-CREATE TABLE `rechts_daten` (
-  `RechteID` int(11) NOT NULL,
-  `Code` longtext DEFAULT NULL,
-  `Text` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `rechts_daten`
---
-
-INSERT INTO `rechts_daten` (`RechteID`, `Code`, `Text`) VALUES
-(1, 'READ_ALL', 'Nutzer kann alle öffentlichen Inhalte sehen und kommentieren.'),
-(2, 'WRITE_SECTION', 'Nutzer kann Beiträge und Termine für die eigene Abteilung erstellen und verwalten.'),
-(3, 'ADMIN_FULL_ACCESS', 'Nutzer hat vollen administrativen Zugriff auf alle Bereiche der Anwendung.');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `rollen_daten`
---
-
-CREATE TABLE `rollen_daten` (
+CREATE TABLE `benutzer` (
+  `BenutzerID` int(11) NOT NULL,
+  `Vorname` varchar(45) NOT NULL,
+  `Nachname` varchar(45) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `Passwort` varchar(255) NOT NULL,
   `RollenID` int(11) NOT NULL,
-  `RollenName` varchar(45) DEFAULT NULL,
-  `RechteID` int(11) DEFAULT NULL
+  `ErstelltAm` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Daten für Tabelle `rollen_daten`
---
-
-INSERT INTO `rollen_daten` (`RollenID`, `RollenName`, `RechteID`) VALUES
-(1, 'Mitglied', 1),
-(2, 'Abteilungsleiter', 2),
-(3, 'Admin', 3);
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `termin_daten`
+-- Tabellenstruktur für Tabelle `kategorien`
 --
 
-CREATE TABLE `termin_daten` (
+CREATE TABLE `kategorien` (
+  `KategorieID` int(11) NOT NULL,
+  `Name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `kategorien`
+--
+
+INSERT INTO `kategorien` (`KategorieID`, `Name`) VALUES
+(1, 'News und Schützenverein Bremen Huchting'),
+(2, 'News'),
+(3, 'Der Verein'),
+(4, 'Abteilungen'),
+(5, 'Meisterschaften'),
+(6, 'Schießstände'),
+(7, 'Schützenfest'),
+(8, 'Downloads'),
+(9, 'Termine'),
+(10, 'Terminanfrage');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `rollen`
+--
+
+CREATE TABLE `rollen` (
+  `RollenID` int(11) NOT NULL,
+  `RollenName` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `rollen`
+--
+
+INSERT INTO `rollen` (`RollenID`, `RollenName`) VALUES
+(1, 'Mitglied'),
+(2, 'Abteilungsleiter'),
+(3, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `sektionen`
+--
+
+CREATE TABLE `sektionen` (
+  `SektionsID` int(11) NOT NULL,
+  `BeitragsID` int(11) NOT NULL,
+  `Reihenfolge` int(11) NOT NULL,
+  `Modus` tinyint(1) NOT NULL,
+  `Text` text DEFAULT NULL,
+  `BildURL` varchar(2048) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `termine`
+--
+
+CREATE TABLE `termine` (
   `TerminID` int(11) NOT NULL,
-  `Titel` varchar(45) DEFAULT NULL,
-  `Beschreibung` longtext DEFAULT NULL,
-  `Datum` date DEFAULT NULL,
-  `Uhrzeit` time DEFAULT NULL,
-  `Ort` varchar(45) DEFAULT NULL,
-  `AbteilungsID` int(11) DEFAULT NULL,
-  `Erstellungsdatum` date DEFAULT NULL
+  `Titel` varchar(255) NOT NULL,
+  `Beschreibung` text DEFAULT NULL,
+  `Datum` datetime NOT NULL,
+  `Ort` varchar(255) DEFAULT NULL,
+  `ErstelltVon` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -152,99 +156,97 @@ CREATE TABLE `termin_daten` (
 --
 
 --
--- Indizes für die Tabelle `abteilungs_daten`
+-- Indizes für die Tabelle `abteilungen`
 --
-ALTER TABLE `abteilungs_daten`
+ALTER TABLE `abteilungen`
   ADD PRIMARY KEY (`AbteilungsID`);
 
 --
--- Indizes für die Tabelle `beitrags_daten`
+-- Indizes für die Tabelle `beitraege`
 --
-ALTER TABLE `beitrags_daten`
+ALTER TABLE `beitraege`
   ADD PRIMARY KEY (`BeitragsID`),
-  ADD KEY `fs_CreatorID_idx` (`CreatorID`),
-  ADD KEY `fs_AbteilungsID_idx` (`AbteilungsID`);
+  ADD KEY `fk_beitraege_benutzer_idx` (`ErstelltVon`),
+  ADD KEY `fk_beitraege_kategorien_idx` (`KategorieID`);
 
 --
--- Indizes für die Tabelle `kommentar_daten`
+-- Indizes für die Tabelle `benutzer`
 --
-ALTER TABLE `kommentar_daten`
-  ADD PRIMARY KEY (`KommentarID`),
-  ADD KEY `fs_BeitragsID_idx` (`BeitragsID`),
-  ADD KEY `fs_NutzerID_idx` (`NutzerID`);
+ALTER TABLE `benutzer`
+  ADD PRIMARY KEY (`BenutzerID`),
+  ADD UNIQUE KEY `Email_UNIQUE` (`Email`),
+  ADD KEY `fk_benutzer_rollen_idx` (`RollenID`);
 
 --
--- Indizes für die Tabelle `nutzer_daten`
+-- Indizes für die Tabelle `kategorien`
 --
-ALTER TABLE `nutzer_daten`
-  ADD PRIMARY KEY (`NutzerID`),
-  ADD KEY `fs_RollenID_idx` (`RoleID`);
+ALTER TABLE `kategorien`
+  ADD PRIMARY KEY (`KategorieID`);
 
 --
--- Indizes für die Tabelle `rechts_daten`
+-- Indizes für die Tabelle `rollen`
 --
-ALTER TABLE `rechts_daten`
-  ADD PRIMARY KEY (`RechteID`);
+ALTER TABLE `rollen`
+  ADD PRIMARY KEY (`RollenID`);
 
 --
--- Indizes für die Tabelle `rollen_daten`
+-- Indizes für die Tabelle `sektionen`
 --
-ALTER TABLE `rollen_daten`
-  ADD PRIMARY KEY (`RollenID`),
-  ADD KEY `RechteID_idx` (`RechteID`);
+ALTER TABLE `sektionen`
+  ADD PRIMARY KEY (`SektionsID`),
+  ADD KEY `fk_sektionen_beitraege_idx` (`BeitragsID`);
 
 --
--- Indizes für die Tabelle `termin_daten`
+-- Indizes für die Tabelle `termine`
 --
-ALTER TABLE `termin_daten`
+ALTER TABLE `termine`
   ADD PRIMARY KEY (`TerminID`),
-  ADD KEY `fs_AbteilungsID_idx` (`AbteilungsID`),
-  ADD KEY `fs_AbteilungsID_zu_Termin_idx` (`AbteilungsID`);
+  ADD KEY `fk_termine_benutzer_idx` (`ErstelltVon`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT für Tabelle `abteilungs_daten`
+-- AUTO_INCREMENT für Tabelle `abteilungen`
 --
-ALTER TABLE `abteilungs_daten`
-  MODIFY `AbteilungsID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `abteilungen`
+  MODIFY `AbteilungsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT für Tabelle `beitrags_daten`
+-- AUTO_INCREMENT für Tabelle `beitraege`
 --
-ALTER TABLE `beitrags_daten`
+ALTER TABLE `beitraege`
   MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `kommentar_daten`
+-- AUTO_INCREMENT für Tabelle `benutzer`
 --
-ALTER TABLE `kommentar_daten`
-  MODIFY `KommentarID` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `benutzer`
+  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `nutzer_daten`
+-- AUTO_INCREMENT für Tabelle `kategorien`
 --
-ALTER TABLE `nutzer_daten`
-  MODIFY `NutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `kategorien`
+  MODIFY `KategorieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT für Tabelle `rechts_daten`
+-- AUTO_INCREMENT für Tabelle `rollen`
 --
-ALTER TABLE `rechts_daten`
-  MODIFY `RechteID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT für Tabelle `rollen_daten`
---
-ALTER TABLE `rollen_daten`
+ALTER TABLE `rollen`
   MODIFY `RollenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT für Tabelle `termin_daten`
+-- AUTO_INCREMENT für Tabelle `sektionen`
 --
-ALTER TABLE `termin_daten`
+ALTER TABLE `sektionen`
+  MODIFY `SektionsID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `termine`
+--
+ALTER TABLE `termine`
   MODIFY `TerminID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -252,36 +254,29 @@ ALTER TABLE `termin_daten`
 --
 
 --
--- Constraints der Tabelle `beitrags_daten`
+-- Constraints der Tabelle `beitraege`
 --
-ALTER TABLE `beitrags_daten`
-  ADD CONSTRAINT `fs_AbteilungsIDZuBeitrag` FOREIGN KEY (`AbteilungsID`) REFERENCES `abteilungs_daten` (`AbteilungsID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fs_NutzerIDZuBeitrag` FOREIGN KEY (`CreatorID`) REFERENCES `nutzer_daten` (`NutzerID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `beitraege`
+  ADD CONSTRAINT `fk_beitraege_benutzer` FOREIGN KEY (`ErstelltVon`) REFERENCES `benutzer` (`BenutzerID`),
+  ADD CONSTRAINT `fk_beitraege_kategorien` FOREIGN KEY (`KategorieID`) REFERENCES `kategorien` (`KategorieID`);
 
 --
--- Constraints der Tabelle `kommentar_daten`
+-- Constraints der Tabelle `benutzer`
 --
-ALTER TABLE `kommentar_daten`
-  ADD CONSTRAINT `fs_BeitragsIDZuKommentare` FOREIGN KEY (`BeitragsID`) REFERENCES `beitrags_daten` (`BeitragsID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fs_NutzerIDZuKommentare` FOREIGN KEY (`NutzerID`) REFERENCES `nutzer_daten` (`NutzerID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `benutzer`
+  ADD CONSTRAINT `fk_benutzer_rollen` FOREIGN KEY (`RollenID`) REFERENCES `rollen` (`RollenID`);
 
 --
--- Constraints der Tabelle `nutzer_daten`
+-- Constraints der Tabelle `sektionen`
 --
-ALTER TABLE `nutzer_daten`
-  ADD CONSTRAINT `fs_RollenIDZuNutzer` FOREIGN KEY (`RoleID`) REFERENCES `rollen_daten` (`RollenID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `sektionen`
+  ADD CONSTRAINT `fk_sektionen_beitraege` FOREIGN KEY (`BeitragsID`) REFERENCES `beitraege` (`BeitragsID`) ON DELETE CASCADE;
 
 --
--- Constraints der Tabelle `rollen_daten`
+-- Constraints der Tabelle `termine`
 --
-ALTER TABLE `rollen_daten`
-  ADD CONSTRAINT `fs_RechteIDZuRolle` FOREIGN KEY (`RechteID`) REFERENCES `rechts_daten` (`RechteID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints der Tabelle `termin_daten`
---
-ALTER TABLE `termin_daten`
-  ADD CONSTRAINT `fs_AbteilungsIDZuTermine` FOREIGN KEY (`AbteilungsID`) REFERENCES `abteilungs_daten` (`AbteilungsID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `termine`
+  ADD CONSTRAINT `fk_termine_benutzer` FOREIGN KEY (`ErstelltVon`) REFERENCES `benutzer` (`BenutzerID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

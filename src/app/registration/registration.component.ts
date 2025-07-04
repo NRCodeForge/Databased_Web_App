@@ -1,23 +1,21 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '..//services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
-  error: string | null = null;
+  // This is the property for error messages
+  errorMessage: string | null = null;
   successMessage: string | null = null;
 
   constructor(
@@ -29,30 +27,32 @@ export class RegistrationComponent {
       vorname: ['', Validators.required],
       nachname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
+  ngOnInit(): void {}
+
   onSubmit(): void {
-    this.error = null;
+    this.errorMessage = null;
     this.successMessage = null;
+    this.registrationForm.markAllAsTouched();
 
     if (this.registrationForm.valid) {
       this.authService.register(this.registrationForm.value).subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet.';
-          console.log(response);
-          setTimeout(() => this.router.navigate(['/login-component']), 2000);
+          setTimeout(() => {
+            this.router.navigate(['/login-component']);
+          }, 2000);
         },
-        error: (err) => {
-          console.error('Registrierung fehlgeschlagen', err);
-          if (err.status === 409) {
-            this.error = 'Diese E-Mail-Adresse ist bereits registriert.';
-          } else {
-            this.error = 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.';
-          }
+        error: (err: HttpErrorResponse) => {
+          // Ensure the errorMessage property is set here
+          this.errorMessage = err.error?.message || 'Ein unbekannter Fehler ist aufgetreten.';
         }
       });
+    } else {
+      this.errorMessage = 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.';
     }
   }
 }
