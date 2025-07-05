@@ -1,3 +1,5 @@
+/* navbar.component.css */
+
 .navbar {
   position: sticky;
   top: 0;
@@ -7,17 +9,16 @@
   align-items: center;
   padding: 0 2rem;
   height: 56px;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--primary-color); /* HINTERGRUND IST JETZT DEIN GRÜN! */
+  /* backdrop-filter und border-bottom entfernt, da sie auf grünem Hintergrund nicht passen */
   transition: background-color 0.3s ease;
 }
 
 .navbar-brand a {
   font-weight: 600;
   font-size: 1.2rem;
-  color: var(--text-color);
+  color: #FFFFFF; /* MARKENTEXT IST JETZT WEISS */
+  text-decoration: none;
 }
 
 .navbar-nav {
@@ -29,21 +30,33 @@
 }
 
 .navbar-nav a {
-  color: var(--text-color);
+  color: #ffffff; /* LINKS SIND JETZT WEISS */
   padding: 0.5rem 0;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   position: relative;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  text-decoration: none;
 }
 
 .navbar-nav a:hover {
-  color: var(--primary-blue);
-  opacity: 1; /* Override global link hover */
+  opacity: 0.8; /* Leichte Transparenz beim Hover */
+  color: #FFFFFF; /* Bleibt weiß */
 }
 
 /* Stile für aktive Links */
 .navbar-nav a.active {
-  color: var(--primary-blue);
+  color: #FFFFFF; /* BLEIBT WEISS */
   font-weight: 600;
+}
+
+.navbar-nav a.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px; /* Position des Unterstrichs */
+  width: 100%;
+  height: 2px;
+  background-color: #FFFFFF; /* Unterstrich ist weiß */
+  border-radius: 1px;
 }

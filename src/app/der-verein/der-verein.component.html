@@ -1,1 +1,26 @@
-<p>der-verein works!</p>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testseite</title>
+</head>
+<body>
+
+        <p><a (click)="scrollToElement('ziel', $event)">Gehe zum Ziel</a></p>
+
+    <div style="height: 1000px; background-color: lightblue;">
+        <p>Platzhalter für viel Inhalt, damit gescrollt werden kann.</p>
+    </div>
+
+    <div id="ziel" style="background-color: lightgreen; padding: 20px;">
+        <h2>Das ist das Ziel!</h2>
+        <p>Sie sollten hierher gescrollt sein.</p>
+    </div>
+
+    <div style="height: 500px; background-color: lightcoral;">
+        <p>Weiterer Platzhalter.</p>
+    </div>
+
+</body>
+</html>

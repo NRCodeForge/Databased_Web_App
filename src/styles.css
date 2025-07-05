@@ -1,15 +1,33 @@
-/* Globale Stile im Apple-Stil */
+/* src/styles.css */
+
+/* Globale Stile im Apple-Stil, jetzt mit grünen Akzenten */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --background-color: #f5f5f7;
   --text-color: #1d1d1f;
-  --primary-blue: #007aff;
+  --primary-color: #4CAF50; /* <-- DAS IST DEIN NEUES GRÜN! */
+  --primary-color-dark: #45a049; /* Ein dunklerer Grünton für Hover-Effekte */
   --secondary-text: #6e6e73;
   --border-color: #d2d2d7;
   --card-background: #ffffff;
   --hover-background: #e8e8ea;
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Spezifische Link-Variablen, die auf die primäre Farbe verweisen */
+  --link-color: var(--primary-color);
+  --link-hover-color: var(--primary-color-dark);
+
+  /* Fehlermeldungsfarben */
+  --error-color: #d32f2f;
+  --success-color: #388e3c;
+
+  /* Zusätzliche Variablen für Login/Registrierung, falls nicht bereits in den Component-CSS-Dateien als Fallbacks definiert */
+  --abgerundet-ecken: 18px;
+  --schatten-wert: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --logo-groesse: 100px;
+  --logo-offset-y: 60px; /* Offset für das überlappende Logo im Login-Fenster */
+  --disabled-color: #cccccc; /* Farbe für deaktivierte Elemente */
 }
 
 body {
@@ -19,7 +37,7 @@ body {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,20 +46,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-  color: var(--primary-blue);
+  color: var(--link-color); /* Nutzt die neue Link-Farbe (grün) */
   text-decoration: none;
   transition: opacity 0.2s ease-in-out;
 }
 
 a:hover {
-  opacity: 0.8;
+  color: var(--link-hover-color); /* Nutzt die dunklere Link-Farbe (dunkelgrün) */
+  opacity: 1;
 }
 
 button {
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 500;
-  background-color: var(--primary-blue);
+  background-color: var(--primary-color); /* Nutzt die neue primäre Grünfarbe */
   color: white;
   border: none;
   border-radius: 12px;
@@ -51,7 +70,7 @@ button {
 }
 
 button:hover {
-  background-color: #005ecb;
+  background-color: var(--primary-color-dark); /* Nutzt die dunklere primäre Grünfarbe */
 }
 
 button:active {
@@ -59,7 +78,7 @@ button:active {
 }
 
 button:disabled {
-  background-color: #d2d2d7;
+  background-color: var(--disabled-color);
   cursor: not-allowed;
 }
 
@@ -81,26 +100,26 @@ button:disabled {
   font-size: 16px;
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  background-color: #f5f5f7;
+  background-color: var(--background-color);
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
 }
 
 .form-control:focus {
   outline: none;
-  border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+  border-color: var(--primary-color); /* Nutzt die neue primäre Grünfarbe */
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3); /* Schatten passend zur Grünfarbe */
 }
 
 /* Nachrichten-Stile */
 .error-message {
-  color: #d32f2f;
+  color: var(--error-color);
   margin-top: 8px;
   font-size: 14px;
 }
 
 .success-message {
-  color: #388e3c;
+  color: var(--success-color);
   margin-top: 8px;
   font-size: 14px;
 }
