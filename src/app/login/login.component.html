@@ -19,7 +19,9 @@
     <button type="submit" [disabled]="loginForm.invalid">Anmelden</button>
   </form>
   <div class="links">
-    <a routerLink="/registration-component">Noch kein Konto? Registrieren</a>
-    <a routerLink="/reset-password-component">Passwort vergessen?</a>
+      <ul>
+        <li><a routerLink="/registration-component" routerLinkActive="active">Noch kein Konto? Registrieren, </a></li>
+        <li><a routerLink="/reset-password-component" routerLinkActive="active">Passwort vergessen?</a></li>
+      </ul>
   </div>
 </div>

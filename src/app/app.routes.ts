@@ -13,21 +13,25 @@ import { ContentManagerComponent } from './admin-dashboard/content-manager/conte
 import { DepartmentManagerComponent } from './admin-dashboard/department-manager/department-manager.component';
 import { EventManagerComponent } from './admin-dashboard/event-manager/event-manager.component';
 import { CategoryManagerComponent } from './admin-dashboard/category-manager/category-manager.component';
+import { AbteilungenComponent } from './abteilungen/abteilungen.component';
+import { DerVereinComponent } from './der-verein/der-verein.component';
 
 export const routes: Routes = [
   {path: '', component: StartseiteComponent},
-  {path:"login-component", component:LoginComponent},
-  {path:"navbar-component", component:NavbarComponent},
-  {path:"registration-component", component:RegistrationComponent},
-  {path:"reset-password-component", component:ResetPasswordComponent},
-  {path:"news-component", component:NewsComponent},
-  {path:"termine-component", component:TermineComponent},
-  {path:"forum-component", component:ForumComponent},
-  {path:"dashboard/admin", component:AdminDashboardComponent, children: [
+  {path: "login-component", component:LoginComponent},
+  {path: "navbar-component", component:NavbarComponent},
+  {path: "registration-component", component:RegistrationComponent},
+  {path: "reset-password-component", component:ResetPasswordComponent},
+  {path: "news-component", component:NewsComponent},
+  {path: "abteilung-component", component:AbteilungenComponent},
+  {path: "termine-component", component:TermineComponent},
+  {path: "forum-component", component:ForumComponent},
+  {path: "der-verein-component", component:DerVereinComponent},
+  {path: "dashboard/admin", component:AdminDashboardComponent, children: [
       { path: 'content', component: ContentManagerComponent },
       { path: 'departments', component: DepartmentManagerComponent },
       { path: 'events', component: EventManagerComponent },
       { path: 'categories', component: CategoryManagerComponent },
     ]},
-  {path:"dashboard/leiter", component:LeiterDashboardComponent}
+  {path: "dashboard/leiter", component:LeiterDashboardComponent}
 ];

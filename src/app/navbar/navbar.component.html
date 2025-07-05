@@ -3,25 +3,25 @@
     <a routerLink="">Schützenverein Bremen Huchting</a>
   </div>
   <ul class="navbar-nav">
-    <li><a routerLink="/news-component">News</a></li>
-    <li><a routerLink="/der-verein">Der Verein</a></li>
-    <li><a routerLink="/abteilungen">Abteilungen</a></li>
-    <li><a routerLink="/termine-component">Termine</a></li>
-    <li><a routerLink="/registration-component">Registrieren</a></li>
+    <li><a routerLink="/news-component" routerLinkActive="active">News</a></li>
+    <li><a routerLink="/der-verein-component" routerLinkActive="active">Der Verein</a></li>
+    <li><a routerLink="/abteilung-component" routerLinkActive="active">Abteilungen</a></li>
+    <li><a routerLink="/termine-component" routerLinkActive="active">Termine</a></li>
+    <li><a routerLink="/registration-component" routerLinkActive="active">Registrieren</a></li>
 
     <li *ngIf="authService.getUserRole() === 2 || authService.getUserRole() === 3">
-      <a routerLink="/dashboard/leiter">Leiter Dashboard</a>
+      <a routerLink="/dashboard/leiter" routerLinkActive="active">Leiter Dashboard</a>
     </li>
 
     <li *ngIf="authService.getUserRole() === 3">
-      <a routerLink="/dashboard/admin">Admin Dashboard</a>
+      <a routerLink="/dashboard/admin" routerLinkActive="active">Admin Dashboard</a>
     </li>
 
     <ng-container *ngIf="authService.isLoggedIn() | async; else loginLink">
       <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
     </ng-container>
     <ng-template #loginLink>
-      <li><a routerLink="/login-component">Login</a></li>
+      <li><a routerLink="/login-component" routerLinkActive="active">Login</a></li>
     </ng-template>
 
   </ul>
