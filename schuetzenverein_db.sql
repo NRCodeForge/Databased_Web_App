@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jul 2025 um 23:02
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.0.30
+-- Erstellungszeit: 05. Jul 2025 um 14:24
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -73,6 +73,13 @@ CREATE TABLE `benutzer` (
   `RollenID` int(11) NOT NULL,
   `ErstelltAm` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `benutzer`
+--
+
+INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RollenID`, `ErstelltAm`) VALUES
+(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 1, '2025-07-05 12:22:43');
 
 -- --------------------------------------------------------
 
@@ -223,7 +230,7 @@ ALTER TABLE `beitraege`
 -- AUTO_INCREMENT für Tabelle `benutzer`
 --
 ALTER TABLE `benutzer`
-  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `kategorien`
