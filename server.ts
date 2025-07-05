@@ -71,17 +71,17 @@ export function app(): express.Express {
   server.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-      const [rows] = await pool.query('SELECT * FROM benutzer WHERE email = ?', [email]);
+      const [rows] = await pool.query('SELECT * FROM benutzer WHERE Email = ?', [email]);
       const users = rows as any[];
       if (users.length === 0) {
         return res.status(401).json({ message: 'Ungültige Anmeldeinformationen.' });
       }
       const user = users[0];
-      const isPasswordValid = await bcrypt.compare(password, user.passwort);
+      const isPasswordValid = await bcrypt.compare(password, user.Passwort);
       if (!isPasswordValid) {
         return res.status(401).json({ message: 'Ungültige Anmeldeinformationen.' });
       }
-      const token = jwt.sign({ id: user.BenutzerID, role: user.rollen_id }, process.env['JWT_SECRET'] as string, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user.BenutzerID, role: user.RollenID }, process.env['JWT_SECRET'] as string, { expiresIn: '1h' });
       return res.json({ token });
     } catch (error) {
       console.error(error);
