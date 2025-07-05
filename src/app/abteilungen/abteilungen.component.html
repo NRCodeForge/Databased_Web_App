@@ -1,1 +1,11 @@
 <p>abteilungen works!</p>
+Für welche Abteilung interessieren sie sich?
+<ul class="AbteilungsAuswahl">
+  <li><a routerLink="/abteilung-component/bogen" routerLinkActive="active">Bogenschießen</a></li>
+  <li><a routerLink="/abteilung-component/jugendundschueler" routerLinkActive="active">Jugend & Schüler</a></li>
+  <li><a routerLink="/abteilung-component/pistolensport" routerLinkActive="active">Pistolensport</a></li>
+  <li><a routerLink="/abteilung-component/senioren" routerLinkActive="active">Senioren</a></li>
+</ul>
+
+<!-- Hier ganz wichtig: -->
+<router-outlet></router-outlet>

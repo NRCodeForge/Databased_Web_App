@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-abteilungen',
-  imports: [],
+  standalone: true,
+  imports: [RouterModule],
   templateUrl: './abteilungen.component.html',
-  styleUrl: './abteilungen.component.css'
+  styleUrls: ['./abteilungen.component.css']
 })
-export class AbteilungenComponent {
-
-}
+export class AbteilungenComponent {}

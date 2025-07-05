@@ -15,6 +15,10 @@ import { EventManagerComponent } from './admin-dashboard/event-manager/event-man
 import { CategoryManagerComponent } from './admin-dashboard/category-manager/category-manager.component';
 import { AbteilungenComponent } from './abteilungen/abteilungen.component';
 import { DerVereinComponent } from './der-verein/der-verein.component';
+import { BogenComponent } from './abteilungen/bogen/bogen.component';
+import { JugendundschuelerComponent } from './abteilungen/jugendundschueler/jugendundschueler.component';
+import { PistolensportComponent } from './abteilungen/pistolensport/pistolensport.component';
+import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
 
 export const routes: Routes = [
   {path: '', component: StartseiteComponent},
@@ -23,7 +27,12 @@ export const routes: Routes = [
   {path: "registration-component", component:RegistrationComponent},
   {path: "reset-password-component", component:ResetPasswordComponent},
   {path: "news-component", component:NewsComponent},
-  {path: "abteilung-component", component:AbteilungenComponent},
+  {path: "abteilung-component", component:AbteilungenComponent, children: [
+      { path: 'bogen', component:BogenComponent},
+      { path: 'jugendundschueler', component:JugendundschuelerComponent},
+      { path: 'pistolensport', component:PistolensportComponent},
+      { path: 'senioren', component:SeniorenComponent},
+  ]},
   {path: "termine-component", component:TermineComponent},
   {path: "forum-component", component:ForumComponent},
   {path: "der-verein-component", component:DerVereinComponent},
