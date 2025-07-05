@@ -1,1 +1,125 @@
-<p>termine works!</p>
+<div class="termine-container">
+  <div class="termine-wrapper">
+    <h2>Terminanfrage</h2>
+
+    <div class="rechtstext-bereich">
+      <h3>Wichtige Hinweise zur Terminanfrage</h3>
+      <p>
+        Der <b>Schützenverein Huchting und Umgegend von 1911 e.V.</b> verpflichtet sich, die Daten nur für den angegebenen
+        Zweck des Gastschützen zu verwenden und die Bestimmungen der Datenschutz-Grundverordnung (DSGVO)
+        einzuhalten. Dies beinhaltet die Einsichtnahme und Speicherung der Daten zur Erfüllung der Nachweispflicht
+        gegenüber der Versicherung und den Behörden. Es ist zu beachten, dass die Datenverarbeitung auf der Grundlage
+        der freiwilligen Zustimmung erfolgt und dass diese Zustimmung jederzeit widerrufen werden kann, was zur
+        Löschung der gespeicherten Daten führt, sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+      </p>
+      <p>
+        Mit Bestätigen der Captcha-Aufgabe erkennt der Gastschütze die Speicherung der personengebundenen Daten an und willigt in den Datenschutz ein!
+      </p>
+      <p>
+        Wir freuen uns auf Ihre Anfrage und darauf, Sie auf unserem Stand begrüßen zu dürfen!
+      </p>
+    </div>
+
+    <form [formGroup]="termineForm" (ngSubmit)="onSubmit()">
+      <h3>Ihre Kontaktdaten (Pflichtfelder)</h3>
+
+      <div class="form-group">
+        <label for="anrede">Anrede *</label>
+        <select id="anrede" formControlName="anrede" class="form-control">
+          <option value="">Bitte wählen</option>
+          <option value="Herr">Herr</option>
+          <option value="Frau">Frau</option>
+          <option value="Divers">Divers</option>
+          <option value="KeineAngaben">Keine Angaben</option>
+        </select>
+        <div *ngIf="termineForm.get('anrede')?.touched && termineForm.get('anrede')?.errors?.['required']" class="error-message">
+          Bitte wählen Sie eine Anrede.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="vorname">Vorname *</label>
+        <input id="vorname" type="text" formControlName="vorname" class="form-control">
+        <div *ngIf="termineForm.get('vorname')?.touched && termineForm.get('vorname')?.errors?.['required']" class="error-message">
+          Vorname ist ein Pflichtfeld.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nachname">Nachname *</label>
+        <input id="nachname" type="text" formControlName="nachname" class="form-control">
+        <div *ngIf="termineForm.get('nachname')?.touched && termineForm.get('nachname')?.errors?.['required']" class="error-message">
+          Nachname ist ein Pflichtfeld.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="geburtsdatum">Geburtsdatum *</label>
+        <input id="geburtsdatum" type="date" formControlName="geburtsdatum" class="form-control">
+        <div *ngIf="termineForm.get('geburtsdatum')?.touched && termineForm.get('geburtsdatum')?.errors?.['required']" class="error-message">
+          Geburtsdatum ist ein Pflichtfeld.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="anschrift">Anschrift</label> <input id="anschrift" type="text" formControlName="anschrift" class="form-control">
+        </div>
+
+      <div class="form-group">
+        <label for="plz">PLZ</label> <input id="plz" type="text" formControlName="plz" class="form-control" maxlength="5">
+        <div *ngIf="termineForm.get('plz')?.touched && termineForm.get('plz')?.value && termineForm.get('plz')?.errors?.['pattern']" class="error-message">
+          Bitte geben Sie eine gültige PLZ (5 Ziffern) ein.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="ort">Ort</label> <input id="ort" type="text" formControlName="ort" class="form-control">
+        </div>
+
+      <div class="form-group">
+        <label for="email">E-Mail *</label>
+        <input id="email" type="email" formControlName="email" class="form-control">
+        <div *ngIf="termineForm.get('email')?.touched && termineForm.get('email')?.errors?.['required']" class="error-message">
+          E-Mail ist ein Pflichtfeld.
+        </div>
+        <div *ngIf="termineForm.get('email')?.touched && termineForm.get('email')?.errors?.['email']" class="error-message">
+          Bitte geben Sie eine gültige E-Mail-Adresse ein.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Gewünschte Disziplinen / Waffenarten *</label>
+        <div class="checkbox-group" [formArrayName]="'disziplinen'">
+          <div *ngFor="let control of disziplinenFormArray.controls; let i = index" class="checkbox-item">
+            <input type="checkbox" [formControlName]="i" [id]="'disziplin-' + i" (change)="onCheckboxChange($event, i)">
+            <label [for]="'disziplin-' + i">{{ weaponTypes[i] }}</label>
+          </div>
+        </div>
+        <div *ngIf="termineForm.get('disziplinen')?.touched && termineForm.get('disziplinen')?.errors?.['minSelectedCheckboxes']" class="error-message">
+          Bitte wählen Sie mindestens eine Disziplin aus.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nachricht">Ihre Nachricht an uns (optional)</label>
+        <textarea id="nachricht" formControlName="nachricht" rows="5" class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="captcha">Bitte geben Sie das Wort "Ziel" ein *</label>
+        <input id="captcha" type="text" formControlName="captcha" class="form-control">
+        <div *ngIf="termineForm.get('captcha')?.touched && termineForm.get('captcha')?.errors?.['required']" class="error-message">
+          Bitte geben Sie den Captcha-Text ein.
+        </div>
+        <div *ngIf="termineForm.get('captcha')?.touched && termineForm.get('captcha')?.value?.toLowerCase() !== 'ziel' && !termineForm.get('captcha')?.errors?.['required']" class="error-message">
+          Der Captcha-Text ist nicht korrekt.
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="clear-button" (click)="onClearForm()">Formular leeren</button>
+        <button type="submit" [disabled]="termineForm.invalid">Formular senden</button>
+      </div>
+    </form>
+  </div>
+</div>

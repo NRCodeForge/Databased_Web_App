@@ -1,26 +1,92 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testseite</title>
-</head>
-<body>
+<div class="verein-page-container">
+  <nav class="table-of-contents">
+    <h3>In dieser Sektion</h3>
+    <ul>
+      <li><a (click)="scrollToElement('einleitung', $event)">Einführung in den Verein</a></li>
+      <li><a (click)="scrollToElement('chronik', $event)">Chronik</a></li>
+      <li><a (click)="scrollToElement('vorstand', $event)">Der Vorstand stellt sich vor</a></li>
+      <li><a (click)="scrollToElement('beitrag', $event)">Beiträge</a></li>
+      <li><a (click)="scrollToElement('einrichtung', $event)">Meisterschaft</a></li>
+      <li><a (click)="scrollToElement('kontakt', $event)">Kontakt & Anfahrt</a></li>
+    </ul>
+  </nav>
 
-        <p><a (click)="scrollToElement('ziel', $event)">Gehe zum Ziel</a></p>
+  <main class="verein-content">
+    <h1 id="einleitung">Der Schützenverein Bremen Huchting</h1>
 
-    <div style="height: 1000px; background-color: lightblue;">
-        <p>Platzhalter für viel Inhalt, damit gescrollt werden kann.</p>
-    </div>
+    <section id="intro">
+      <h2>1. Einführung in den Verein</h2>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <p>
+        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Proin eget tortor risus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.
+      </p>
+    </section>
 
-    <div id="ziel" style="background-color: lightgreen; padding: 20px;">
-        <h2>Das ist das Ziel!</h2>
-        <p>Sie sollten hierher gescrollt sein.</p>
-    </div>
+    <section id="chronik">
+      <h2>2. Unsere Geschichte</h2>
+      <h3>2.1 Die Gründung und ersten Jahre</h3>
+      <p>
+        Pellentesque in ipsum id orci porta dapibus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+      </p>
+      <h3>2.2 Entwicklung und Meilensteine</h3>
+      <p>
+        Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
+      </p>
+    </section>
 
-    <div style="height: 500px; background-color: lightcoral;">
-        <p>Weiterer Platzhalter.</p>
-    </div>
+    <section id="vorstand">
+      <h2>3. Der Vorstand stellt sich vor</h2>
+      <p>
+        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Donec sollicitudin molestie malesuada. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+      </p>
+      <p>
+        Ein kurzer Überblick über die aktuellen Vorstandsmitglieder und ihre Rollen:
+      </p>
+      <ul>
+        <li>**1. Vorsitzender:** [Name]</li>
+        <li>**2. Vorsitzender:** [Name]</li>
+        <li>**Schatzmeister:** [Name]</li>
+        <li>**Sportleiter:** [Name]</li>
+        <li>**Jugendleiter:** [Name]</li>
+      </ul>
+    </section>
 
-</body>
-</html>
+    <section id="beitrag">
+      <h2>4. Beiträge</h2>
+      
+      <p>
+        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec rutrum congue leo eget malesuada. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </section>
+
+    <section id="einrichtung">
+      <h2>5. Unsere Einrichtungen</h2>
+      <h3>5.1 Schießstände</h3>
+      <p>
+        Nulla quis lorem ut libero malesuada feugiat. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Nulla quis lorem ut libero malesuada feugiat. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus.
+      </p>
+      <h3>5.2 Vereinsheim</h3>
+      <p>
+        Pellentesque in ipsum id orci porta dapibus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada.
+      </p>
+    </section>
+
+    <section id="kontakt">
+      <h2>6. Kontakt & Anfahrt</h2>
+      <p>
+        Haben Sie Fragen oder möchten Sie uns besuchen? Hier finden Sie unsere Kontaktdaten und eine kurze Anfahrtsbeschreibung.
+      </p>
+      <p>
+        **Adresse:** [Vereinsadresse, Straße, PLZ Ort]<br>
+        **Telefon:** [Telefonnummer]<br>
+        **E-Mail:** [E-Mail-Adresse]
+      </p>
+      <p>
+        Wir freuen uns auf Ihre Nachricht!
+      </p>
+      </section>
+  </main>
+</div>
