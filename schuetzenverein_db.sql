@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Jul 2025 um 14:24
+-- Erstellungszeit: 05. Jul 2025 um 15:02
 -- Server-Version: 10.4.27-MariaDB
 -- PHP-Version: 8.2.0
 
@@ -79,7 +79,11 @@ CREATE TABLE `benutzer` (
 --
 
 INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RollenID`, `ErstelltAm`) VALUES
-(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 1, '2025-07-05 12:22:43');
+(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 3, '2025-07-05 12:22:43'),
+(2, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$JrglxTJkfYvMZ0Z732ExBOyQGhR8RliZraywUuGmc6EAb0YueWvrS', 3, '2025-07-05 12:50:52'),
+(3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 3, '2025-07-05 12:54:23'),
+(4, 'Sarah', 'Jahnaschke', 'Klein@zwerg.mico', '$2b$10$qiNEtGwMZwOO.GhUa0QmieX9pSS4gZ5p4MbVuKqH2SaanKFimQWC.', 3, '2025-07-05 12:57:30'),
+(5, 'Niclas', 'RR', 'N@R.R', '$2b$10$0gbEGkujIatDx4OKsjy71OHnBFGmTLgze1WiFz7.KhmJUuAFAlZ72', 3, '2025-07-05 12:59:27');
 
 -- --------------------------------------------------------
 
@@ -230,7 +234,7 @@ ALTER TABLE `beitraege`
 -- AUTO_INCREMENT für Tabelle `benutzer`
 --
 ALTER TABLE `benutzer`
-  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `kategorien`
