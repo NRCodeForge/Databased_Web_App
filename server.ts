@@ -47,7 +47,7 @@ export function app(): express.Express {
     }
 
     try {
-      const [users] = await pool.query('SELECT BenutzerID FROM benutzer WHERE email = ?', [email]);
+      const [users] = await pool.query('SELECT BenutzerID FROM benutzer WHERE Email = ?', [email]);
       if (Array.isArray(users) && users.length > 0) {
         return res.status(409).json({ message: 'Ein Benutzer mit dieser E-Mail existiert bereits.' });
       }
@@ -56,7 +56,7 @@ export function app(): express.Express {
       const defaultRole = 1;
 
       const [result] = await pool.query(
-        'INSERT INTO benutzer (email, passwort, vorname, nachname, rollen_id) VALUES (?, ?, ?, ?, ?)',
+        'INSERT INTO benutzer (Email, Passwort, Vorname, Nachname, RollenID) VALUES (?, ?, ?, ?, ?)',
         [email, hashedPassword, vorname, nachname, defaultRole]
       );
 
