@@ -287,7 +287,7 @@ export function app(): express.Express {
   server.put('/api/posts/:id', async (req, res) => {
     const { id } = req.params;
     const { Titel, Inhalt, KategorieID, Bild, UserID} = req.body;
-    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, Bild = ?, KategorieID = ?, ErstelltVon = ? Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, Bild, KategorieID, UserID, id]);
+    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, Bild = ?, KategorieID = ?, ErstelltVon = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, Bild, KategorieID, UserID, id]);
     return res.json({ BeitragsID: id, Titel, Inhalt, Bild, KategorieID, UserID });
   });
 
