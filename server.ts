@@ -243,16 +243,16 @@ export function app(): express.Express {
   });
 
   server.post('/api/posts', async (req, res) => {
-    const { Titel, Inhalt, KategorieID, UserID} = req.body;
-    const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, KategorieID, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, NOW());', [Titel, Inhalt, KategorieID, UserID]);
-    return res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID, UserID });
+    const { Titel, Inhalt, KategorieID, Bild, UserID, FormartID} = req.body;
+    const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, Bild, KategorieID, Formart, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, ?, ?, NOW());', [Titel, Inhalt, Bild, KategorieID, FormartID, UserID]);
+    return res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, Bild, KategorieID, FormartID, UserID });
   });
 
   server.put('/api/posts/:id', async (req, res) => {
     const { id } = req.params;
-    const { Titel, Inhalt, KategorieID } = req.body;
-    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
-    return res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
+    const { Titel, Inhalt, KategorieID, Bild, UserID, FormartID} = req.body;
+    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, Bild = ?, KategorieID = ?, Formart = ?, ErstelltVon = ? Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, Bild, KategorieID, FormartID, UserID, id]);
+    return res.json({ BeitragsID: id, Titel, Inhalt, Bild, KategorieID, FormartID, UserID });
   });
 
   server.get('/api/categories', async (req, res) => {

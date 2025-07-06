@@ -1,7 +1,13 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ContentService } from '../services/content.service';
+import { CategoryService } from '../services/category.service';
+import { Post } from '../models/post';
+import { Category } from '../models/category';
+
 
 @Component({
   selector: 'app-leiter-dashboard',
@@ -11,18 +17,37 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./leiter-dashboard.component.css']
 })
 export class LeiterDashboardComponent {
+  bildDatei: File | null = null;
+  categories: Category[] = [];
+  beitraegeFrom: FormGroup;
   titel = '';
   inhalt = '';
-  bildDatei: File | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private fb: FormBuilder,
+    private contentService: ContentService,
+    private categoryService: CategoryService
+  ) {
+    this.beitraegeFrom = this.fb.group({
+      Titel: ['', Validators.required],
+      Inhalt: ['', Validators.required],
+      KategorieID: ['', Validators.required],
+      Bild: null
+    });
+  }
 
   onFileSelected(event: any) {
     this.bildDatei = event.target.files[0];
   }
 
-  abteilungAuswahl: string = '';
+  loadCategories(): void {
+    this.categoryService.getCategories().subscribe(categories => {
+      this.categories = categories;
+    });
+  }
 
+  abteilungAuswahl: string = '';
   onAbteilungChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.abteilungAuswahl = selectElement.value;
@@ -35,12 +60,8 @@ export class LeiterDashboardComponent {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('titel', this.titel);
-    formData.append('inhalt', this.inhalt);
-    formData.append('bild', this.bildDatei); // 👈 hier wird die Datei angehängt
-
-    this.http.post('/api/beitrag-erstellen', formData).subscribe({
+    const postData = this.beitraegeFrom.value;
+    this.http.post('/api/beitrag-erstellen', postData).subscribe({
       next: (res) => {
         alert('Beitrag erfolgreich gespeichert!');
         this.titel = '';
@@ -53,4 +74,6 @@ export class LeiterDashboardComponent {
       }
     });
   }
+
+
 }

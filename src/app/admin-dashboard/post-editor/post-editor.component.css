@@ -44,3 +44,53 @@
   gap: 1rem;
   margin-top: 1.5rem;
 }
+
+/* PLUS Button Styling */
+.plus-button {
+  display: inline-block;
+  font-size: 22px;
+  padding: 10px 14px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  margin-bottom: 10px;
+}
+
+/* Checkbox verstecken */
+.dropdown-toggle {
+  display: none;
+}
+
+/* Wrapper für Button + Menü */
+.dropdown-wrapper {
+  margin-bottom: 20px;
+}
+
+/* Menü Styling */
+.dropdown-menu {
+  display: none;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #007bff;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.dropdown-menu a:hover {
+  background-color: #e6f0ff;
+}
+
+/* Wenn Checkbox aktiv ist, zeige Menü */
+.dropdown-toggle:checked + .plus-button + .dropdown-menu {
+  display: flex;
+}

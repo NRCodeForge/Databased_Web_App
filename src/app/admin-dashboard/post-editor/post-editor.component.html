@@ -1,10 +1,157 @@
 <div class="modal">
   <div class="modal-content">
     <h3>Beitrag bearbeiten</h3>
+
+<!--HIER SOLL DAS PLUS UND DANN SOLL DA DRUNTER ANGEZEIGT WERDEN-->
+    <div class="dropdown-wrapper">
+      <input type="checkbox" id="dropdown-toggle" class="dropdown-toggle" />
+      <label for="dropdown-toggle" class="plus-button">+</label>
+      <div class="dropdown-menu">
+        <a (click)="selectedFormat = 'textBild'">Format: Text über Bild</a>
+        <a (click)="selectedFormat = 'bildText'">Format: Bild über Text</a>
+        <a (click)="selectedFormat = 'nurText'">Format: Nur Text</a>
+        <a (click)="selectedFormat = 'nurBild'">Format: Nur Bild</a>
+      </div>
+    </div>
+
+    
+    <div [ngSwitch]="selectedFormat" class="layout-preview">
+      <ng-container *ngSwitchCase="'textBild'">
+        <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+          <div class="form-group">
+            <label for="title">Titel</label>
+            <input id="title" formControlName="Titel" type="text" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Kategorie</label>
+            <select id="category" formControlName="KategorieID">
+              <option *ngFor="let category of categories" [value]="category.KategorieID">
+                {{ category.Name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="content">Inhalt</label>
+            <textarea id="content" formControlName="Inhalt" rows="5"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="image">Bild hochladen:</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </div>
+
+          <app-section-format
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+          <button type="submit" class="submit-button">Speichern</button>
+        </form>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'bildText'">
+        <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+          <div class="form-group">
+            <label for="title">Titel</label>
+            <input id="title" formControlName="Titel" type="text" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Kategorie</label>
+            <select id="category" formControlName="KategorieID">
+              <option *ngFor="let category of categories" [value]="category.KategorieID">
+                {{ category.Name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="content">Inhalt</label>
+            <textarea id="content" formControlName="Inhalt" rows="5"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="image">Bild hochladen:</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </div>
+
+          <app-section-format
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+
+          <button type="submit" class="submit-button">Speichern</button>
+        </form>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'nurText'">
+          <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+          <div class="form-group">
+            <label for="title">Titel</label>
+            <input id="title" formControlName="Titel" type="text" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Kategorie</label>
+            <select id="category" formControlName="KategorieID">
+              <option *ngFor="let category of categories" [value]="category.KategorieID">
+                {{ category.Name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="image">Bild hochladen:</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </div>
+
+          <app-section-format
+            [mode]="getMode()"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+
+          <button type="submit" class="submit-button">Speichern</button>
+        </form>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'nurBild'">
+          <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+          <div class="form-group">
+            <label for="title">Titel</label>
+            <input id="title" formControlName="Titel" type="text" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Kategorie</label>
+            <select id="category" formControlName="KategorieID">
+              <option *ngFor="let category of categories" [value]="category.KategorieID">
+                {{ category.Name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="content">Inhalt</label>
+            <textarea id="content" formControlName="Inhalt" rows="5"></textarea>
+          </div>
+
+          <app-section-format
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value">
+          </app-section-format>
+
+          <button type="submit" class="submit-button">Speichern</button>
+        </form>
+      </ng-container>
+
+    <!-- FORMULAR
     <form [formGroup]="postForm" (ngSubmit)="savePost()">
       <div>
         <label for="title">Titel</label>
-        <input id="title" formControlName="Titel">
+        <input id="title" formControlName="Titel" />
       </div>
       <div>
         <label for="category">Kategorie</label>
@@ -15,8 +162,18 @@
       <div>
         <label for="content">Inhalt</label>
         <textarea id="content" formControlName="Inhalt" rows="10"></textarea>
-      </div> 
+      </div>
       <button type="submit">Speichern</button>
-    </form>
+    </form> 
+    -->
   </div>
 </div>
+
+
+<!--
+  <app-section-format
+    [mode]="1"
+    text="Willkommen beim Schützenverein Huchting und Umgegend v. 1911 e.V. Wir bieten eine Heimat für Sportschützen und die, die es werden wollen."
+    imgsource="assets/Schützenverein.png">
+  </app-section-format>
+-->

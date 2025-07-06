@@ -7,12 +7,13 @@ import { Post } from '../../models/post';
 import { Category } from '../../models/category';
 import { AuthService } from '../../services/auth.service';
 import { emitKeypressEvents } from 'readline';
+import { SectionFormatComponent } from '../../section-format/section-format.component';
 
 @Component({
   selector: 'app-post-editor',
   standalone: true,
   // KORREKTUR: Nur die benötigten Module importieren
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SectionFormatComponent],
   templateUrl: './post-editor.component.html',
   styleUrls: ['./post-editor.component.css']
 })
@@ -22,6 +23,8 @@ export class PostEditorComponent implements OnInit {
   @Output() postSaved = new EventEmitter<Post>();
   postForm: FormGroup;
   categories: Category[] = [];
+  selectedFormat: string = '';
+  selectedImageURL: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -34,6 +37,7 @@ export class PostEditorComponent implements OnInit {
       Titel: ['', Validators.required],
       Inhalt: ['', Validators.required],
       KategorieID: ['', Validators.required],
+      Bild: ['']
     });
   }
 
@@ -43,6 +47,26 @@ export class PostEditorComponent implements OnInit {
       this.postForm.patchValue(this.post);
     }
   }
+
+  onFileSelected(event: any) {
+    // Datei-Handling hier
+  }
+
+  getMode(): 1 | 2 | 3 | 4 {
+    switch (this.selectedFormat) {
+      case 'textBild':
+        return 1;
+      case 'bildText':
+        return 2;
+      case 'nurText':
+        return 3;
+      case 'nurBild':
+        return 4;
+      default:
+        return 1; // fallback
+    }
+  }
+
 
   loadCategories(): void {
     this.categoryService.getCategories().subscribe(categories => {
@@ -55,6 +79,8 @@ export class PostEditorComponent implements OnInit {
       const postData = this.postForm.value;
       postData.UserID = this.authService.getUserID();
       console.log('UserID:', this.authService.getUserID());
+      postData.FormartID = this.getMode()
+      console.log('FormartID:', postData.FormartID = this.getMode());
       if (postData.UserID != null) {
         if (this.post) {
           this.contentService.updatePost(this.post.BeitragsID, postData).subscribe(savedPost => {
