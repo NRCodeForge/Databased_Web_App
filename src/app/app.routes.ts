@@ -37,7 +37,7 @@ export const routes: Routes = [
       { path: 'pistolensport', component:PistolensportComponent},
       { path: 'senioren', component:SeniorenComponent},
     ]},
-  {path: "terminet", component:TermineComponent},
+  {path: "termin", component:TermineComponent},
   {path: "forum", component:ForumComponent},
   {path: "der-verein", component:DerVereinComponent},
   {path: "dashboard/admin", component:AdminDashboardComponent, children: [
