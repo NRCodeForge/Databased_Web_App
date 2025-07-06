@@ -231,6 +231,26 @@ export function app(): express.Express {
     }
   });
 
+    server.get('/api/beitraege', async (req, res) => {
+    const kategorieId = parseInt(req.query['kategorieId'] as string);
+
+    if (isNaN(kategorieId)) {
+      return res.status(400).json({ error: 'Ungültige KategorieId' });
+    }
+
+    try {
+      const [rows] = await pool.query(
+        'SELECT BeitragsID AS id, Titel AS titel, Inhalt AS inhalt FROM beitraege WHERE KategorieID = ?',
+        [kategorieId]
+      );
+      res.json(rows);
+    } catch (error) {
+      console.error('DB Fehler:', error);
+      res.status(500).json({ error: 'Datenbankfehler' });
+    }
+    return;
+  });
+
   // #############################################################
   // ##### BESTEHENDE ROUTEN (Posts, Kategorien, etc.)       #####
   // #############################################################
