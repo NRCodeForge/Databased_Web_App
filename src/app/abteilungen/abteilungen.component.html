@@ -1,11 +1,23 @@
-<p>abteilungen works!</p>
-Für welche Abteilung interessieren sie sich?
-<ul class="AbteilungsAuswahl">
-  <li><a routerLink="/abteilung-component/bogen" routerLinkActive="active">Bogenschießen</a></li>
-  <li><a routerLink="/abteilung-component/jugendundschueler" routerLinkActive="active">Jugend & Schüler</a></li>
-  <li><a routerLink="/abteilung-component/pistolensport" routerLinkActive="active">Pistolensport</a></li>
-  <li><a routerLink="/abteilung-component/senioren" routerLinkActive="active">Senioren</a></li>
-</ul>
+<div class="abteilungen-container">
+  <nav class="abteilungen-nav">
+    <h3>Unsere Abteilungen</h3>
+    <ul>
+      <li *ngFor="let abt of abteilungen"
+          [class.active]="abt.name === activeAbteilung?.name"
+          (click)="selectAbteilung(abt)">
+        {{ abt.name }}
+      </li>
+    </ul>
+  </nav>
 
-<!-- Hier ganz wichtig: -->
-<router-outlet></router-outlet>
+  <main class="abteilungen-content">
+    <ng-container *ngIf="activeAbteilung">
+      <h2>{{ activeAbteilung.name }}</h2>
+      <p style="white-space: pre-wrap;">{{ activeAbteilung.infoText }}</p>
+    </ng-container>
+
+    <ng-container *ngIf="!activeAbteilung">
+      <p class="placeholder-text">Wählen Sie eine Abteilung aus, um mehr zu erfahren.</p>
+    </ng-container>
+  </main>
+</div>

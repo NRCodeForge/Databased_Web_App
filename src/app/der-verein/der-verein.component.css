@@ -113,6 +113,49 @@
   font-size: 0.9rem;
 }
 
+/* Stil für die Chronik-Liste */
+.history-list {
+  position: relative;
+  border-left: 2px solid var(--border-color, #d2d2d7); /* Vertikale Linie der Zeitleiste */
+  padding-left: 20px;
+  margin-left: 10px;
+}
+
+.history-item {
+  position: relative;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+}
+
+.history-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.history-item::before {
+  content: '';
+  position: absolute;
+  left: -27px; /* Position des Kreises auf der Linie */
+  top: 5px;
+  width: 14px;
+  height: 14px;
+  background-color: var(--primary-blue, #007aff); /* Farbe des Kreises */
+  border-radius: 50%;
+  border: 3px solid var(--card-background, #ffffff); /* Weißer Rand um den Kreis */
+  z-index: 1;
+}
+
+.history-year {
+  font-weight: 700;
+  color: var(--primary-blue, #007aff);
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.history-description p {
+  margin-bottom: 10px;
+}
+
 /* Responsives Design */
 @media (max-width: 992px) {
   .verein-page-container {

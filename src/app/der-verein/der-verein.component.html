@@ -2,11 +2,11 @@
   <nav class="table-of-contents">
     <h3>In dieser Sektion</h3>
     <ul>
-      <li><a (click)="scrollToElement('einleitung', $event)">Einführung in den Verein</a></li>
-      <li><a (click)="scrollToElement('chronik', $event)">Chronik</a></li>
+      <li><a (click)="scrollToElement('intro', $event)">Einführung in den Verein</a></li>
+      <li><a (click)="scrollToElement('geschichte', $event)">Unsere Geschichte</a></li>
       <li><a (click)="scrollToElement('vorstand', $event)">Der Vorstand stellt sich vor</a></li>
       <li><a (click)="scrollToElement('beitrag', $event)">Beiträge</a></li>
-      <li><a (click)="scrollToElement('einrichtung', $event)">Meisterschaft</a></li>
+      <li><a (click)="scrollToElement('einrichtung', $event)">Unsere Einrichtungen</a></li>
       <li><a (click)="scrollToElement('kontakt', $event)">Kontakt & Anfahrt</a></li>
     </ul>
   </nav>
@@ -20,44 +20,234 @@
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
       <p>
-        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Proin eget tortor risus. Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.
+        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Donec rutrum congue leo eget malesuada. Nulla quis lorem ut libero malesuada feugiat.
       </p>
     </section>
 
-    <section id="chronik">
+    <section id="geschichte" class="content-section">
       <h2>2. Unsere Geschichte</h2>
-      <h3>2.1 Die Gründung und ersten Jahre</h3>
-      <p>
-        Pellentesque in ipsum id orci porta dapibus. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-      </p>
-      <h3>2.2 Entwicklung und Meilensteine</h3>
-      <p>
-        Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-      </p>
+      <div class="history-list">
+        <div class="history-item">
+          <div class="history-year">1911 – 1914</div>
+          <div class="history-description">
+            <p>In den Maitagen des Jahres 1911 beschlossen 4 Huchtinger und 2 Moordeicher Bürger einen Schützenverein zu gründen. In kurzer Zeit kamen noch einige am Schießsport interessierte Huchtinger dazu – und gemeinsam gründeten sie in der damaligen Gastwirtschaft Nobel (später „Lindenhof“ Inh.Johann Preuß) den Schützenverein Huchting und Umgegend von 1911.<br>
+            Zu den Männern der ersten Stunde gehörten Martin Horstmann, Johann Bornemann sen., Paul Wetjen, Heinrich Rump, Alfred Tredopp, Hermann Riecher, Heinrich Twachtmann, die Moordeicher Brüder Hermann und Hinrich Borchers und noch einige andere mehr.<br>
+            Unter Mitarbeit aller Schützen wurde ein Schießstand auf dem Gelände an der Dovemoorstraße erbaut. Ein besonderer Dank gilt dem Gründungsmitglied Johann Bornemann senior, der finanziell den Standbau ermöglichte.<br>
+            Aus den 16 Gründungsmitgliedern wuchs der Verein bis zum Ausbruch des 1. Weltkrieges auf 46 Mitglieder.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1921 – 1925</div>
+          <div class="history-description">
+            <p>Die während des 1. Weltkrieges vollständig zum Erliegen gekommene Vereinsarbeit lief erst 1921 allmählich an. Bis zum Jahre 1924 wuchs der Verein auf 53 Mitglieder an, die den Schießsport mit dem Luftgewehr betrieben.<br>
+            Am 19. April 1925 fand die Weihe der Vereinsfahne statt. Das Geld für die Fahne wurde durch eine Sammlung unter den Mitgliedern erbracht, da das Vereinsvermögen durch die Inflation restlos verloren war.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1926</div>
+          <div class="history-description">
+            <p>In der Generalversammlung vom 24. Januar 1926 wurden die Vereinsstatuten (Vereinssatzung) beschlossen.<br>
+            Im gleichen Jahr erbauten die Schützen die ersten zwei Kleinkaliber–Schießstände und es wurde eine Jungschützen–Abteilung gegründet.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1936</div>
+          <div class="history-description">
+            <p>Am 3. und 4. Mai 1936 feierte der Schützenverein Huchting mit einem Jubiläumsfest sein 25jähriges Bestehen. Es konnte eine große Zahl an Gästen und auswärtigen Vereinen begrüßt werden.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1942</div>
+          <div class="history-description">
+            <p>Der 2. Weltkrieg bringt erneut die Vereinsarbeit zum Erliegen.<br>
+            Im Sommer 1942 schließt der Schriftführer Karl Krüger den letzten Jahresbericht.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1945 / 1946</div>
+          <div class="history-description">
+            <p>Zur Zeit der Alliierten mussten der Schießstand und alle Sportwaffen vernichtet werden. Schützenvereine waren verboten.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1953</div>
+          <div class="history-description">
+            <p>Als Anfang der 1950er-Jahre die Schützenvereine wieder zugelassen wurden, nahm eine kleine Gruppe der alten Vereinsmitglieder 1953 die Vereinsarbeit wieder auf. Nur 6 Schützen nahmen am Neugründungstreffen vom 6.März 1953 in der Gaststätte Mahlstedt teil. Sie verabredeten die Einberufung einer ordentlichen Mitgliederversammlung zum 14.März 1953, an der 22 Mann teilnahmen.<br>
+            Diese beschlossen die Neugründung des Schützenvereins Huchting und Umgegend von 1911, wählten den Vorstand (1. Vorsitzender Hermann Borchers), genehmigten die Satzung und legten den Termin für das Schützenfest auf den 2. Sonntag im August fest.<br>
+            Geschossen wurde zunächst nur mit dem Luftgewehr im Saal der Gaststätte Heimsoth, später dann mit KK–Gewehren auf dem Schießstand bei Karl Nobel in Moordeich.<br>
+            Das erste Schützenfest nach der Neugründung fand am 8. und 9. August 1953 auf dem Gelände an der Dovemoorstraße statt, auf dem bis zum Jahr 1999 alle Schützenfeste durchgeführt wurden.<br>
+            Am ersten Festumzug nahmen 32 Huchtinger Schützen teil.<br>
+            Zum Jahresende 1953 zählte der Verein bereits 77 aktive Mitglieder.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1954</div>
+          <div class="history-description">
+            <p>Durch den Erfolg des ersten Jahres wurde entschieden, im Jahre 1954 einen modernen Schießstand zu bauen. Dank gebührt den Vereinskameraden, die den Verein finanziell unterstützten, ihr Geld ohne Sicherheiten zur Verfügung stellten und den Neubau ermöglichten.<br>
+            Die Grundsteinlegung fand am 16. Mai 1954 statt. Der Vereinswirt Johann Preuß übernahm den Bau einer zweckmäßigen Halle und der Verein erstellte in Gemeinschaftsarbeit unter Leitung des 1.Schießwartes Heinrich Schröder die Schießstände. Bereits zum Schützenfest hatte der Schützenverein wieder eine Schießanlage.<br>
+            Bei der Einweihung anlässlich des Schützenfestes am 7. August 1954 präsentierte sich den Gästen mit 6 KK- und 5 Luftgewehranlagen einer der größten und modernsten Schießstände in der weiteren Umgebung. Die neue Anlage ermöglichte eine ausgezeichnete Ausübung des Schießsportes, der in den folgenden Jahren immer bekannter und beliebter wurde.<br>
+            Alte Kameradschaften wurden gepflegt und neue Freundschaften mit anderen Vereinen geknüpft und die haben bis heute Bestand.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1961</div>
+          <div class="history-description">
+            <p>Vom 26. bis 28. Mai 1961 wurde das 50jährige Jubiläum gefeiert, dessen Höhepunkt ein Konzertabend mit dem Heeresmusikkorps 11 aus Grohn bildete.<br>
+            Aus dem Dorf Huchting ist inzwischen ein Stadtteil von Bremen geworden. Das alljährliche Volks-Schützenfest im August wurde immer mehr ein beliebter Treffpunkt für Jung und Alt und zählt heute als das älteste Volksfest zum festen Bestandteil in Huchting.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1969</div>
+          <div class="history-description">
+            <p>Im Jahre 1969 bekam der Schützenverein seine zweite Vereinsfahne. Sie wurde, wie die erste Fahne, durch Spenden der Vereinsmitglieder finanziert. Am 10. August 1969 fand beim Schützenfest in einer feierlichen Zeremonie die Weihe der Fahne statt.<br>
+            Nachdem sie fast 45 Jahre den Verein bei fröhlichen wie ernsten Anlässen begleitet hatte, erhielt die alte Fahne einen Ehrenplatz in der Schießhalle.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1971</div>
+          <div class="history-description">
+            <p>Das 60jährige Vereinsbestehen wurde beim Schützenfest vom 7. bis 9. August 1971 mit einem Jubiläumsprogramm gefeiert.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1974</div>
+          <div class="history-description">
+            <p>Das Gründungsjahr der Damenabteilung. Der 1.Schießwart Kurt Göcke legte der Jahreshauptversammlung die Aufnahmeanträge von 27 Frauen vor, die er für die Ausübung des Schießsportes begeistert hatte. Die Versammlung beschloss die Gründung einer Damenabteilung und wählte Helga Detken zur ersten Damenleiterin.<br>
+            Toni Knust wurde 1974 die erste Damenkönigin in der Vereinsgeschichte.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1976</div>
+          <div class="history-description">
+            <p>Nach kurzer, intensiver Bauzeit konnte 1976 die ausschließlich in Eigenarbeit erstellte neue Schießhalle in Betrieb genommen werden. Zum Erweiterungsbau gehörten 11 Luftgewehranlagen, neue Toiletten, eine Waffenkammer, ein Auswerteraum und vor allem ein gemütliches Vereinsheim.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1978</div>
+          <div class="history-description">
+            <p>Zwei Jahre später konnte der Öffentlichkeit mit dem inzwischen erstellten Anbau eines Pistolenstandes und weiterer Geräte- und Auswerteräume anläßlich eines „Tages der offenen Tür“ eine Schießsportanlage vorgestellt werden, die allen gehobenen Ansprüchen genügt.<br>
+            Mit Fertigstellung der Schießsportanlage haben die Vereinsmitglieder seitdem optimale Möglichkeiten, unter Anleitung erfahrener Trainer den Schießsport mit modernen Sportwaffen zu betreiben.<br>
+            Erstmalig geht das Schützenfest nicht wie bisher über 3 Tage (Sa.-Mo.) sondern über 4 Tage (Fr.-Mo.) Dem Trend der Zeit folgend, erweiterte der Verein sein Programmangebot am Freitag mit einer Zelt-Discothek für die Jugendlichen.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1979</div>
+          <div class="history-description">
+            <p>Beim Schützenfest 1979 gab es eine weitere Neuigkeit. Zum ersten Mal wurde ein Festzelt mit freitragender Konstruktion aufgebaut. In dem 700m² großen Zelt gab es keine störenden Stützpfeiler und somit konnte die Bühne von jedem Platz gut eingesehen werden.<br>
+            Darüber freuten sich am 12. August mehr als 1000 Besucher, die zum Sensationskonzert der Gruppe „Torfrock“ gekommen waren.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1981</div>
+          <div class="history-description">
+            <p>Zum 70jährigen Bestehen des Vereins bildete ein erneutes Gastspiel der Gruppe „Torfrock“ den absoluten Höhepunkt des Jubiläumsprogrammes. Abermals weit über 1000 Besucher feierten den Auftritt der Band.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1985</div>
+          <div class="history-description">
+            <p>Immer wieder qualifizierten sich Sportschützen des Schützenvereins Huchting zur Teilnahme an den Deutschen Meisterschaften. Neben Plätzen unter den ersten zehn und einem 3. Platz für Monika Lilischkies (KK; 1981), gingen auch zwei Meistertitel nach Huchting:<br>
+            Deutsche Jugendmeisterin 1982 in der Luftpistolen-Disziplin wurde Petra Frankenberg (3.Platz 1979; 4.Platz 1980) und im August 1985 belegte Petra Castens, die als Schülerin dem Verein beitrat, mit 386 von 400 möglichen Ringen unter 88 Sportschützinnen den ersten Platz und holte sensationell den Titel der Deutschen Meisterin in der Luftgewehr-Disziplin.<br>
+            Mit einer unvergleichlichen Festwoche beging der Verein vom 03. bis 11. August sein 75jähriges Jubiläum. Den Anfang bildete ein Kommers-Abend mit Live-Band. Es folgten ein plattdeutscher Theaterabend, ein Country-Abend, ein Preisskat-Turnier, ein Jazz-Dämmerschoppen, das Jubiläumskonzert mit dem Heeresmusikkorps 3 Lüneburg, Disco-Fete, Party mit 2 Kapellen, Schützentag und der Königsball mit Schützenkapelle.<br>
+            Am 12. Oktober 1986 startete das Pokalschießen „Königs-Cup“. Es ging über 25 Jahre und endete zum 100jährigen Vereinsjubiläum. Teilnehmen dürfen nur die Huchtinger Schützenkönige. Der Sieger trägt für 1 Jahr den Titel „König der Könige“. Vom Startgeld wird im Jubiläumsjahr 2011 eine neue Königskette gekauft.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1994</div>
+          <div class="history-description">
+            <p>Der Vereinsvorsitzende Oltmann Lampe meldet beim Ortsamtleiter in Huchting Interesse an dem Grundstück einer ungenutzten BMX-Bahn auf der Bezirkssportanlage für den möglichen Neubau einer Schießsportanlage an.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1997</div>
+          <div class="history-description">
+            <p>Aus der Neubau-Idee sind konkrete Pläne geworden. Mit verschiedenen Bremer Behörden und Institutionen werden intensive Verhandlungen geführt. Ein Architekt -ein Sachverständiger für den Schießstandbau- erstellte nach Vorgaben des Vereins die Baupläne.<br>
+            Vom Schützenfest 1997 übertrug der Rundfunksender „Radio Bremen 3“ am Sonntag, den 10. August von 8:05 Uhr bis 10:00 Uhr aus dem sehr gut besuchten Festzelt live das traditionelle Hafenkonzert.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1998</div>
+          <div class="history-description">
+            <p>Nachdem die Verhandlungen und Planungen erfolgreich beendet wurden, stellt der Verein beim Bremer Stadtplanungsamt den Bauantrag für die Schießsportanlage.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">1999</div>
+          <div class="history-description">
+            <p>Zum letzten Mal wurde das Schützenfest auf dem Festplatz an der Dovemoorstraße gefeiert. Im Anschluss räumte der Verein Schießhalle und Schießstände und lagerte das Inventar in zwei 40-Fuß-Containern.<br>
+            Die sichere Verwahrung der Sportwaffen übernahmen einige Vereinsmitglieder.<br>
+            Am 30. September endet nach 88 Jahren die Geschichte des Schützenvereins am Standort Dovemoorstraße.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2000</div>
+          <div class="history-description">
+            <p>Sechs Jahre nach den ersten Gesprächen erfolgte am 11. Februar die Grundsteinlegung einer Schießsportanlage auf der Huchtinger Bezirkssportanlage an der Obervielander Straße. Bereits am 4. August fand das Richtfest statt und der Verein feierte im Schatten des Rohbaus das erste Schützenfest am neuen Standort.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2001</div>
+          <div class="history-description">
+            <p>Im Jubiläumsjahr, 90 Jahre nach der Gründung, ist der Verein erstmalig Eigentümer einer eigenen Schießsportanlage auf eigenem Grundstück. Ermöglicht wurde das Ereignis durch den unermüdlichen Einsatz vieler tatkräftiger Vereinsmitglieder, die über einen Zeitraum von 1½ Jahren in ihrer Freizeit beim Hallenbau mithalfen und eine eindrucksvolle Sportstätte erstellten.<br>
+            Unter 2.400m² überdachter Fläche befinden sich 6 Kleinkaliber-,15 Luftgewehr-, 10 Sportpistolen- und 5 Sportbogen-Stände, einige Geräte- und Auswerteräume sowie ein großes Vereinsheim.<br>
+            Nach mehr als 6000 Arbeitsstunden Eigenleistung fand am 16.Juni die feierliche Einweihung der Sportanlage statt.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2002</div>
+          <div class="history-description">
+            <p>Der Schützenverein präsentierte sich auf der 1. Huchtinger Gewerbeschau, die im Juni im Roland–Center stattfand.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2004</div>
+          <div class="history-description">
+            <p>Auf der Gewerbeschau des IHU im Roland-Center stellte sich der Verein erneut einer breiten Öffentlichkeit vor. Auf eigenem Messestand wurde Werbung für den Schießsport und das Schützenfest betrieben.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2005</div>
+          <div class="history-description">
+            <p>Im Juni führte der Schützenverein einen „Tag der offenen Tür“ durch. Mit einem lustigen 7-Kampf wurde erfolgreich Mitglieder – Werbung für den Schießsport gemacht.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2006</div>
+          <div class="history-description">
+            <p>Durch den Hallenbau hat der Verein finanzielle Probleme bekommen. Auf einer außerordentlichen Mitgliederversammlung wurden Maßnahmen zur Erhaltung des Vereins getroffen wie die Zahlung einer Umlage über mehrere Jahre.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2010</div>
+          <div class="history-description">
+            <p>Am 10.10. endete der „Königs-Cup“. In 25 Wettbewerben seit 1986 haben 40 Huchtinger Schützenkönige teilgenommen. Vom angesparten Startgeld wird eine silberne Königskette gekauft, deren erster Träger der „Jahrhundert – Schützenkönig 2011“ sein wird.</p>
+          </div>
+        </div>
+        <div class="history-item">
+          <div class="history-year">2011</div>
+          <div class="history-description">
+            <p>Im Jubiläumsjahr hat der Schützenverein Huchting 183 Mitglieder. Der Altersspiegel reicht von 12 Jahren bis 89 Jahren. Ein Beweis dafür, dass der Schießsport von früher Jugend bis ins hohe Alter ausgeübt werden kann.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section id="vorstand">
       <h2>3. Der Vorstand stellt sich vor</h2>
       <p>
-        Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Donec sollicitudin molestie malesuada. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+        Der Vorstand ist das Herzstück unseres Vereins und setzt sich ehrenamtlich für die Belange der Mitglieder ein. Hier finden Sie eine Übersicht über die aktuellen Vorstandsmitglieder und ihre Funktionen.
       </p>
       <p>
-        Ein kurzer Überblick über die aktuellen Vorstandsmitglieder und ihre Rollen:
+        Quisque velit nisi, pretium ut lacinia in, elementum id enim. Cras ultricies ligula sed magna dictum porta. Donec rutrum congue leo eget malesuada. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
       </p>
-      <ul>
-        <li>**1. Vorsitzender:** [Name]</li>
-        <li>**2. Vorsitzender:** [Name]</li>
-        <li>**Schatzmeister:** [Name]</li>
-        <li>**Sportleiter:** [Name]</li>
-        <li>**Jugendleiter:** [Name]</li>
-      </ul>
     </section>
 
     <section id="beitrag">
       <h2>4. Beiträge</h2>
-      
       <p>
-        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec rutrum congue leo eget malesuada. Proin eget tortor risus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+        Hier finden Sie Informationen zu unseren Mitgliedsbeiträgen und den verschiedenen Beitragsarten. Wir bieten faire und transparente Beiträge, um den Schießsport für jeden zugänglich zu machen.
+      </p>
+      <p>
         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </p>
     </section>
@@ -87,6 +277,9 @@
       <p>
         Wir freuen uns auf Ihre Nachricht!
       </p>
-      </section>
+      <div class="back-to-top">
+        <a (click)="scrollToElement('einleitung', $event)">Nach oben</a>
+      </div>
+    </section>
   </main>
 </div>
