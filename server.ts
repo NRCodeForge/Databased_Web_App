@@ -109,7 +109,6 @@ export function app(): express.Express {
           BenutzerID as UserID,
           Vorname,
           Nachname,
-          CONCAT(Vorname, ' ', Nachname) as Benutzername,
           Email,
           RollenID,
           ErstelltAm
