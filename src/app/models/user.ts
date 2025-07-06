@@ -5,8 +5,8 @@ export interface User {
   Vorname: string;      // Geändert
   Nachname: string;     // Geändert
   Email: string;
-  RolleID: number;
+  RollenID: number;
   RollenName?: string;
   Passwort?: string;
-  ErstelltAm: string; // Geändert
+  ErstelltAm: String;
 }

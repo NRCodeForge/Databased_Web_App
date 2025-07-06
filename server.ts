@@ -61,10 +61,10 @@ export function app(): express.Express {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const defaultRole = 1; // Angenommen '1' ist die Standardrolle
-
+      const time = new Date().toISOString()
       const [result] = await pool.query(
-        'INSERT INTO benutzer (Email, Passwort, Vorname, Nachname, RollenID) VALUES (?, ?, ?, ?, ?)',
-        [email, hashedPassword, vorname, nachname, defaultRole]
+        'INSERT INTO benutzer (Email, Passwort, Vorname, Nachname, RollenID, ErstelltAm) VALUES (?, ?, ?, ?, ?, ?)',
+        [email, hashedPassword, vorname, nachname, defaultRole, time]
       );
 
       return res.status(201).json({ message: 'Benutzer erfolgreich registriert.', userId: (result as any).insertId });
@@ -144,18 +144,18 @@ export function app(): express.Express {
   server.put('/api/users/:id', async (req, res) => {
     const { id } = req.params;
     // KORREKTUR: Verwendet Vorname und Nachname
-    const { Vorname, Nachname, Email, RolleID, Passwort } = req.body;
+    const {UserID, Vorname, Nachname, Email, RolleID, Passwort } = req.body;
     try {
       if (Passwort) {
         const hashedPassword = await bcrypt.hash(Passwort, 10);
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ?, Passwort = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, hashedPassword, id]
+          [Vorname, Nachname, Email, RolleID, hashedPassword, UserID]
         );
       } else {
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, id]
+          [Vorname, Nachname, Email, RolleID, UserID]
         );
       }
       return res.json({ message: 'Benutzer erfolgreich aktualisiert' });

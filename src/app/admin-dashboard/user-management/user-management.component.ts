@@ -1,7 +1,7 @@
 // Datei: src/app/admin-dashboard/user-management/user-management.component.ts
 
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe],
+  imports: [CommonModule, FormsModule],
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css']
 })
@@ -38,7 +38,7 @@ export class UserManagementComponent implements OnInit {
       Vorname: '',
       Nachname: '',
       Email: '',
-      RolleID: 3,
+      RollenID: 3,
       ErstelltAm: new Date().toISOString(),
       Passwort: ''
     };
