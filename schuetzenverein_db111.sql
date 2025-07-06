@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 07. Jul 2025 um 00:50
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 06. Jul 2025 um 20:09
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,6 +55,7 @@ CREATE TABLE `beitraege` (
   `Inhalt` text DEFAULT NULL,
   `Bild` longtext CHARACTER SET utf8 COLLATE utf8_general_nopad_ci DEFAULT NULL,
   `KategorieID` int(11) NOT NULL,
+  `Formart` int(11) DEFAULT NULL,
   `ErstelltVon` int(11) NOT NULL,
   `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
   `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -64,14 +65,12 @@ CREATE TABLE `beitraege` (
 -- Daten für Tabelle `beitraege`
 --
 
-INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
-(4, 'News', 'Viele neune Infos', NULL, 2, 1, '2025-07-06 16:18:25', NULL),
-(5, 'Termisn', 'Hey', NULL, 9, 1, '2025-07-06 16:31:48', NULL),
-(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, '2025-07-06 16:59:29', NULL),
-(7, 'Test 123', 'c546a51c6a51x', '', 3, 5, '2025-07-06 18:06:50', NULL),
-(8, 'ölkcsnölknlc', 'cnclknaüokncokn', '', 3, 5, '2025-07-06 18:07:16', NULL),
-(9, 'Alter', 'Mund', '', 1, 1, '2025-07-06 22:48:03', NULL),
-(10, 'WAs', 'Nöö', '', 6, 1, '2025-07-06 22:49:16', NULL);
+INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `Formart`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
+(4, 'News', 'Viele neune Infos', NULL, 2, NULL, 1, '2025-07-06 16:18:25', NULL),
+(5, 'Termisn', 'Hey', NULL, 9, 4, 1, '2025-07-06 16:31:48', NULL),
+(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, 1, '2025-07-06 16:59:29', NULL),
+(7, 'Test 123', 'c546a51c6a51x', '', 3, 1, 5, '2025-07-06 18:06:50', NULL),
+(8, 'ölkcsnölknlc', 'cnclknaüokncokn', '', 3, 1, 5, '2025-07-06 18:07:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -264,105 +263,7 @@ INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
 (94, '/abteilung-component', '2025-07-06 18:06:54'),
 (95, '/dashboard/admin', '2025-07-06 18:06:58'),
 (96, '/dashboard/admin/content', '2025-07-06 18:06:59'),
-(97, '/abteilung-component', '2025-07-06 18:07:17'),
-(98, '/dashboard/admin/content', '2025-07-06 18:29:55'),
-(99, '/news-component', '2025-07-06 18:30:18'),
-(100, '/der-verein-component', '2025-07-06 18:30:27'),
-(101, '/abteilung-component', '2025-07-06 18:30:29'),
-(102, '/termine-component', '2025-07-06 18:30:30'),
-(103, '/dashboard/leiter', '2025-07-06 18:30:30'),
-(104, '/dashboard/admin', '2025-07-06 18:30:34'),
-(105, '/login-component', '2025-07-06 18:30:35'),
-(106, '/', '2025-07-06 18:30:37'),
-(107, '/dashboard/admin', '2025-07-06 18:30:38'),
-(108, '/dashboard/leiter', '2025-07-06 18:30:39'),
-(109, '/dashboard/admin', '2025-07-06 18:30:40'),
-(110, '/dashboard/admin/content', '2025-07-06 18:30:41'),
-(111, '/dashboard/admin/content', '2025-07-06 19:09:42'),
-(112, '/dashboard/admin/users', '2025-07-06 19:09:44'),
-(113, '/dashboard/admin/content', '2025-07-06 19:09:45'),
-(114, '/news-component', '2025-07-06 19:09:46'),
-(115, '/dashboard/admin', '2025-07-06 19:09:48'),
-(116, '/dashboard/admin/content', '2025-07-06 19:09:50'),
-(117, '/dashboard/admin/content', '2025-07-06 19:10:11'),
-(118, '/dashboard/admin/content', '2025-07-06 19:30:53'),
-(119, '/login', '2025-07-06 19:30:56'),
-(120, '/', '2025-07-06 19:30:57'),
-(121, '/dashboard/admin', '2025-07-06 19:31:00'),
-(122, '/dashboard/admin/content', '2025-07-06 19:31:01'),
-(123, '/dashboard/admin/users', '2025-07-06 19:31:02'),
-(124, '/dashboard/admin/content', '2025-07-06 19:31:02'),
-(125, '/dashboard/admin/users', '2025-07-06 19:31:03'),
-(126, '/dashboard/admin/departments', '2025-07-06 19:31:10'),
-(127, '/dashboard/admin/events', '2025-07-06 19:31:10'),
-(128, '/dashboard/admin/departments', '2025-07-06 19:31:11'),
-(129, '/dashboard/admin/users', '2025-07-06 19:31:12'),
-(130, '/dashboard/admin/content', '2025-07-06 19:31:12'),
-(131, '/', '2025-07-06 19:31:33'),
-(132, '/dashboard/admin', '2025-07-06 19:31:37'),
-(133, '/dashboard/admin/content', '2025-07-06 19:31:37'),
-(134, '/dashboard/admin/users', '2025-07-06 19:32:15'),
-(135, '/dashboard/admin/content', '2025-07-06 19:32:15'),
-(136, '/dashboard/admin/content', '2025-07-06 19:35:34'),
-(137, '/dashboard/admin/content', '2025-07-06 19:35:43'),
-(138, '/dashboard/admin/users', '2025-07-06 19:35:52'),
-(139, '/dashboard/admin/content', '2025-07-06 19:35:53'),
-(140, '/dashboard/admin/users', '2025-07-06 19:35:53'),
-(141, '/dashboard/admin/content', '2025-07-06 19:35:54'),
-(142, '/dashboard/admin/content', '2025-07-06 19:38:10'),
-(143, '/dashboard/admin/content', '2025-07-06 19:41:08'),
-(144, '/dashboard/admin/content', '2025-07-06 19:43:03'),
-(145, '/login', '2025-07-06 19:43:09'),
-(146, '/', '2025-07-06 19:43:10'),
-(147, '/dashboard/admin', '2025-07-06 19:43:12'),
-(148, '/dashboard/admin/content', '2025-07-06 19:43:13'),
-(149, '/dashboard/admin/content', '2025-07-06 20:52:59'),
-(150, '/dashboard/admin/content', '2025-07-06 20:54:14'),
-(151, '/dashboard/admin/content', '2025-07-06 21:34:49'),
-(152, '/login', '2025-07-06 21:34:51'),
-(153, '/', '2025-07-06 21:34:52'),
-(154, '/dashboard/admin', '2025-07-06 21:34:53'),
-(155, '/dashboard/admin/content', '2025-07-06 21:34:54'),
-(156, '/dashboard/admin/content', '2025-07-06 21:35:58'),
-(157, '/dashboard/admin/content', '2025-07-06 21:36:05'),
-(158, '/dashboard/admin/content', '2025-07-06 21:37:57'),
-(159, '/dashboard/admin/content', '2025-07-06 21:50:05'),
-(160, '/dashboard/admin/content', '2025-07-06 21:50:27'),
-(161, '/dashboard/admin/content', '2025-07-06 21:51:24'),
-(162, '/dashboard/admin/content', '2025-07-06 21:51:35'),
-(163, '/dashboard/admin/content', '2025-07-06 21:55:30'),
-(164, '/dashboard/admin/content', '2025-07-06 22:04:05'),
-(165, '/dashboard/admin/content', '2025-07-06 22:04:18'),
-(166, '/dashboard/admin/content', '2025-07-06 22:39:55'),
-(167, '/login', '2025-07-06 22:39:58'),
-(168, '/', '2025-07-06 22:39:59'),
-(169, '/dashboard/admin', '2025-07-06 22:40:00'),
-(170, '/dashboard/admin/content', '2025-07-06 22:40:01'),
-(171, '/dashboard/admin/content', '2025-07-06 22:41:35'),
-(172, '/news', '2025-07-06 22:42:12'),
-(173, '/der-verein', '2025-07-06 22:42:15'),
-(174, '/dashboard/admin', '2025-07-06 22:42:15'),
-(175, '/dashboard/admin/content', '2025-07-06 22:42:17'),
-(176, '/news', '2025-07-06 22:43:10'),
-(177, '/termin', '2025-07-06 22:43:11'),
-(178, '/dashboard/admin', '2025-07-06 22:43:13'),
-(179, '/dashboard/admin/content', '2025-07-06 22:43:14'),
-(180, '/dashboard/admin/content', '2025-07-06 22:45:50'),
-(181, '/news', '2025-07-06 22:46:09'),
-(182, '/dashboard/admin', '2025-07-06 22:46:10'),
-(183, '/termin', '2025-07-06 22:46:12'),
-(184, '/dashboard/admin', '2025-07-06 22:46:12'),
-(185, '/dashboard/admin', '2025-07-06 22:47:49'),
-(186, '/dashboard/admin/content', '2025-07-06 22:47:49'),
-(187, '/news', '2025-07-06 22:48:07'),
-(188, '/dashboard/admin', '2025-07-06 22:48:10'),
-(189, '/dashboard/admin/content', '2025-07-06 22:48:11'),
-(190, '/news', '2025-07-06 22:48:25'),
-(191, '/dashboard/admin', '2025-07-06 22:48:27'),
-(192, '/dashboard/admin/content', '2025-07-06 22:48:28'),
-(193, '/news', '2025-07-06 22:49:18'),
-(194, '/dashboard/admin', '2025-07-06 22:49:20'),
-(195, '/dashboard/admin/content', '2025-07-06 22:49:22');
+(97, '/abteilung-component', '2025-07-06 18:07:17');
 
 -- --------------------------------------------------------
 
@@ -466,7 +367,7 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
@@ -490,7 +391,7 @@ ALTER TABLE `rollen`
 -- AUTO_INCREMENT für Tabelle `seitenaufrufe`
 --
 ALTER TABLE `seitenaufrufe`
-  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`

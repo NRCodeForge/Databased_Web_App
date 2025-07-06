@@ -1,8 +1,6 @@
 <div class="modal">
-  <div class="modal-content">
-    <h3>Beitrag bearbeiten</h3>
-
-<!--HIER SOLL DAS PLUS UND DANN SOLL DA DRUNTER ANGEZEIGT WERDEN-->
+  <div class="post-editor" #editor>
+    <h2>Beitrag bearbeiten</h2>
     <div class="dropdown-wrapper">
       <input type="checkbox" id="dropdown-toggle" class="dropdown-toggle" />
       <label for="dropdown-toggle" class="plus-button">+</label>
@@ -146,8 +144,9 @@
           <button type="submit" class="submit-button">Speichern</button>
         </form>
       </ng-container>
-
-    <!-- FORMULAR
+    </div>  
+</div>
+<!--
     <form [formGroup]="postForm" (ngSubmit)="savePost()">
       <div>
         <label for="title">Titel</label>
@@ -165,9 +164,128 @@
       </div>
       <button type="submit">Speichern</button>
     </form> 
-    -->
+-->
+
+<!-- sections.component.html -->
+<!--
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div formArrayName="sections">
+    <div *ngFor="let section of sections.controls; let i = index" [formGroupName]="i" style="border:1px solid #ccc; margin-bottom:10px; padding:10px;">
+      <label>Titel:</label>
+      <input formControlName="title" type="text" />
+
+      <label>Kategorie</label>
+      <select formControlName="KategorieID">
+        <option *ngFor="let category of categories" [value]="category.KategorieID">
+          {{ category.Name }}
+        </option>
+      </select>
+
+      <label>Inhalt (HTML):</label>
+      <textarea formControlName="content" rows="5"></textarea>
+
+      <label>Bild hochladen:</label>
+      <input type="file" (change)="onFileChange($event, i)" />
+
+      <button type="button" (click)="removeSection(i)">Sektion entfernen</button>
+    </div>
   </div>
+
+  <button type="button" (click)="addSection()">Neue Sektion hinzufügen</button>
+  <button type="submit">Speichern</button>
+</form>
+-->
+
+<!--
+<div class="modal">
+  <div class="post-editor" #editor>
+    <h2>Beitrag bearbeiten</h2>
+    <form [formGroup]="beitragForm" (ngSubmit)="savePost()">
+
+      <label>Titel</label>
+      <input formControlName="Titel" type="text" />
+
+      <label>Kategorie</label>
+      <select formControlName="KategorieID">
+        <option *ngFor="let category of categories" [value]="category.KategorieID">
+          {{ category.Name }}
+        </option>
+      </select>
+
+      <div formArrayName="sections">
+        <div *ngFor="let section of sectionnen; let i = index" [formGroupName]="i">
+
+          <label>Format</label>
+          <select [(ngModel)]="section.formart" name="formart{{i}}">
+            <option [value]="1">Text mit Bild</option>
+            <option [value]="2">Bild mit Text</option>
+            <option [value]="3">Nur Bild</option>
+            <option [value]="4">Nur Text</option>
+          </select>
+
+           <label for="content">Inhalt</label>
+          <textarea [(ngModel)]="section.text" name="text{{i}}" rows="5"></textarea>
+
+          <label>Bild</label>
+          <input type="file" (change)="onFileChange($event, i)" />
+
+          <app-section-format
+            [mode]="section.formart"
+            [text]="section.text"
+            [imgsource]="section.imagePreview || 'assets/Default-bild.png'">
+          </app-section-format>
+        </div>
+      </div>
+
+      <button type="button" (click)="addSection()">+ Neue Sektion hinzufügen</button>
+      <button type="submit">💾 Speichern</button>
+    </form> 
+  </div>  
 </div>
+-->
+
+
+
+
+
+
+
+
+<!--
+
+    <form [formGroup]="beitragForm" (ngSubmit)="savePost()">
+      <label>Titel</label>
+      <input formControlName="Titel" type="text" />
+
+      <label>Kategorie</label>
+      <select formControlName="KategorieID">
+        <option *ngFor="let category of categories" [value]="category.KategorieID">
+          {{ category.Name }}
+        </option>
+      </select>
+
+      <div formArrayName="sections" *ngFor="let section of sections.controls; let i = index">
+        <div [formGroupName]="i">
+          <label>Format</label>
+          <select formControlName="formart">
+            <option [value]="1">Text mit Bild</option>
+            <option [value]="2">Bild mit Text</option>
+            <option [value]="3">Nur Bild</option>
+            <option [value]="4">Nur Text</option>
+          </select>
+
+          <textarea formControlName="text"></textarea>
+
+          <input type="file" (change)="onFileChange($event, i)" />
+          <img *ngIf="sections.at(i).get('imagePreview')?.value" [src]="sections.at(i).get('imagePreview')?.value" class="preview" />
+        </div>
+      </div>
+
+      <button type="button" (click)="addSection()">+ Neue Sektion hinzufügen</button>
+      <button type="submit">💾 Speichern</button>
+    </form>
+
+-->
 
 
 <!--

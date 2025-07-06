@@ -7,7 +7,6 @@ export interface Post {
   Bild?: string;
   KategorieID: number;
   Kategorie?: string;
-  Formart: 1 | 2 | 3 | 4; 
   UserID: number;
   Erstellungsdatum: string;
   Aenderungsdatum?: string;
