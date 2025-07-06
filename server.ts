@@ -91,30 +91,32 @@ export function app(): express.Express {
 
   // Content-Management Routen...
   server.get('/api/posts', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM beitrags_daten');
+    const [rows] = await pool.query('SELECT * FROM beitraege');
     res.json(rows);
   });
 
   server.post('/api/posts', async (req, res) => {
-    const { Titel, Inhalt, KategorieID } = req.body;
-    const [result] = await pool.query('INSERT INTO beitrags_daten (Titel, Inhalt, KategorieID, Erstellungsdatum) VALUES (?, ?, ?, NOW())', [Titel, Inhalt, KategorieID]);
-    res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID });
+    const { Titel, Inhalt, KategorieID, UserID} = req.body;
+    console.log(UserID)
+    console.log('Request Body:', req.body);
+    const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, KategorieID, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, NOW());', [Titel, Inhalt, KategorieID, UserID]);
+    res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID, UserID });
   });
 
   server.put('/api/posts/:id', async (req, res) => {
     const { id } = req.params;
     const { Titel, Inhalt, KategorieID } = req.body;
-    await pool.query('UPDATE beitrags_daten SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
+    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
     res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
   });
 
   server.get('/api/categories', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM kategorie_daten');
+    const [rows] = await pool.query('SELECT * FROM kategorien');
     res.json(rows);
   });
 
   server.get('/api/departments', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM abteilungs_daten');
+    const [rows] = await pool.query('SELECT * FROM abteilungen');
     res.json(rows);
   });
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Post } from '../models/post'; // Behalten Sie diesen Import
+import { Text } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -22,5 +23,5 @@ export class ContentService {
   updatePost(id: number, post: Partial<Post>): Observable<Post> {
     return this.http.put<Post>(`${this.apiUrl}/${id}`, post);
   }
-}
 
+}

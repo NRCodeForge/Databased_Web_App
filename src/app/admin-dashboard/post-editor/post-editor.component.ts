@@ -5,6 +5,8 @@ import { ContentService } from '../../services/content.service';
 import { CategoryService } from '../../services/category.service';
 import { Post } from '../../models/post';
 import { Category } from '../../models/category';
+import { AuthService } from '../../services/auth.service';
+import { emitKeypressEvents } from 'readline';
 
 @Component({
   selector: 'app-post-editor',
@@ -24,12 +26,14 @@ export class PostEditorComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private contentService: ContentService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService: AuthService,
+
   ) {
     this.postForm = this.fb.group({
       Titel: ['', Validators.required],
       Inhalt: ['', Validators.required],
-      KategorieID: ['', Validators.required]
+      KategorieID: ['', Validators.required],
     });
   }
 
@@ -49,14 +53,20 @@ export class PostEditorComponent implements OnInit {
   savePost(): void {
     if (this.postForm.valid) {
       const postData = this.postForm.value;
-      if (this.post) {
-        this.contentService.updatePost(this.post.BeitragsID, postData).subscribe(savedPost => {
-          this.postSaved.emit(savedPost);
-        });
+      postData.UserID = this.authService.getUserID();
+      console.log('UserID:', this.authService.getUserID());
+      if (postData.UserID != null) {
+        if (this.post) {
+          this.contentService.updatePost(this.post.BeitragsID, postData).subscribe(savedPost => {
+            this.postSaved.emit(savedPost);
+          });
+        } else {
+          this.contentService.createPost(postData).subscribe(savedPost => {
+            this.postSaved.emit(savedPost);
+          });
+        }
       } else {
-        this.contentService.createPost(postData).subscribe(savedPost => {
-          this.postSaved.emit(savedPost);
-        });
+        console.log("User konnte nicht gefunden werden")
       }
     }
   }

@@ -87,4 +87,24 @@ export class AuthService {
     }
     return null;
   }
+
+  /**
+   * Return ID vom Login User
+   */ 
+  getUserID(): number | null {
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const decodedToken: { id: number, role: number } = jwtDecode(token);
+          return decodedToken.id;
+        } catch (error) {
+          console.error('Invalid token, logging out:', error);
+          this.logout();
+          return null;
+        }
+      }
+    }
+    return null;
+  }
 }
