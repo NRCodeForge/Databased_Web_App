@@ -91,7 +91,7 @@
         <label>Gewünschte Disziplinen / Waffenarten *</label>
         <div class="checkbox-group" [formArrayName]="'disziplinen'">
           <div *ngFor="let control of disziplinenFormArray.controls; let i = index" class="checkbox-item">
-            <input type="checkbox" [formControlName]="i" [id]="'disziplin-' + i" (change)="onCheckboxChange($event, i)">
+            <input type="checkbox" [formControlName]="i" [id]="'disziplin-' + i" >
             <label [for]="'disziplin-' + i">{{ weaponTypes[i] }}</label>
           </div>
         </div>

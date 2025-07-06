@@ -10,6 +10,7 @@ import * as bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import { sendMail } from './src/app/services/email.service';
 
 // Importieren Sie den InjectionToken
 import { REQUEST } from './src/app/ssr.tokens';
@@ -71,6 +72,21 @@ export function app(): express.Express {
     } catch (error) {
       console.error('Fehler bei der Registrierung:', error);
       return res.status(500).json({ message: 'Serverfehler bei der Registrierung.' });
+    }
+  });
+  server.post('/api/send-email', async (req, res) => {
+    const { to, subject, text } = req.body;
+
+    if (!to || !subject || !text) {
+      return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
+    }
+
+    try {
+      await sendMail(to, subject, text);
+      return res.status(200).json({ message: 'E-Mail erfolgreich gesendet.' });
+    } catch (error) {
+      console.error('Fehler beim Senden der E-Mail:', error);
+      return res.status(500).json({ message: 'Serverfehler beim Senden der E-Mail.' });
     }
   });
 
