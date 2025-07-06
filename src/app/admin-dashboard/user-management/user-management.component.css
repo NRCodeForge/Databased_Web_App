@@ -1,0 +1,17 @@
+/* src/app/admin-dashboard/user-management/user-management.component.css */
+
+.user-management-container h3 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.placeholder {
+  margin-top: 20px;
+  padding: 40px;
+  background-color: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  text-align: center;
+  color: #6c757d;
+  border-radius: 8px;
+}

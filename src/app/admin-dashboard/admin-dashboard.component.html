@@ -1,11 +1,42 @@
-<div>
-  <h2>Admin Dashboard</h2>
-  <p>Willkommen im Admin-Bereich. Wähle eine Option zum Verwalten.</p>
-
-  <nav>
-    <a routerLink="content">Inhalte verwalten</a>
-    <a routerLink="departments">Abteilungen verwalten</a>
-  </nav>
-
-  <router-outlet></router-outlet>
+<div class="admin-dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3>Admin-Menü</h3>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li><a routerLink="content" routerLinkActive="active"><i class="fas fa-file-alt"></i> Inhalte</a></li>
+        <li><a routerLink="users" routerLinkActive="active"><i class="fas fa-users"></i> Benutzer</a></li>
+        <li><a routerLink="departments" routerLinkActive="active"><i class="fas fa-building"></i> Abteilungen</a></li>
+        <li><a routerLink="events" routerLinkActive="active"><i class="fas fa-calendar-alt"></i> Termine</a></li>
+        <li><a routerLink="categories" routerLinkActive="active"><i class="fas fa-tags"></i> Kategorien</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="main-content">
+    <div class="main-header">
+      <h1>Dashboard-Übersicht</h1>
+    </div>
+    <div class="card-container">
+      <div class="card">
+        <h4>Benutzerverwaltung</h4>
+        <p>Verwalten Sie Benutzer und ihre Rollen.</p>
+        <a routerLink="users" class="card-link">Benutzer anzeigen</a>
+      </div>
+      <div class="card">
+        <h4>Inhalts-Manager</h4>
+        <p>Erstellen und bearbeiten Sie Beiträge.</p>
+        <a routerLink="content" class="card-link">Inhalte verwalten</a>
+      </div>
+      <div class="card chart-card">
+        <h4>Seitenaufrufe</h4>
+        <div class="chart-placeholder">
+          <p>Chart wird hier angezeigt</p>
+        </div>
+      </div>
+    </div>
+    <div class="router-outlet-container">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 </div>

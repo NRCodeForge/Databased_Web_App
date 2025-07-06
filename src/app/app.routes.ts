@@ -1,3 +1,5 @@
+// src/app/app.routes.ts
+
 import { Routes } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
@@ -19,6 +21,7 @@ import { BogenComponent } from './abteilungen/bogen/bogen.component';
 import { JugendundschuelerComponent } from './abteilungen/jugendundschueler/jugendundschueler.component';
 import { PistolensportComponent } from './abteilungen/pistolensport/pistolensport.component';
 import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
+import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component'; // Importieren
 
 export const routes: Routes = [
   {path: '', component: StartseiteComponent},
@@ -32,7 +35,7 @@ export const routes: Routes = [
       { path: 'jugendundschueler', component:JugendundschuelerComponent},
       { path: 'pistolensport', component:PistolensportComponent},
       { path: 'senioren', component:SeniorenComponent},
-  ]},
+    ]},
   {path: "termine-component", component:TermineComponent},
   {path: "forum-component", component:ForumComponent},
   {path: "der-verein-component", component:DerVereinComponent},
@@ -41,6 +44,7 @@ export const routes: Routes = [
       { path: 'departments', component: DepartmentManagerComponent },
       { path: 'events', component: EventManagerComponent },
       { path: 'categories', component: CategoryManagerComponent },
+      { path: 'users', component: UserManagementComponent } // Hinzugefügt
     ]},
   {path: "dashboard/leiter", component:LeiterDashboardComponent}
 ];
