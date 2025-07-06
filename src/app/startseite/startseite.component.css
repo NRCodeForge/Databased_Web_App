@@ -1,173 +1,116 @@
 /* startseite.component.css */
 
-/* Allgemeine Container für Padding und Zentrierung */
+/* Das ist unser Hauptcontainer, damit alles schön mittig ist und nicht über den Rand geht */
 .main-container {
   width: 100%;
-  overflow-x: hidden; /* Verhindert horizontales Scrollen */
-  /* padding-top: 56px; */ /* DIESE ZEILE WIRD ENTFERNT, um den weißen Balken zu beseitigen */
+  overflow-x: hidden;           /* Verhindert, dass wir seitlich scrollen müssen */
+  /* Das hier haben wir mal rausgenommen, damit der weiße Balken oben weg ist. */
+  /* padding-top: 56px; */
   background-color: var(--background-color, #f5f5f7);
 }
 
+/* Das ist der Bereich, der unseren Hauptinhalt zusammenhält und mittig ausrichtet */
 .content-wrapper {
-  max-width: 1200px; /* Maximale Breite für den Hauptinhalt */
-  margin: 0 auto; /* Zentriert den Inhalt */
-  padding: 40px 20px; /* Vertikales und horizontales Padding */
+  max-width: 1200px;            /* Hier hört unser Inhalt auf, breiter zu werden */
+  margin: 0 auto;               /* Damit ist es immer schön zentriert */
+  padding: 40px 20px;           /* Etwas Luft nach oben, unten und an den Seiten */
 }
 
-/* Hero Sektion */
+/* Unsere große "Hero"-Sektion ganz oben auf der Seite */
 .hero-section {
   position: relative;
   width: 100%;
-  height: 450px; /* Feste Höhe für die Hero-Sektion */
-  overflow: hidden;
+  height: 450px;                /* Wir haben eine feste Höhe für diesen Bereich eingestellt */
+  overflow: hidden;             /* Damit nichts über den Rand geht */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #ffffff; /* Textfarbe auf dem Bild */
-  /* Wenn die Navbar das Bild überlappt, ist margin-top hier nicht nötig. */
-  /* Wenn du möchtest, dass die Hero-Sektion direkt unter der Navbar beginnt und die Navbar sticky ist, */
-  /* sollte der main-container oder der hero-section selbst nicht unbedingt padding-top haben, */
-  /* sondern die Navbar die Höhe durch ihre positionierung übernehmen. */
-  /* Hier passe ich es so an, dass die Hero-Section direkt oben anfängt. */
-  margin-top: -56px; /* Zieht die Sektion 56px nach oben, um die Navbar zu überlappen */
+  color: #ffffff;             /* Die Schriftfarbe ist weiß, damit man sie auf dem Bild gut sieht */
+  /* Wir mussten hier ein bisschen tüfteln, damit die Navigationsleiste nicht überlappt. */
+  /* Wenn die Navbar oben festklebt, braucht dieser Bereich keinen extra Platz. */
+  /* Wenn die Hero-Sektion direkt unter der Navbar anfangen soll, ist hier kein padding-top nötig, */
+  /* und die Navbar regelt das dann schon selbst. */
 }
 
+/* Das ist unser großes Bild im Hero-Bereich */
 .hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* Das Bild füllt den Bereich aus, ohne sich zu verziehen */
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Das Bild füllt den Bereich aus und wird zugeschnitten */
-  z-index: 1;
-  filter: brightness(0.6); /* Bild etwas abdunkeln, damit Text besser lesbar ist */
+  z-index: 1;                   /* Damit es hinter dem Text liegt */
 }
 
+/* Der Inhalt, der auf dem Hero-Bild liegt */
 .hero-content {
   position: relative;
-  z-index: 2; /* Inhalt über dem Bild */
+  z-index: 2;                   /* Damit er über dem Bild ist */
   padding: 20px;
-  max-width: 800px;
+  max-width: 900px;             /* Hier begrenzen wir die Breite des Textes */
 }
 
+/* Die Hauptüberschrift im Hero-Bereich */
 .hero-content h1 {
-  font-size: 3.5rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Leichter Schatten für bessere Lesbarkeit */
+  font-size: 3.5rem;            /* Die Schrift ist schön groß */
+  margin-bottom: 25px;          /* Etwas Abstand nach unten */
+  font-weight: 700;             
+  line-height: 1.2;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Ein kleiner Schatten, damit man es besser lesen kann */
 }
 
-.hero-content .slogan {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  font-weight: 400;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
+/* Der Bereich für die Buttons im Hero-Bereich */
 .hero-buttons {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
+  margin-top: 30px;             /* Abstand nach oben */
 }
 
-.hero-buttons .primary-button {
-  background-color: var(--primary-blue, #007aff);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.hero-buttons .primary-button:hover {
-  background-color: #005ecb;
-  transform: translateY(-2px);
-}
-
-.hero-buttons .secondary-button {
-  background-color: transparent;
-  color: white;
-  padding: 15px 30px;
-  border: 2px solid white;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, color 0.3s ease, transform 0.1s ease;
-  cursor: pointer;
-}
-
-.hero-buttons .secondary-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-}
-
-
-/* Sektion "Termine machen ganz einfach" */
+/* Das ist unsere Sektion für Termine */
 .termin-section {
-  background-color: var(--card-background, #ffffff);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  margin-top: 40px; /* Abstand zur vorherigen Sektion */
-  margin-bottom: 40px; /* Abstand zur nächsten Sektion */
   text-align: center;
-  color: var(--text-color, #1d1d1f);
+  padding: 50px 20px;
+  background-color: var(--card-background, #ffffff);        /* Der Hintergrund ist weiß */
+  border-radius: 12px;                                        /* Abgerundete Ecken */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);               /* Ein leichter Schatten */
+  margin-top: 60px;                                           /* Abstand zur Sektion davor */
 }
 
 .termin-section h2 {
   font-size: 2rem;
+  color: var(--primary-blue, #007aff);            /* Unsere Vereinsfarbe */
   margin-bottom: 20px;
-  color: var(--primary-blue, #007aff);
 }
 
 .termin-section p {
   font-size: 1.1rem;
+  color: var(--text-color, #1d1d1f);
   line-height: 1.6;
   margin-bottom: 30px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 700px;           /* Begrenzung der Textbreite */
+  margin-left: auto;          /* Für die Zentrierung */
+  margin-right: auto;         /* Für die Zentrierung */
 }
 
-.termin-section .primary-button {
-  background-color: var(--primary-blue, #007aff);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.termin-section .primary-button:hover {
-  background-color: #005ecb;
-  transform: translateY(-2px);
-}
-
-/* Sektion Impressum (kurzer Hinweis) */
-.impressum-section {
-  background-color: var(--background-color, #f5f5f7); /* Hellerer Hintergrund */
-  padding: 40px;
-  border-radius: 12px;
+/* Das ist die Sektion für unser Impressum und rechtliche Hinweise */
+.impressum-section {  
+  margin-top: 60px;           /* Etwas Abstand nach oben */
+  padding: 40px 20px;
+  background-color: var(--background-color, #f5f5f7); /* Der Hintergrund ist etwas dunkler */
+  border-top: 1px solid var(--border-color, #d2d2d7); /* Eine feine Linie oben */
   text-align: center;
   color: var(--text-color, #1d1d1f);
-  margin-bottom: 40px; /* Abstand zum unteren Rand/Footer */
+  margin-bottom: 40px;        /* Abstand zum unteren Rand/Footer */
 }
 
 .impressum-section h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
-  color: var(--secondary-text, #6e6e73);
+  color: var(--secondary-text, #6e6e73); /* Eine etwas gedämpfte Farbe */
 }
 
 .impressum-section address {
-  font-style: normal; /* Entfernt den kursiven Stil */
+  font-style: normal; /* Wir wollen keine kursive Schrift */
   margin-bottom: 15px;
   line-height: 1.5;
 }
@@ -175,60 +118,61 @@
 .impressum-section .note {
   font-size: 0.9em;
   color: var(--secondary-text, #6e6e73);
-  display: block; /* Für Zeilenumbruch */
+  display: block; /* Damit es eine eigene Zeile bekommt */
 }
 
 .impressum-section .text-link {
-  color: var(--primary-blue, #007aff);
-  text-decoration: underline;
+  color: var(--primary-blue, #007aff);    /* Unsere Vereinsfarbe */
+  text-decoration: underline;               /* Damit man sieht, dass es ein Link ist */
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .impressum-section .text-link:hover {
-  color: #005ecb;
+  color: #005ecb;                         /* Wenn man mit der Maus drüberfährt, wird es etwas dunkler */
 }
 
-/* Responsive Anpassungen (wie zuvor, leicht angepasst) */
+/* Responsive Anpassungen (damit es auch auf kleinen Bildschirmen gut aussieht) */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 2.5rem;                      /* Die Überschrift wird auf kleineren Bildschirmen kleiner */
   }
 
-  .hero-content .slogan {
-    font-size: 1.2rem;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .hero-buttons .primary-button,
-  .hero-buttons .secondary-button {
-    width: 80%; /* Buttons auf kleineren Bildschirmen breiter */
-    margin: 0 auto;
-  }
-
-  .content-wrapper {
-    padding: 30px 15px;
+  .hero-section {
+    height: 350px;                          /* Die Hero-Sektion wird auf kleineren Bildschirmen auch kleiner */
   }
 
   .termin-section, .impressum-section {
-    padding: 30px 20px;
+    padding: 30px 15px;                     /* Etwas weniger Padding */
   }
 
   .termin-section h2, .impressum-section h2 {
-    font-size: 1.7rem;
+    font-size: 1.6rem;                      /* Überschriften werden kleiner */
+  }
+
+  .termin-section p, .impressum-section p {
+    font-size: 1rem;                        /* Text wird kleiner */
   }
 }
 
 @media (max-width: 480px) {
-  .hero-section {
-    height: 350px;
+  .hero-content h1 {
+    font-size: 2rem;                        /* Noch kleiner für sehr kleine Bildschirme */
   }
 
-  .hero-content h1 {
-    font-size: 2rem;
+  .hero-section {
+    height: 300px;                          /* Noch kleinere Hero-Sektion */
   }
+
+  .hero-buttons button {
+    font-size: 0.9rem;                      /* Buttons werden kleiner */
+    padding: 10px 18px;
+  }
+
+  /*
+  .hero-buttons button {
+    font-size: 1rem;                      
+    padding: 10px 18px;
+  }
+    */
 }
