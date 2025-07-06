@@ -7,16 +7,7 @@
       <p class="post-meta">
         Erstellt am: {{ post.Erstellungsdatum | date: 'dd.MM.yyyy' }}
       </p>
-      <!--
-      <div>
-        <app-section-format
-          [mode]="post.formart"
-          [text]="post.Inhalt"
-          [imgsource]="post.Bild || 'assets/default-image.png'">
-        </app-section-format>
       </div>
-      -->
-    </div>
   </div>
   <ng-template #noNews>
     <p>Aktuell keine News vorhanden.</p>
