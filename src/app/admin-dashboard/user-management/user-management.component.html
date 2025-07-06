@@ -1,7 +1,80 @@
+<!-- src/app/admin-dashboard/user-management/user-management.component.html -->
+
 <div class="user-management-container">
-  <h3>Benutzerverwaltung</h3>
-  <p>Hier können Sie Benutzer anlegen, bearbeiten und deren Rollen zuweisen.</p>
-  <div class="placeholder">
-    Benutzertabelle wird hier angezeigt.
+  <div class="header">
+    <h3>Benutzerverwaltung</h3>
+    <button class="btn btn-primary" (click)="openCreateForm()">
+      <i class="fas fa-plus"></i> Neuen Benutzer erstellen
+    </button>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Vorname</th>
+        <th>Nachnahme</th>
+        <th>Email</th>
+        <th>Rollen ID</th>
+        <th>Aktionen</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.UserID }}</td>
+        <td>{{ user.Vorname }}</td>
+        <td>{{ user.Nachname }}</td> <!-- Zeigt den kombinierten Namen an -->
+        <td>{{ user.Email }}</td>
+        <td>{{ getRolleName(user.RolleID) }}</td>
+
+        <td>
+          <button class="btn-icon" (click)="openEditForm(user)" title="Bearbeiten">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon btn-danger" (click)="confirmDelete(user)" title="Löschen">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- FORMULAR / MODAL - Angepasst für Vorname und Nachname -->
+<div class="form-overlay" *ngIf="isFormVisible">
+  <div class="form-container">
+    <h4>{{ isEditMode ? 'Benutzer bearbeiten' : 'Neuen Benutzer erstellen' }}</h4>
+    <form (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label for="vorname">Vorname</label>
+        <input type="text" id="vorname" [(ngModel)]="currentUser.Vorname" name="vorname" required>
+      </div>
+      <div class="form-group">
+        <label for="nachname">Nachname</label>
+        <input type="text" id="nachname" [(ngModel)]="currentUser.Nachname" name="nachname" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="currentUser.Email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Neues Passwort</label>
+        <input type="password" id="password" [(ngModel)]="currentUser.Passwort" name="password" [placeholder]="isEditMode ? 'Leer lassen, um nicht zu ändern' : ''">
+      </div>
+      <div class="form-group">
+        <label for="role">Rolle</label>
+        <select id="role" [(ngModel)]="currentUser.RolleID" name="role" required>
+          <option [value]="1">Admin</option>
+          <option [value]="2">Abteilungsleiter</option>
+          <option [value]="3">Mitglied</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">Abbrechen</button>
+        <button type="submit" class="btn btn-primary">Speichern</button>
+      </div>
+    </form>
   </div>
 </div>

@@ -11,6 +11,9 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
+// Importieren Sie den InjectionToken
+import { REQUEST } from './src/app/ssr.tokens';
+
 export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
@@ -38,8 +41,12 @@ export function app(): express.Express {
     queueLimit: 0
   });
 
-  // API-Endpunkt für die Registrierung
+  server.use(express.static(browserDistFolder, {
+    maxAge: '1y'
+  }));
+// API-Endpunkt für die Registrierung
   server.post('/api/register', async (req, res) => {
+    // ... (Ihr bestehender Code, unverändert)
     const { email, password, vorname, nachname } = req.body;
 
     if (!email || !password || !vorname || !nachname) {
@@ -53,7 +60,7 @@ export function app(): express.Express {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const defaultRole = 1;
+      const defaultRole = 1; // Angenommen '1' ist die Standardrolle
 
       const [result] = await pool.query(
         'INSERT INTO benutzer (Email, Passwort, Vorname, Nachname, RollenID) VALUES (?, ?, ?, ?, ?)',
@@ -69,6 +76,7 @@ export function app(): express.Express {
 
   // API-Endpunkt für den Login
   server.post('/api/login', async (req, res) => {
+    // ... (Ihr bestehender Code, unverändert)
     const { email, password } = req.body;
     try {
       const [rows] = await pool.query('SELECT * FROM benutzer WHERE Email = ?', [email]);
@@ -89,75 +97,172 @@ export function app(): express.Express {
     }
   });
 
+  // #############################################################
+  // ##### NEUE API-ROUTEN FÜR DIE BENUTZERVERWALTUNG (ADMIN) #####
+  // #############################################################
+
+  server.get('/api/users', async (req, res) => {
+    try {
+      // KORREKTUR: Wählt die korrekten Spalten und erstellt 'Benutzername' zur Anzeige
+      const sql = `
+        SELECT
+          BenutzerID as UserID,
+          Vorname,
+          Nachname,
+          CONCAT(Vorname, ' ', Nachname) as Benutzername,
+          Email,
+          RollenID,
+          ErstelltAm
+        FROM benutzer
+      `;
+      const [users] = await pool.query(sql);
+      return res.json(users);
+    } catch (error) {
+      console.error('Fehler beim Abrufen der Benutzer:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
+
+  // POST /api/users - Neuen Benutzer erstellen
+  server.post('/api/users', async (req, res) => {
+    // KORREKTUR: Verwendet Vorname und Nachname
+    const { Vorname, Nachname, Email, Passwort, RolleID } = req.body;
+    if (!Vorname || !Nachname || !Email || !Passwort || !RolleID) {
+      return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
+    }
+    try {
+      const hashedPassword = await bcrypt.hash(Passwort, 10);
+      const sql = 'INSERT INTO benutzer (Vorname, Nachname, Email, Passwort, RollenID) VALUES (?, ?, ?, ?, ?)';
+      const [result] = await pool.query(sql, [Vorname, Nachname, Email, hashedPassword, RolleID]);
+      return res.status(201).json({ message: 'Benutzer erfolgreich erstellt', userId: (result as any).insertId });
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Benutzers:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
+
+  // PUT /api/users/:id - Benutzer aktualisieren
+  server.put('/api/users/:id', async (req, res) => {
+    const { id } = req.params;
+    // KORREKTUR: Verwendet Vorname und Nachname
+    const { Vorname, Nachname, Email, RolleID, Passwort } = req.body;
+    try {
+      if (Passwort) {
+        const hashedPassword = await bcrypt.hash(Passwort, 10);
+        await pool.query(
+          'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ?, Passwort = ? WHERE BenutzerID = ?',
+          [Vorname, Nachname, Email, RolleID, hashedPassword, id]
+        );
+      } else {
+        await pool.query(
+          'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ? WHERE BenutzerID = ?',
+          [Vorname, Nachname, Email, RolleID, id]
+        );
+      }
+      return res.json({ message: 'Benutzer erfolgreich aktualisiert' });
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Benutzers:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
+
+  // DELETE /api/users/:id - Benutzer löschen
+  server.delete('/api/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const [result] = await pool.query('DELETE FROM benutzer WHERE BenutzerID = ?', [id]);
+      if ((result as any).affectedRows === 0) {
+        return res.status(404).json({ message: 'Benutzer nicht gefunden' });
+      }
+      return res.status(204).send(); // Erfolgreich, kein Inhalt
+    } catch (error) {
+      console.error('Fehler beim Löschen des Benutzers:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
+
+
+  // #############################################################
+  // ##### BESTEHENDE ROUTEN (Posts, Kategorien, etc.)       #####
+  // #############################################################
+
+  // ... (Alle Ihre weiteren bestehenden Routen hier)
   // Content-Management Routen...
   server.get('/api/posts', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM beitraege');
-    res.json(rows);
+    return res.json(rows);
   });
 
   server.post('/api/posts', async (req, res) => {
     const { Titel, Inhalt, KategorieID, UserID} = req.body;
-    console.log(UserID)
-    console.log('Request Body:', req.body);
     const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, KategorieID, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, NOW());', [Titel, Inhalt, KategorieID, UserID]);
-    res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID, UserID });
+    return res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID, UserID });
   });
 
   server.put('/api/posts/:id', async (req, res) => {
     const { id } = req.params;
     const { Titel, Inhalt, KategorieID } = req.body;
     await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
-    res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
+    return res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
   });
 
   server.get('/api/categories', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM kategorien');
-    res.json(rows);
+    return res.json(rows);
   });
 
   server.get('/api/departments', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM abteilungen');
-    res.json(rows);
+    return res.json(rows);
   });
 
   // Angular Universal & Static Files
-  server.get('*.*', express.static(browserDistFolder, { maxAge: '1y' }));
-
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
+
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+        providers: [
+          { provide: APP_BASE_HREF, useValue: baseUrl },
+          // Use the InjectionToken instead of a string
+          { provide: REQUEST, useValue: req },
+        ],
       })
       .then((html) => res.send(html))
       .catch((err) => next(err));
   });
 
-  server.get('/api/posts', async (req, res) => {
-    const [rows] = await pool.query('SELECT BeitragsID, Titel, Inhalt, KategorieID, Erstellungsdatum, Aenderungsdatum FROM beitraege');
-    res.json(rows);
-  });
 
-  server.post('/api/posts', async (req, res) => {
-    const { Titel, Inhalt, KategorieID } = req.body;
-    const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, KategorieID, Erstellungsdatum) VALUES (?, ?, ?, NOW())', [Titel, Inhalt, KategorieID]);
-    res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID });
-  });
+  // 1. Statische Dateien aus dem 'browser' Ordner bereitstellen
+  server.get('*.*', express.static(browserDistFolder, {
+    maxAge: '1y'
+  }));
 
-  server.put('/api/posts/:id', async (req, res) => {
-    const { id } = req.params;
-    const { Titel, Inhalt, KategorieID } = req.body;
-    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
-    res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
+  // 2. Alle anderen Anfragen an den Angular Universal Engine weiterleiten
+  server.get('*', (req, res, next) => {
+    const { protocol, originalUrl, baseUrl, headers } = req;
+
+    commonEngine
+      .render({
+        bootstrap,
+        documentFilePath: indexHtml,
+        url: `${protocol}://${headers.host}${originalUrl}`,
+        publicPath: browserDistFolder,
+        providers: [
+          { provide: APP_BASE_HREF, useValue: baseUrl },
+          { provide: REQUEST, useValue: req },
+        ],
+      })
+      .then((html) => res.send(html))
+      .catch((err) => next(err));
   });
 
   return server;
 }
-
 function run(): void {
   const port = process.env['PORT'] || 4200;
   const server = app();
@@ -167,3 +272,7 @@ function run(): void {
 }
 
 run();
+
+
+
+
