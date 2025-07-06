@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 06. Jul 2025 um 19:37
+-- Erstellungszeit: 06. Jul 2025 um 20:09
 -- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.2.12
+-- PHP-Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,9 @@ CREATE TABLE `beitraege` (
 INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `Formart`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
 (4, 'News', 'Viele neune Infos', NULL, 2, NULL, 1, '2025-07-06 16:18:25', NULL),
 (5, 'Termisn', 'Hey', NULL, 9, 4, 1, '2025-07-06 16:31:48', NULL),
-(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, 1, '2025-07-06 16:59:29', NULL);
+(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, 1, '2025-07-06 16:59:29', NULL),
+(7, 'Test 123', 'c546a51c6a51x', '', 3, 1, 5, '2025-07-06 18:06:50', NULL),
+(8, 'ölkcsnölknlc', 'cnclknaüokncokn', '', 3, 1, 5, '2025-07-06 18:07:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -165,12 +167,103 @@ CREATE TABLE `seitenaufrufe` (
 --
 
 INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
-(1, '/news-component', '2025-07-06 17:01:30'),
-(2, '/dashboard/admin', '2025-07-06 17:01:32'),
-(3, '/dashboard/leiter', '2025-07-06 17:01:34'),
-(4, '/dashboard/admin', '2025-07-06 17:01:35'),
-(5, '/dashboard/admin/content', '2025-07-06 17:01:35'),
-(6, '/news-component', '2025-07-06 17:01:37');
+(1, '/', '2025-06-07 06:21:14'),
+(2, '/news-component', '2025-06-07 07:34:22'),
+(3, '/login-component', '2025-06-07 08:11:56'),
+(4, '/dashboard/admin', '2025-06-07 09:45:01'),
+(5, '/abteilung-component/bogen', '2025-06-07 10:23:43'),
+(6, '/termine-component', '2025-06-07 12:01:30'),
+(7, '/dashboard/admin/users', '2025-06-07 13:55:19'),
+(8, '/news-component', '2025-06-07 15:28:11'),
+(9, '/', '2025-06-07 16:04:57'),
+(10, '/dashboard/leiter', '2025-06-07 18:19:23'),
+(11, '/login-component', '2025-06-07 19:08:41'),
+(12, '/news-component', '2025-06-07 20:43:05'),
+(13, '/dashboard/admin/content', '2025-06-08 07:12:44'),
+(14, '/', '2025-06-08 08:05:11'),
+(15, '/termine-component', '2025-06-08 09:33:01'),
+(16, '/abteilung-component/pistolensport', '2025-06-08 10:54:32'),
+(17, '/dashboard/admin', '2025-06-08 11:48:50'),
+(18, '/news-component', '2025-06-08 12:22:37'),
+(19, '/login-component', '2025-06-08 14:17:09'),
+(20, '/dashboard/admin/users', '2025-06-08 15:41:25'),
+(21, '/dashboard/leiter', '2025-06-08 16:32:18'),
+(22, '/', '2025-06-08 17:56:49'),
+(23, '/termine-component', '2025-06-08 18:45:13'),
+(24, '/news-component', '2025-06-08 19:23:55'),
+(25, '/abteilung-component/bogen', '2025-06-08 20:11:04'),
+(26, '/', '2025-07-01 06:15:23'),
+(27, '/news-component', '2025-07-01 07:40:11'),
+(28, '/dashboard/admin', '2025-07-01 08:30:55'),
+(29, '/login-component', '2025-07-01 09:25:34'),
+(30, '/termine-component', '2025-07-01 10:10:01'),
+(31, '/dashboard/admin/users', '2025-07-01 12:33:47'),
+(32, '/abteilung-component/pistolensport', '2025-07-01 13:12:19'),
+(33, '/', '2025-07-01 14:45:00'),
+(34, '/news-component', '2025-07-01 16:21:51'),
+(35, '/dashboard/leiter', '2025-07-01 17:01:04'),
+(36, '/dashboard/admin/content', '2025-07-01 18:54:12'),
+(37, '/termine-component', '2025-07-02 07:05:07'),
+(38, '/login-component', '2025-07-02 08:11:23'),
+(39, '/', '2025-07-02 09:43:50'),
+(40, '/news-component', '2025-07-02 10:30:14'),
+(41, '/dashboard/admin', '2025-07-02 11:22:09'),
+(42, '/abteilung-component/bogen', '2025-07-02 12:51:33'),
+(43, '/dashboard/admin/users', '2025-07-02 14:19:42'),
+(44, '/news-component', '2025-07-02 15:38:00'),
+(45, '/', '2025-07-02 16:41:17'),
+(46, '/dashboard/admin/content', '2025-07-02 18:05:32'),
+(47, '/termine-component', '2025-07-02 19:28:49'),
+(48, '/dashboard/leiter', '2025-07-02 20:01:58'),
+(49, '/', '2025-07-03 06:55:10'),
+(50, '/login-component', '2025-07-03 08:02:15'),
+(51, '/news-component', '2025-07-03 09:18:43'),
+(52, '/dashboard/admin', '2025-07-03 10:40:00'),
+(53, '/abteilung-component/pistolensport', '2025-07-03 11:58:22'),
+(54, '/termine-component', '2025-07-03 13:05:18'),
+(55, '/dashboard/admin/users', '2025-07-03 14:34:07'),
+(56, '/news-component', '2025-07-03 16:11:39'),
+(57, '/dashboard/admin/content', '2025-07-03 17:44:50'),
+(58, '/', '2025-07-03 19:09:21'),
+(59, '/login-component', '2025-07-04 07:20:45'),
+(60, '/news-component', '2025-07-04 08:30:10'),
+(61, '/dashboard/admin', '2025-07-04 09:55:21'),
+(62, '/termine-component', '2025-07-04 11:10:58'),
+(63, '/abteilung-component/bogen', '2025-07-04 12:25:31'),
+(64, '/dashboard/admin/users', '2025-07-04 14:00:05'),
+(65, '/', '2025-07-04 15:40:19'),
+(66, '/dashboard/leiter', '2025-07-04 17:15:28'),
+(67, '/news-component', '2025-07-04 18:45:55'),
+(68, '/termine-component', '2025-07-04 20:05:13'),
+(69, '/dashboard/admin/content', '2025-07-05 08:00:00'),
+(70, '/', '2025-07-05 09:15:30'),
+(71, '/news-component', '2025-07-05 10:45:01'),
+(72, '/login-component', '2025-07-05 11:30:45'),
+(73, '/abteilung-component/pistolensport', '2025-07-05 12:50:20'),
+(74, '/dashboard/admin', '2025-07-05 14:05:10'),
+(75, '/termine-component', '2025-07-05 15:20:40'),
+(76, '/dashboard/admin/users', '2025-07-05 16:40:55'),
+(77, '/', '2025-07-05 18:00:15'),
+(78, '/news-component', '2025-07-05 19:30:00'),
+(79, '/dashboard/admin', '2025-07-06 07:01:32'),
+(80, '/news-component', '2025-07-06 08:15:10'),
+(81, '/dashboard/leiter', '2025-07-06 09:35:45'),
+(82, '/login-component', '2025-07-06 10:20:00'),
+(83, '/termine-component', '2025-07-06 11:40:25'),
+(84, '/abteilung-component/bogen', '2025-07-06 12:55:05'),
+(85, '/dashboard/admin/users', '2025-07-06 14:10:50'),
+(86, '/', '2025-07-06 15:30:15'),
+(87, '/dashboard/admin/content', '2025-07-06 16:50:40'),
+(88, '/news-component', '2025-07-06 17:25:00'),
+(89, '/', '2025-07-06 18:06:18'),
+(90, '/dashboard/admin', '2025-07-06 18:06:20'),
+(91, '/dashboard/admin/users', '2025-07-06 18:06:30'),
+(92, '/dashboard/admin/content', '2025-07-06 18:06:31'),
+(93, '/der-verein-component', '2025-07-06 18:06:53'),
+(94, '/abteilung-component', '2025-07-06 18:06:54'),
+(95, '/dashboard/admin', '2025-07-06 18:06:58'),
+(96, '/dashboard/admin/content', '2025-07-06 18:06:59'),
+(97, '/abteilung-component', '2025-07-06 18:07:17');
 
 -- --------------------------------------------------------
 
@@ -274,7 +367,7 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
@@ -298,7 +391,7 @@ ALTER TABLE `rollen`
 -- AUTO_INCREMENT für Tabelle `seitenaufrufe`
 --
 ALTER TABLE `seitenaufrufe`
-  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`
