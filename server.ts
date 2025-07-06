@@ -240,7 +240,7 @@ export function app(): express.Express {
 
     try {
       const [rows] = await pool.query(
-        'SELECT BeitragsID AS id, Titel AS titel, Inhalt AS inhalt FROM beitraege WHERE KategorieID = ?',
+        'SELECT BeitragsID AS id, Titel AS titel, Inhalt AS inhalt FROM beitraege WHERE KategorieID = ? ORDER BY id DESC',
         [kategorieId]
       );
       res.json(rows);
