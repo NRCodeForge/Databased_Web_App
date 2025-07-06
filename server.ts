@@ -140,43 +140,61 @@ export function app(): express.Express {
     }
   });
 
-  // PUT /api/users/:id - Benutzer aktualisieren
   server.put('/api/users/:id', async (req, res) => {
     const { id } = req.params;
-    // KORREKTUR: Verwendet Vorname und Nachname
-    const {UserID, Vorname, Nachname, Email, RolleID, Passwort } = req.body;
+    const { Vorname, Nachname, Email, RolleID, Passwort } = req.body;
+
+    // Überprüfen, ob die ID eine gültige Zahl ist
+    const userId = parseInt(id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).send('Ungültige UserID.');
+    }
+
     try {
-      if (Passwort) {
+      if (Passwort && Passwort.length > 0) {
+        // Fall 1: Passwort wird geändert
         const hashedPassword = await bcrypt.hash(Passwort, 10);
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ?, Passwort = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, hashedPassword, UserID]
+          [Vorname, Nachname, Email, RolleID, hashedPassword, userId]
         );
       } else {
+        // Fall 2: Passwort wird NICHT geändert
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, UserID]
+          [Vorname, Nachname, Email, RolleID, userId]
         );
       }
-      return res.json({ message: 'Benutzer erfolgreich aktualisiert' });
+      return res.status(200).json({ message: 'Benutzer erfolgreich aktualisiert.' });
     } catch (error) {
-      console.error('Fehler beim Aktualisieren des Benutzers:', error);
-      return res.status(500).json({ message: 'Serverfehler' });
+      console.error(`Fehler beim Aktualisieren von Benutzer ${userId}:`, error);
+      return res.status(500).json({ message: 'Serverfehler beim Aktualisieren.' });
     }
   });
 
-  // DELETE /api/users/:id - Benutzer löschen
+  // DELETE /api/users/:id - Einen Benutzer löschen
   server.delete('/api/users/:id', async (req, res) => {
     const { id } = req.params;
+
+    // Überprüfen, ob die ID eine gültige Zahl ist
+    const userId = parseInt(id, 10);
+    if (isNaN(userId)) {
+      return res.status(400).send('Ungültige UserID.');
+    }
+
     try {
-      const [result] = await pool.query('DELETE FROM benutzer WHERE BenutzerID = ?', [id]);
+      const [result] = await pool.query('DELETE FROM benutzer WHERE BenutzerID = ?', [userId]);
+
+      // Prüfen, ob eine Zeile tatsächlich gelöscht wurde
       if ((result as any).affectedRows === 0) {
-        return res.status(404).json({ message: 'Benutzer nicht gefunden' });
+        return res.status(404).json({ message: 'Benutzer nicht gefunden.' });
       }
-      return res.status(204).send(); // Erfolgreich, kein Inhalt
+
+      // Erfolgreich gelöscht
+      return res.status(204).send(); // 204 No Content ist die Standardantwort für erfolgreiches Löschen
     } catch (error) {
-      console.error('Fehler beim Löschen des Benutzers:', error);
-      return res.status(500).json({ message: 'Serverfehler' });
+      console.error(`Fehler beim Löschen von Benutzer ${userId}:`, error);
+      return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
     }
   });
 

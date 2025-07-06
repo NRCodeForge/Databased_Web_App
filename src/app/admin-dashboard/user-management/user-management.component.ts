@@ -38,7 +38,7 @@ export class UserManagementComponent implements OnInit {
       Vorname: '',
       Nachname: '',
       Email: '',
-      RollenID: 3,
+      RollenID: 1,
       ErstelltAm: new Date().toISOString(),
       Passwort: ''
     };

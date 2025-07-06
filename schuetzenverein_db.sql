@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 05. Jul 2025 um 15:02
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 06. Jul 2025 um 18:15
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -50,14 +50,23 @@ INSERT INTO `abteilungen` (`AbteilungsID`, `Abteilungsname`, `Beschreibung`) VAL
 --
 
 CREATE TABLE `beitraege` (
-                           `BeitragsID` int(11) NOT NULL,
-                           `Titel` varchar(255) NOT NULL,
-                           `Inhalt` text DEFAULT NULL,
-                           `KategorieID` int(11) NOT NULL,
-                           `ErstelltVon` int(11) NOT NULL,
-                           `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
-                           `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `BeitragsID` int(11) NOT NULL,
+  `Titel` varchar(255) NOT NULL,
+  `Inhalt` text DEFAULT NULL,
+  `KategorieID` int(11) NOT NULL,
+  `ErstelltVon` int(11) NOT NULL,
+  `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `beitraege`
+--
+
+INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `KategorieID`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
+(1, 'TEst', 'Alpha', 2, 5, '2025-07-06 13:46:58', NULL),
+(2, 'Test 2 ', 'Test', 3, 5, '2025-07-06 13:47:25', NULL),
+(3, 'Test', 'test2', 6, 5, '2025-07-06 14:10:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -80,9 +89,9 @@ CREATE TABLE `benutzer` (
 --
 
 INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RollenID`, `ErstelltAm`) VALUES
-(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 3, '2025-07-05 12:22:43'),
+(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 1, '2025-07-05 12:22:43'),
 (2, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$JrglxTJkfYvMZ0Z732ExBOyQGhR8RliZraywUuGmc6EAb0YueWvrS', 3, '2025-07-05 12:50:52'),
-(3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 3, '2025-07-05 12:54:23'),
+(3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 2, '2025-07-05 12:54:23'),
 (4, 'Sarah', 'Jahnaschke', 'Klein@zwerg.mico', '$2b$10$qiNEtGwMZwOO.GhUa0QmieX9pSS4gZ5p4MbVuKqH2SaanKFimQWC.', 3, '2025-07-05 12:57:30'),
 (5, 'Niclas', 'RR', 'N@R.R', '$2b$10$0gbEGkujIatDx4OKsjy71OHnBFGmTLgze1WiFz7.KhmJUuAFAlZ72', 3, '2025-07-05 12:59:27');
 
@@ -229,13 +238,13 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
 --
 ALTER TABLE `benutzer`
-  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `kategorien`
