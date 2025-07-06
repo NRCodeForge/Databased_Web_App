@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 06. Jul 2025 um 18:15
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.0.30
+-- Erstellungszeit: 06. Jul 2025 um 19:02
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,7 +53,9 @@ CREATE TABLE `beitraege` (
   `BeitragsID` int(11) NOT NULL,
   `Titel` varchar(255) NOT NULL,
   `Inhalt` text DEFAULT NULL,
+  `Bild` longtext CHARACTER SET utf8 COLLATE utf8_general_nopad_ci DEFAULT NULL,
   `KategorieID` int(11) NOT NULL,
+  `Formart` int(11) DEFAULT NULL,
   `ErstelltVon` int(11) NOT NULL,
   `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
   `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -63,10 +65,10 @@ CREATE TABLE `beitraege` (
 -- Daten für Tabelle `beitraege`
 --
 
-INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `KategorieID`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
-(1, 'TEst', 'Alpha', 2, 5, '2025-07-06 13:46:58', NULL),
-(2, 'Test 2 ', 'Test', 3, 5, '2025-07-06 13:47:25', NULL),
-(3, 'Test', 'test2', 6, 5, '2025-07-06 14:10:09', NULL);
+INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `Formart`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
+(4, 'News', 'Viele neune Infos', NULL, 2, NULL, 1, '2025-07-06 16:18:25', NULL),
+(5, 'Termisn', 'Hey', NULL, 9, 4, 1, '2025-07-06 16:31:48', NULL),
+(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, 1, '2025-07-06 16:59:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,7 +91,7 @@ CREATE TABLE `benutzer` (
 --
 
 INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RollenID`, `ErstelltAm`) VALUES
-(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 1, '2025-07-05 12:22:43'),
+(1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 3, '2025-07-05 12:22:43'),
 (2, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$JrglxTJkfYvMZ0Z732ExBOyQGhR8RliZraywUuGmc6EAb0YueWvrS', 3, '2025-07-05 12:50:52'),
 (3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 2, '2025-07-05 12:54:23'),
 (4, 'Sarah', 'Jahnaschke', 'Klein@zwerg.mico', '$2b$10$qiNEtGwMZwOO.GhUa0QmieX9pSS4gZ5p4MbVuKqH2SaanKFimQWC.', 3, '2025-07-05 12:57:30'),
@@ -141,6 +143,30 @@ INSERT INTO `rollen` (`RollenID`, `RollenName`) VALUES
 (1, 'Mitglied'),
 (2, 'Abteilungsleiter'),
 (3, 'Admin');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `seitenaufrufe`
+--
+
+CREATE TABLE `seitenaufrufe` (
+  `AufrufID` int(11) NOT NULL,
+  `Pfad` varchar(255) NOT NULL,
+  `AufrufZeitstempel` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `seitenaufrufe`
+--
+
+INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
+(1, '/news-component', '2025-07-06 17:01:30'),
+(2, '/dashboard/admin', '2025-07-06 17:01:32'),
+(3, '/dashboard/leiter', '2025-07-06 17:01:34'),
+(4, '/dashboard/admin', '2025-07-06 17:01:35'),
+(5, '/dashboard/admin/content', '2025-07-06 17:01:35'),
+(6, '/news-component', '2025-07-06 17:01:37');
 
 -- --------------------------------------------------------
 
@@ -211,6 +237,12 @@ ALTER TABLE `rollen`
   ADD PRIMARY KEY (`RollenID`);
 
 --
+-- Indizes für die Tabelle `seitenaufrufe`
+--
+ALTER TABLE `seitenaufrufe`
+  ADD PRIMARY KEY (`AufrufID`);
+
+--
 -- Indizes für die Tabelle `sektionen`
 --
 ALTER TABLE `sektionen`
@@ -238,7 +270,7 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
@@ -257,6 +289,12 @@ ALTER TABLE `kategorien`
 --
 ALTER TABLE `rollen`
   MODIFY `RollenID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT für Tabelle `seitenaufrufe`
+--
+ALTER TABLE `seitenaufrufe`
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`
