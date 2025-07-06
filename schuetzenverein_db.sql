@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 06. Jul 2025 um 19:02
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 06. Jul 2025 um 19:37
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -113,16 +113,20 @@ CREATE TABLE `kategorien` (
 --
 
 INSERT INTO `kategorien` (`KategorieID`, `Name`) VALUES
-(1, 'News und Schützenverein Bremen Huchting'),
-(2, 'News'),
-(3, 'Der Verein'),
-(4, 'Abteilungen'),
-(5, 'Meisterschaften'),
-(6, 'Schießstände'),
-(7, 'Schützenfest'),
-(8, 'Downloads'),
-(9, 'Termine'),
-(10, 'Terminanfrage');
+(1, 'News'),
+(2, 'Bogenschießen'),
+(3, 'Jugend und Schueler'),
+(4, 'Pistolensport'),
+(5, 'Senioren'),
+(6, 'Damen'),
+(7, 'Tradition'),
+(8, 'Verein Infos'),
+(9, 'Geschichte'),
+(10, 'Vorstand'),
+(11, 'Beitraege'),
+(12, 'Einrichtung'),
+(13, 'Kontakt und Anfahrt'),
+(14, 'Schuetzenfest');
 
 -- --------------------------------------------------------
 
@@ -282,7 +286,7 @@ ALTER TABLE `benutzer`
 -- AUTO_INCREMENT für Tabelle `kategorien`
 --
 ALTER TABLE `kategorien`
-  MODIFY `KategorieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `KategorieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT für Tabelle `rollen`
