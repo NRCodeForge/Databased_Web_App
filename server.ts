@@ -142,7 +142,7 @@ export function app(): express.Express {
 
   server.put('/api/users/:id', async (req, res) => {
     const { id } = req.params;
-    const { Vorname, Nachname, Email, RolleID, Passwort } = req.body;
+    const { Vorname, Nachname, Email, RollenID, Passwort } = req.body;
 
     // Überprüfen, ob die ID eine gültige Zahl ist
     const userId = parseInt(id, 10);
@@ -156,13 +156,13 @@ export function app(): express.Express {
         const hashedPassword = await bcrypt.hash(Passwort, 10);
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ?, Passwort = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, hashedPassword, userId]
+          [Vorname, Nachname, Email, RollenID, hashedPassword, userId]
         );
       } else {
         // Fall 2: Passwort wird NICHT geändert
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ? WHERE BenutzerID = ?',
-          [Vorname, Nachname, Email, RolleID, userId]
+          [Vorname, Nachname, Email, RollenID, userId]
         );
       }
       return res.status(200).json({ message: 'Benutzer erfolgreich aktualisiert.' });

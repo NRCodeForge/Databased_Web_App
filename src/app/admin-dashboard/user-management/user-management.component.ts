@@ -66,7 +66,9 @@ export class UserManagementComponent implements OnInit {
       if (!updateData.Passwort) {
         delete updateData.Passwort;
       }
+      console.log(updateData.RollenID);
       this.userService.updateUser(UserID, updateData).subscribe({
+
         next: () => this.onSaveSuccess(),
         error: (err) => console.error('Fehler beim Aktualisieren:', err)
       });
