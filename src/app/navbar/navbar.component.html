@@ -19,7 +19,7 @@
     </li>
 
     <ng-container *ngIf="authService.isLoggedIn() | async; else loginLink">
-      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+      <li><a routerLink="/" (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
     </ng-container>
     <ng-template #loginLink>
       <li><a routerLink="/login" routerLinkActive="active">Login</a></li>

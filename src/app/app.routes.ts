@@ -46,20 +46,35 @@ export const routes: Routes = [
   {path: "dashboard/admin",
     component: AdminDashboardComponent,
     children: [
-      { path: 'content', component: ContentManagerComponent },
-      { path: 'departments', component: DepartmentManagerComponent },
-      { path: 'events', component: EventManagerComponent },
-      { path: 'categories', component: CategoryManagerComponent },
-      { path: 'users', component: UserManagementComponent } // Hinzugefügt
+      { path: 'content', component: ContentManagerComponent ,
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+      },
+      { path: 'departments', component: DepartmentManagerComponent,
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+      },
+      { path: 'events', component: EventManagerComponent ,
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+      },
+      { path: 'categories', component: CategoryManagerComponent ,
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+      },
+      { path: 'users', component: UserManagementComponent ,
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+      }// Hinzugefügt
     ],
     canActivate: [authGuard], // Schützt diese Route
-    data: { role: '3' } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+    data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
   },
   {
     path: "dashboard/leiter",
     component: LeiterDashboardComponent,
     canActivate: [authGuard], // Schützt diese Route
-    data: { role: '2' } // Nur Benutzer mit Rolle '2' (Leiter) dürfen hier rein
+    data: { role: 2 } // Nur Benutzer mit Rolle '2' (Leiter) dürfen hier rein
   },
 
 ];

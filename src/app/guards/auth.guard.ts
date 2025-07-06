@@ -20,6 +20,7 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state) =
 
   if (!expectedRole || userRole === expectedRole) {
     // Wenn keine spezielle Rolle erwartet wird oder die Rolle passt -> Zugriff erlauben
+    console.log(userRole);
     return true;
   }
 
