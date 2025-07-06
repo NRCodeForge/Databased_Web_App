@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // CommonModule importieren
 import { AuthService } from '../services/auth.service'; // AuthService importieren
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -12,12 +13,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavbarComponent {
   // AuthService öffentlich machen, damit das Template darauf zugreifen kann
-  constructor(public authService: AuthService) { }
-
+  constructor(
+    public authService: AuthService,
+    private router: Router
+  ) { }
   // Logout-Funktion für den Button im Template
   onLogout(): void {
     this.authService.logout();
     // Optional: zur Start- oder Login-Seite navigieren
-    // this.router.navigate(['/login-component']);
+    this.router.navigate(['/login-component']);
+
   }
 }
