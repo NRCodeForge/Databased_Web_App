@@ -258,7 +258,7 @@ export function app(): express.Express {
   // ... (Alle Ihre weiteren bestehenden Routen hier)
   // Content-Management Routen...
   server.get('/api/posts', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM beitraege');
+    const [rows] = await pool.query('SELECT * FROM beitraege order by BeitragsID DESC');
     return res.json(rows);
   });
 
