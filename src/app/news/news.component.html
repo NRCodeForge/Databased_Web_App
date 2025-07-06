@@ -3,6 +3,7 @@
   <div *ngIf="posts.length > 0; else noNews">
     <div *ngFor="let post of posts" class="news-article">
       <h2>{{ post.Titel }}</h2>
+      {{ post.Inhalt }}
       <p class="post-meta">
         Erstellt am: {{ post.Erstellungsdatum | date: 'dd.MM.yyyy' }}
       </p>
