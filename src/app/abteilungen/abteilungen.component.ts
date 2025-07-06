@@ -18,12 +18,12 @@ interface Abteilung {
 @Component({
   selector: 'app-abteilungen',
   standalone: true,
-  imports: [CommonModule, HttpClientModule], // hier unbedingt CommonModule einfügen
+  imports: [CommonModule], // hier unbedingt CommonModule einfügen
   templateUrl: './abteilungen.component.html',
   styleUrls: ['./abteilungen.component.css'],
 })
 export class AbteilungenComponent implements OnInit {
-  abteilungen: Abteilung[] = [ 
+  abteilungen: Abteilung[] = [
     { name: 'Bogenschießen', kategorieid: 2 },
     { name: 'Jugend & Schüler', kategorieid: 3 },
     { name: 'Pistolensport', kategorieid: 4 },

@@ -13,7 +13,7 @@
    <div>
     <h3>Beiträge für {{ aktiveAbteilung.name }}</h3>
     <div *ngIf="beitraege.length > 0; else keineBeitraege">
-      <div *ngFor="let beitrag of beitraege">
+      <div class="beitrag_card" *ngFor="let beitrag of beitraege">
         <h4>{{ beitrag.titel }}</h4>
         <p>{{ beitrag.inhalt }}</p>
         <small>{{ beitrag.datum | date }}</small>

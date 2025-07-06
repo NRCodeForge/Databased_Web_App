@@ -1,0 +1,39 @@
+.fest-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px 40px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h1 {
+  color: #2c5a3b; /* Ein schönes Tannengrün */
+  margin-bottom: 20px;
+}
+
+.fest-text, .fest-termin, .fest-info {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.fest-termin {
+  font-weight: 500;
+  background-color: #e8f5e9;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.fest-bild {
+  margin-top: 30px;
+}
+
+.fest-bild img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}

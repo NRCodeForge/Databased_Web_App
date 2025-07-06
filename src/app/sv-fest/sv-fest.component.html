@@ -1,0 +1,28 @@
+<div class="fest-container">
+  <h1>Schützenfest im August! 🍻</h1>
+  <p class="fest-text">
+    Wir freuen uns, euch mitteilen zu können, dass auch dieses Jahr wieder unser traditionelles Schützenfest stattfindet!
+  </p>
+  <p class="fest-termin">
+    <strong>Wann?</strong> Immer am zweiten Wochenende im August.
+  </p>
+  <div class="fest-bild">
+    <img src="assets/sf.jpg" alt="Foto vom Schützenfest">
+  </div>
+  <p class="fest-info">
+    Weitere Informationen zum genauen Programm folgen in Kürze. Wir können es kaum erwarten, mit euch zu feiern!
+  </p>
+</div>
+<div>
+  <h3>Beiträge für Schuützenfest</h3>
+  <div  *ngIf="beitraege.length > 0; else keineBeitraege">
+    <div class="beitrag_card" *ngFor="let beitrag of beitraege">
+    <h4>{{ beitrag.titel }}</h4>
+    <p>{{ beitrag.inhalt }}</p>
+    <small>{{ beitrag.datum | date }}</small>
+    <hr />
+  </div>
+</div>
+<ng-template #keineBeitraege>
+  <p>Keine Beiträge vorhanden.</p>
+</ng-template>

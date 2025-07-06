@@ -22,23 +22,24 @@ import { JugendundschuelerComponent } from './abteilungen/jugendundschueler/juge
 import { PistolensportComponent } from './abteilungen/pistolensport/pistolensport.component';
 import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
 import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component'; // Importieren
-
+import { SvFestComponent } from './sv-fest/sv-fest.component';
 export const routes: Routes = [
   {path: '', component: StartseiteComponent},
-  {path: "login-component", component:LoginComponent},
-  {path: "navbar-component", component:NavbarComponent},
-  {path: "registration-component", component:RegistrationComponent},
-  {path: "reset-password-component", component:ResetPasswordComponent},
-  {path: "news-component", component:NewsComponent},
-  {path: "abteilung-component", component:AbteilungenComponent, children: [
+  {path: 'schuetzenfest', component: SvFestComponent },
+  {path: "login", component:LoginComponent},
+  {path: "navbar", component:NavbarComponent},
+  {path: "registration", component:RegistrationComponent},
+  {path: "reset", component:ResetPasswordComponent},
+  {path: "news", component:NewsComponent},
+  {path: "abteilung", component:AbteilungenComponent, children: [
       { path: 'bogen', component:BogenComponent},
       { path: 'jugendundschueler', component:JugendundschuelerComponent},
       { path: 'pistolensport', component:PistolensportComponent},
       { path: 'senioren', component:SeniorenComponent},
     ]},
-  {path: "termine-component", component:TermineComponent},
-  {path: "forum-component", component:ForumComponent},
-  {path: "der-verein-component", component:DerVereinComponent},
+  {path: "terminet", component:TermineComponent},
+  {path: "forum", component:ForumComponent},
+  {path: "der-verein", component:DerVereinComponent},
   {path: "dashboard/admin", component:AdminDashboardComponent, children: [
       { path: 'content', component: ContentManagerComponent },
       { path: 'departments', component: DepartmentManagerComponent },

@@ -3,10 +3,11 @@
     <a routerLink="">Schützenverein Bremen Huchting</a>
   </div>
   <ul class="navbar-nav">
-    <li><a routerLink="/news-component" routerLinkActive="active">News</a></li>
-    <li><a routerLink="/der-verein-component" routerLinkActive="active">Der Verein</a></li>
-    <li><a routerLink="/abteilung-component" routerLinkActive="active">Abteilungen</a></li>
-    <li><a routerLink="/termine-component" routerLinkActive="active">Termin</a></li>
+    <li><a routerLink="/news" routerLinkActive="active">News</a></li>
+    <li><a routerLink="/der-verein" routerLinkActive="active">Der Verein</a></li>
+    <li><a routerLink="/abteilung" routerLinkActive="active">Abteilungen</a></li>
+    <li><a routerLink="/schuetzenfest" routerLinkActive="active">Schützenfest</a></li>
+    <li><a routerLink="/termine" routerLinkActive="active">Termin</a></li>
 
 
     <li *ngIf="authService.getUserRole() === 2 || authService.getUserRole() === 3">
@@ -21,8 +22,8 @@
       <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
     </ng-container>
     <ng-template #loginLink>
-      <li><a routerLink="/login-component" routerLinkActive="active">Login</a></li>
-       <li><a routerLink="/registration-component" routerLinkActive="active">Registrieren</a></li>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+       <li><a routerLink="/registration" routerLinkActive="active">Registrieren</a></li>
     </ng-template>
 
   </ul>
