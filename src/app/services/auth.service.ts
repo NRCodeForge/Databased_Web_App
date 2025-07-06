@@ -90,7 +90,7 @@ export class AuthService {
 
   /**
    * Return ID vom Login User
-   */ 
+   */
   getUserID(): number | null {
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('token');

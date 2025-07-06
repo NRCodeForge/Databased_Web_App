@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';  // für Pipes und Direktiven
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {HttpClient } from '@angular/common/http';
 
 
 interface Beitrag {

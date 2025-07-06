@@ -125,14 +125,14 @@ export function app(): express.Express {
   // POST /api/users - Neuen Benutzer erstellen
   server.post('/api/users', async (req, res) => {
     // KORREKTUR: Verwendet Vorname und Nachname
-    const { Vorname, Nachname, Email, Passwort, RolleID } = req.body;
-    if (!Vorname || !Nachname || !Email || !Passwort || !RolleID) {
+    const { Vorname, Nachname, Email, Passwort, RollenID } = req.body;
+    if (!Vorname || !Nachname || !Email || !Passwort || !RollenID) {
       return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
     }
     try {
       const hashedPassword = await bcrypt.hash(Passwort, 10);
       const sql = 'INSERT INTO benutzer (Vorname, Nachname, Email, Passwort, RollenID) VALUES (?, ?, ?, ?, ?)';
-      const [result] = await pool.query(sql, [Vorname, Nachname, Email, hashedPassword, RolleID]);
+      const [result] = await pool.query(sql, [Vorname, Nachname, Email, hashedPassword, RollenID]);
       return res.status(201).json({ message: 'Benutzer erfolgreich erstellt', userId: (result as any).insertId });
     } catch (error) {
       console.error('Fehler beim Erstellen des Benutzers:', error);

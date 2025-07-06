@@ -23,6 +23,9 @@ import { PistolensportComponent } from './abteilungen/pistolensport/pistolenspor
 import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
 import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component'; // Importieren
 import { SvFestComponent } from './sv-fest/sv-fest.component';
+import {authGuard} from "./guards/auth.guard";
+
+
 export const routes: Routes = [
   {path: '', component: StartseiteComponent},
   {path: 'schuetzenfest', component: SvFestComponent },
@@ -40,12 +43,23 @@ export const routes: Routes = [
   {path: "termin", component:TermineComponent},
   {path: "forum", component:ForumComponent},
   {path: "der-verein", component:DerVereinComponent},
-  {path: "dashboard/admin", component:AdminDashboardComponent, children: [
+  {path: "dashboard/admin",
+    component: AdminDashboardComponent,
+    children: [
       { path: 'content', component: ContentManagerComponent },
       { path: 'departments', component: DepartmentManagerComponent },
       { path: 'events', component: EventManagerComponent },
       { path: 'categories', component: CategoryManagerComponent },
       { path: 'users', component: UserManagementComponent } // Hinzugefügt
-    ]},
-  {path: "dashboard/leiter", component:LeiterDashboardComponent}
+    ],
+    canActivate: [authGuard], // Schützt diese Route
+    data: { role: '3' } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+  },
+  {
+    path: "dashboard/leiter",
+    component: LeiterDashboardComponent,
+    canActivate: [authGuard], // Schützt diese Route
+    data: { role: '2' } // Nur Benutzer mit Rolle '2' (Leiter) dürfen hier rein
+  },
+
 ];
