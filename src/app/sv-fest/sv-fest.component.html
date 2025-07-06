@@ -12,17 +12,19 @@
   <p class="fest-info">
     Weitere Informationen zum genauen Programm folgen in Kürze. Wir können es kaum erwarten, mit euch zu feiern!
   </p>
-</div>
-<div>
-  <h3>Beiträge für Schuützenfest</h3>
-  <div  class="beitrag_card" *ngIf="beitraege.length > 0; else keineBeitraege">
-    <div class="beitrag_card" *ngFor="let beitrag of beitraege">
-    <h4>{{ beitrag.titel }}</h4>
-    <p>{{ beitrag.inhalt }}</p>
-    <small>{{ beitrag.datum | date }}</small>
-    <hr />
+
+  <div class="beitraege-sektion">
+    <h3>Neuste Beiträge zum Schützenfest</h3>
+    <div class="beitraege-liste" *ngIf="beitraege.length > 0; else keineBeitraege">
+      <div class="beitrag_card" *ngFor="let beitrag of beitraege">
+        <h4>{{ beitrag.titel }}</h4>
+        <p class="beitrag-inhalt">{{ beitrag.inhalt }}</p>
+        <small class="beitrag-datum">{{ beitrag.datum | date:'longDate' }}</small>
+        </div>
+    </div>
+    <ng-template #keineBeitraege>
+      <p class="no-posts-message">Aktuell gibt es keine Beiträge zum Schützenfest. Schauen Sie bald wieder vorbei!</p>
+    </ng-template>
   </div>
+
 </div>
-<ng-template #keineBeitraege>
-  <p>Keine Beiträge vorhanden.</p>
-</ng-template>
