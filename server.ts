@@ -197,7 +197,39 @@ export function app(): express.Express {
       return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
     }
   });
+  server.post('/api/track-view', async (req, res) => {
+    const { path } = req.body;
+    if (!path) {
+      return res.status(400).json({ message: 'Pfad ist erforderlich.' });
+    }
+    try {
+      const sql = 'INSERT INTO seitenaufrufe (Pfad) VALUES (?)';
+      await pool.query(sql, [path]);
+      return res.status(201).json({ message: 'Seitenaufruf erfolgreich gespeichert.' });
+    } catch (error) {
+      console.error('Fehler beim Speichern des Seitenaufrufs:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
 
+// GET /api/page-views - Ruft aggregierte Daten für das Dashboard ab
+  server.get('/api/page-views', async (req, res) => {
+    try {
+      // Diese Abfrage zählt die Aufrufe pro Tag für die letzten 30 Tage
+      const sql = `
+      SELECT DATE(AufrufZeitstempel) as Tag, COUNT(AufrufID) as Aufrufe
+      FROM seitenaufrufe
+      WHERE AufrufZeitstempel >= CURDATE() - INTERVAL 30 DAY
+      GROUP BY Tag
+      ORDER BY Tag ASC
+    `;
+      const [rows] = await pool.query(sql);
+      return res.json(rows);
+    } catch (error) {
+      console.error('Fehler beim Abrufen der Seitenaufrufe:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
 
   // #############################################################
   // ##### BESTEHENDE ROUTEN (Posts, Kategorien, etc.)       #####
