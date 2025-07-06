@@ -1,5 +1,22 @@
 <div>
   <h2>Leiter Dashboard</h2>
   <p>Hier können Sie News für Ihre Abteilung erstellen.</p>
+  <label for="abteilung">Kategorie:</label>
+  <select name="abteilung" id="abteilung">
+    <option value="">Bitte wählen</option>
+    <option value="jugendundschueler"> Jugend und Schüler</option>
+    <option value="pistolensport">Pistolensport</option>
+    <option value="damen">Damen</option>
+    <option value="senioren">Senioren</option>
+    <option value="tradition">Tradition</option>
+    <option value="bogen">Bogen</option>
+    <option value="schuetzenfest">Schützenfest</option>
+    <option value="meisterschaften">Meisterschaften</option>
+  </select>
+  <form action="upload.php" method="post" enctype="multipart/form-data">
+  <input type="file" name="image" accept="image/*">
+  <input type="submit" value="Bild hochladen">
+  </form>
+  
   <app-news-builder></app-news-builder>
 </div>
