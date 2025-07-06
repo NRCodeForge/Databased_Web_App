@@ -135,6 +135,24 @@ export function app(): express.Express {
       .catch((err) => next(err));
   });
 
+  server.get('/api/posts', async (req, res) => {
+    const [rows] = await pool.query('SELECT BeitragsID, Titel, Inhalt, KategorieID, Erstellungsdatum, Aenderungsdatum FROM beitraege');
+    res.json(rows);
+  });
+
+  server.post('/api/posts', async (req, res) => {
+    const { Titel, Inhalt, KategorieID } = req.body;
+    const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, KategorieID, Erstellungsdatum) VALUES (?, ?, ?, NOW())', [Titel, Inhalt, KategorieID]);
+    res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, KategorieID });
+  });
+
+  server.put('/api/posts/:id', async (req, res) => {
+    const { id } = req.params;
+    const { Titel, Inhalt, KategorieID } = req.body;
+    await pool.query('UPDATE beitraege SET Titel = ?, Inhalt = ?, KategorieID = ?, Aenderungsdatum = NOW() WHERE BeitragsID = ?', [Titel, Inhalt, KategorieID, id]);
+    res.json({ BeitragsID: id, Titel, Inhalt, KategorieID });
+  });
+
   return server;
 }
 

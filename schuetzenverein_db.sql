@@ -50,12 +50,13 @@ INSERT INTO `abteilungen` (`AbteilungsID`, `Abteilungsname`, `Beschreibung`) VAL
 --
 
 CREATE TABLE `beitraege` (
-  `BeitragsID` int(11) NOT NULL,
-  `Titel` varchar(255) NOT NULL,
-  `KategorieID` int(11) NOT NULL,
-  `ErstelltVon` int(11) NOT NULL,
-  `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+                           `BeitragsID` int(11) NOT NULL,
+                           `Titel` varchar(255) NOT NULL,
+                           `Inhalt` text DEFAULT NULL,
+                           `KategorieID` int(11) NOT NULL,
+                           `ErstelltVon` int(11) NOT NULL,
+                           `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
+                           `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
