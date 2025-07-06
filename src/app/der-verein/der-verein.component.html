@@ -1,27 +1,35 @@
-<div>
-  <h2>Der Verein</h2>
-  <ul>
-    <li
-      *ngFor="let tab of tabs"
-      (click)="selectTab(tab)"
-      [class.active]="tab === aktiverTab"
-      style="cursor: pointer;"
-    >
-      {{ tab.name }}
-    </li>
-  </ul>
-   <div>
-    <h3>Beiträge für {{ aktiverTab.name }}</h3>
-    <div *ngIf="beitraege.length > 0; else keineBeitraege">
-      <div class="beitrag_card" *ngFor="let beitrag of beitraege">
-        <h4>{{ beitrag.titel }}</h4>
-        <p>{{ beitrag.inhalt }}</p>
-        <small>{{ beitrag.datum | date }}</small>
-        <hr />
+<div class="verein-page-container">
+  <nav class="verein-nav">
+    <h2>Der Verein</h2>
+    <ul>
+      <li
+        *ngFor="let tab of tabs"
+        (click)="selectTab(tab)"
+        [class.active]="tab === aktiverTab"
+      >
+        {{ tab.name }}
+      </li>
+    </ul>
+  </nav>
+
+  <main class="verein-content">
+    <h2 *ngIf="aktiverTab">{{ aktiverTab.name }}</h2>
+    <div *ngIf="aktiverTab">
+      <h3>Beiträge für {{ aktiverTab.name }}</h3>
+      <div *ngIf="beitraege.length > 0; else keineBeitraege">
+        <div class="beitrag_card" *ngFor="let beitrag of beitraege">
+          <h4>{{ beitrag.titel }}</h4>
+          <p>{{ beitrag.inhalt }}</p>
+          <small>{{ beitrag.datum | date }}</small>
+          <hr />
+        </div>
       </div>
+      <ng-template #keineBeitraege>
+        <p class="placeholder-text">Keine Beiträge vorhanden für {{ aktiverTab.name }}.</p>
+      </ng-template>
     </div>
-    <ng-template #keineBeitraege>
-      <p>Keine Beiträge vorhanden.</p>
-    </ng-template>
-  </div>
+    <div *ngIf="!aktiverTab" class="placeholder-text">
+      <p>Bitte wählen Sie eine Sektion aus, um Details anzuzeigen.</p>
+    </div>
+  </main>
 </div>

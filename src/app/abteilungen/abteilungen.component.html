@@ -1,27 +1,35 @@
-<div>
-  <h2>Abteilungen</h2>
-  <ul>
-    <li
-      *ngFor="let abteilung of abteilungen"
-      (click)="selectAbteilung(abteilung)"
-      [class.active]="abteilung === aktiveAbteilung"
-      style="cursor: pointer;"
-    >
-      {{ abteilung.name }}
-    </li>
-  </ul>
-   <div>
-    <h3>Beiträge für {{ aktiveAbteilung.name }}</h3>
-    <div *ngIf="beitraege.length > 0; else keineBeitraege">
-      <div class="beitrag_card" *ngFor="let beitrag of beitraege">
-        <h4>{{ beitrag.titel }}</h4>
-        <p>{{ beitrag.inhalt }}</p>
-        <small>{{ beitrag.datum | date }}</small>
-        <hr />
+<div class="abteilungen-container">
+  <nav class="abteilungen-nav">
+    <h2>Abteilungen</h2>
+    <ul>
+      <li
+        *ngFor="let abteilung of abteilungen"
+        (click)="selectAbteilung(abteilung)"
+        [class.active]="abteilung === aktiveAbteilung"
+      >
+        {{ abteilung.name }}
+      </li>
+    </ul>
+  </nav>
+
+  <main class="abteilungen-content">
+    <h2 *ngIf="aktiveAbteilung">{{ aktiveAbteilung.name }}</h2>
+    <div *ngIf="aktiveAbteilung">
+      <h3>Beiträge für {{ aktiveAbteilung.name }}</h3>
+      <div *ngIf="beitraege.length > 0; else keineBeitraege">
+        <div *ngFor="let beitrag of beitraege">
+          <h4>{{ beitrag.titel }}</h4>
+          <p>{{ beitrag.inhalt }}</p>
+          <small>{{ beitrag.datum | date }}</small>
+          <hr />
+        </div>
       </div>
+      <ng-template #keineBeitraege>
+        <p class="placeholder-text">Keine Beiträge vorhanden für {{ aktiveAbteilung.name }}.</p>
+      </ng-template>
     </div>
-    <ng-template #keineBeitraege>
-      <p>Keine Beiträge vorhanden.</p>
-    </ng-template>
-  </div>
+    <div *ngIf="!aktiveAbteilung" class="placeholder-text">
+      <p>Bitte wählen Sie eine Abteilung aus, um Details anzuzeigen.</p>
+    </div>
+  </main>
 </div>

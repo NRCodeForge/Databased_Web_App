@@ -1,28 +1,30 @@
 /* src/app/abteilungen/abteilungen.component.css */
 
 .abteilungen-container {
-  display: flex;
+  display: flex; /* For side-by-side layout of navigation and content */
   justify-content: center;
-  gap: 30px; /* Abstand zwischen Navigation und Inhalt */
-  padding: 56px 20px 40px 20px; /* Top-Padding für Navbar + allgemeines Padding */
-  min-height: calc(100vh - 56px);
+  gap: 30px; /* Space between navigation and main content */
+  padding: 56px 20px 40px 20px; /* Top-padding for Navbar + general padding */
+  min-height: calc(100vh - 56px); /* Min-height after Navbar */
   background-color: var(--background-color, #f5f5f7);
   box-sizing: border-box;
 }
 
 .abteilungen-nav {
-  flex-shrink: 0;
-  width: 250px;
+  flex-shrink: 0; /* Prevents the nav from shrinking */
+  width: 250px; /* Fixed width for the nav */
   background-color: var(--card-background, #ffffff);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  align-self: flex-start; /* Oben ausrichten */
-  max-height: calc(100vh - 56px - 40px);
-  overflow-y: auto;
+  position: sticky; /* Makes the nav sticky when scrolling */
+  top: calc(56px + 20px); /* Navbar height + some spacing */
+  align-self: flex-start; /* Align to the top */
+  max-height: calc(100vh - 56px - 40px); /* Max height to prevent overflow */
+  overflow-y: auto; /* Scrollbar if content is too long */
 }
 
-.abteilungen-nav h3 {
+.abteilungen-nav h2 { /* Changed from h3 to h2 to match abteilungen.component.html */
   font-size: 1.2rem;
   margin-top: 0;
   margin-bottom: 15px;
@@ -38,32 +40,27 @@
 }
 
 .abteilungen-nav li {
-  margin-bottom: 8px;
-  padding: 10px 12px;
-  border-radius: 8px;
+  margin-bottom: 10px; /* Adjusted to match der-verein.component.css list item spacing */
+  padding: 5px 0; /* Adjusted to match der-verein.component.css link padding */
   cursor: pointer;
-  color: var(--text-color, #1d1d1f);
+  color: var(--primary-blue, #007aff); /* Changed to primary-blue to match link style */
   font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  display: block; /* Make the whole list item clickable like a link */
+  text-decoration: none; /* Remove underline */
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
 .abteilungen-nav li:hover {
+  color: #005ecb;
   background-color: var(--hover-background, #e8e8ea);
+  border-radius: 4px;
+  padding-left: 5px; /* Small visual effect on hover */
 }
 
-.abteilungen-nav li.active {
-  background-color: var(--primary-blue, #007aff);
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2);
-}
-
-.abteilungen-nav li.active:hover {
-  background-color: #005ecb; /* Dunklerer Blauton für aktiven Hover */
-}
 
 .abteilungen-content {
-  flex-grow: 1;
-  max-width: 800px;
+  flex-grow: 1; /* Takes up remaining space */
+  max-width: 800px; /* Maximum width for better readability */
   background-color: var(--card-background, #ffffff);
   padding: 40px;
   border-radius: 12px;
@@ -73,16 +70,45 @@
 }
 
 .abteilungen-content h2 {
-  font-size: 2rem;
-  margin-top: 0;
-  margin-bottom: 25px;
+  font-size: 2.5rem; /* Matches h1 in der-verein.component.css */
+  margin-bottom: 30px;
+  text-align: center; /* Center align title */
   color: var(--primary-blue, #007aff);
-  border-bottom: 1px solid var(--border-color, #d2d2d7);
+}
+
+.abteilungen-content h3 { /* Added h3 styling for "Beiträge für Abteilung X" */
+  font-size: 2rem; /* Matches h2 in der-verein.component.css */
+  margin-top: 40px;
+  margin-bottom: 20px;
   padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color, #d2d2d7);
+  color: var(--text-color, #1d1d1f);
+}
+
+.abteilungen-content h4 { /* Added h4 styling for "Beitrag Titel" */
+  font-size: 1.5rem; /* Matches h3 in der-verein.component.css */
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: var(--secondary-text, #6e6e73);
 }
 
 .abteilungen-content p {
   margin-bottom: 15px;
+}
+
+.abteilungen-content small { /* Styling for the date */
+    display: block; /* Ensures it takes full width */
+    text-align: right; /* Aligns to the right */
+    color: var(--secondary-text, #6e6e73);
+    font-size: 0.85rem;
+    margin-top: -10px; /* Pull it slightly up */
+    margin-bottom: 15px;
+}
+
+.abteilungen-content hr { /* Styling for horizontal rule */
+    border: none;
+    border-top: 1px solid var(--border-color, #d2d2d7);
+    margin: 25px 0;
 }
 
 .placeholder-text {
@@ -92,34 +118,46 @@
   padding-top: 50px;
 }
 
-/* Responsives Design */
+/* Responsive Design */
 @media (max-width: 992px) {
   .abteilungen-container {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column; /* Navigation above content on smaller screens */
+    align-items: center; /* Center content */
   }
 
   .abteilungen-nav {
+    position: static; /* No longer sticky */
     width: 100%;
-    max-width: 800px;
+    max-width: 800px; /* Max-width like content */
     margin-bottom: 30px;
-    position: static; /* Nicht mehr sticky */
-    box-shadow: none; /* Schatten nur für Haupt-Content */
-    border-bottom: 1px solid var(--border-color, #d2d2d7);
+    box-shadow: none; /* Shadow only for main content */
+    border-bottom: 1px solid var(--border-color, #d2d2d7); /* Separator line */
     padding-bottom: 20px;
   }
 
   .abteilungen-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: flex; /* Links side-by-side for better space utilization */
+    flex-wrap: wrap; /* Wrap lines if too many links */
+    gap: 10px; /* Space between links */
     justify-content: center;
   }
 
   .abteilungen-nav li {
-    padding: 8px 15px;
     margin-bottom: 0;
+    padding: 8px 12px; /* More padding for click area */
     border: 1px solid var(--border-color, #d2d2d7);
+    border-radius: 8px;
+    background-color: var(--hover-background, #e8e8ea);
+    color: var(--text-color, #1d1d1f); /* Set text color for better visibility against background */
+  }
+
+  .abteilungen-nav li:hover {
+    padding-left: 12px; /* No extra padding on hover, as no side text */
+  }
+
+  .abteilungen-nav li.active {
+    background-color: var(--primary-blue, #007aff);
+    color: #ffffff;
   }
 }
 
