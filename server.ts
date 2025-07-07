@@ -291,6 +291,23 @@ export function app(): express.Express {
     return res.json({ BeitragsID: id, Titel, Inhalt, Bild, KategorieID, UserID });
   });
 
+  server.delete('/api/posts/:id', async (req, res) => {
+    const beitragsID = parseInt(req.params.id, 10);  // parseInt direkt hier
+    if (isNaN(beitragsID)) {
+      return res.status(400).send('Ungültige BeitragsID.');
+    }
+    try {
+      const [result] = await pool.query('DELETE FROM beitraege WHERE BeitragsID = ?', [beitragsID]);
+      if ((result as any).affectedRows === 0) {
+        return res.status(404).json({ message: 'Beitrag nicht gefunden.' });
+      }
+      return res.status(204).send();  // 204 No Content für erfolgreichen Löschvorgang
+    } catch (error) {
+      console.error(`Fehler beim Löschen von Beitrag ${beitragsID}:`, error);
+      return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
+    }
+  });
+
   server.get('/api/categories', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM kategorien');
     return res.json(rows);

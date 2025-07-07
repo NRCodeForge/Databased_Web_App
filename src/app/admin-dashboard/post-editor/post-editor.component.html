@@ -12,6 +12,78 @@
       </div>
     </div>
 
+    <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+      <div class="form-group">
+        <label for="title">Titel</label>
+        <input id="title" formControlName="Titel" type="text" />
+      </div>
+
+      <div class="form-group">
+        <label for="category">Kategorie</label>
+        <select id="category" formControlName="KategorieID">
+          <option *ngFor="let category of categories" [value]="category.KategorieID">
+            {{ category.Name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="selectedFormat !== 'nurBild'">
+        <label for="content">Inhalt</label>
+        <textarea id="content" formControlName="Inhalt" rows="5"></textarea>
+      </div>
+
+      <div class="form-group" *ngIf="selectedFormat !== 'nurText' && selectedFormat !== 'nurBild'">
+        <label for="image">Bild hochladen:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      </div>
+
+      <ng-container [ngSwitch]="selectedFormat">
+        <app-section-format
+          *ngSwitchCase="'textBild'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
+
+        <app-section-format
+          *ngSwitchCase="'bildText'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
+
+        <app-section-format
+          *ngSwitchCase="'nurText'"
+          [mode]="getMode()"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
+
+        <app-section-format
+          *ngSwitchCase="'nurBild'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value">
+        </app-section-format>
+      </ng-container>
+
+      <button type="submit" class="submit-button">Speichern</button>
+    </form>
+  </div>
+</div>
+<!--
+<div class="modal">
+  <div class="post-editor" #editor>
+    <h2>Beitrag bearbeiten</h2>
+    <div class="dropdown-wrapper">
+      <input type="checkbox" id="dropdown-toggle" class="dropdown-toggle" />
+      <label for="dropdown-toggle" class="plus-button">+</label>
+      <div class="dropdown-menu">
+        <a (click)="selectedFormat = 'textBild'">Format: Text über Bild</a>
+        <a (click)="selectedFormat = 'bildText'">Format: Bild über Text</a>
+        <a (click)="selectedFormat = 'nurText'">Format: Nur Text</a>
+        <a (click)="selectedFormat = 'nurBild'">Format: Nur Bild</a>
+      </div>
+    </div>
+
     
     <div [ngSwitch]="selectedFormat" class="layout-preview">
       <ng-container *ngSwitchCase="'textBild'">
@@ -146,6 +218,7 @@
       </ng-container>
     </div>  
 </div>
+-->
 <!--
     <form [formGroup]="postForm" (ngSubmit)="savePost()">
       <div>

@@ -33,6 +33,17 @@ export class ContentManagerComponent implements OnInit {
     this.showPostEditor = true;
   }
 
+  deletePost(post: Post): void {
+    if (confirm(`Beitrag "${post.Titel}" wirklich löschen?`)) {
+      this.contentService.deletePost(post.BeitragsID).subscribe(() => {
+        this.posts = this.posts.filter(p => p.BeitragsID !== post.BeitragsID);
+      }, error => {
+        alert('Fehler beim Löschen des Beitrags.');
+        console.error(error);
+      });
+    }
+  }
+
   addPost(): void {
     this.selectedPost = null;
     this.showPostEditor = true;

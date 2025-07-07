@@ -13,10 +13,15 @@
     <tbody>
     <tr *ngFor="let post of posts">
       <td>{{ post.Titel }}</td>
-      <td>{{ post.Kategorie }}</td>
+      <td>{{ post.KategorieID }}</td>
       <td>{{ post.Erstellungsdatum | date }}</td>
       <td>
-        <button (click)="editPost(post)">Bearbeiten</button>
+        <button class="btn-icon" (click)="editPost(post)" title="Bearbeiten">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn-icon btn-danger" (click)="deletePost(post)" title="Löschen">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </td>
     </tr>
     </tbody>

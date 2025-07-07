@@ -242,7 +242,7 @@ export class PostEditorComponent implements OnInit {
     });
   }
 
-   getMode(): 1 | 2 | 3 | 4 {
+  getMode(): 1 | 2 | 3 | 4 {
     switch (this.selectedFormat) {
       case 'textBild':
         return 1;

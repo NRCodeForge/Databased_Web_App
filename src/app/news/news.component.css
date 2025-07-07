@@ -95,3 +95,8 @@ h1 {
     font-size: 1rem;
   }
 }
+
+.pre-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word; /* optional */
+}

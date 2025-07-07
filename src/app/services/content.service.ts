@@ -24,4 +24,7 @@ export class ContentService {
     return this.http.put<Post>(`${this.apiUrl}/${id}`, post);
   }
 
+  deletePost(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }
