@@ -20,8 +20,6 @@ export class NavbarComponent {
   // Logout-Funktion für den Button im Template
   onLogout(): void {
     this.authService.logout();
-    // Optional: zur Start- oder Login-Seite navigieren
-    this.router.navigate(['/login-component']);
-
+    this.router.navigate(['/login']);
   }
 }
