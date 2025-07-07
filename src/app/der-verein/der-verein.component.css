@@ -1,5 +1,8 @@
 /* src/app/der-verein/der-verein.component.css */
-
+.pre-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word; /* optional */
+}
 .verein-page-container {
   display: flex; /* For side-by-side layout of navigation and content */
   justify-content: center;
