@@ -1,59 +1,71 @@
-<div>
-  <!--<h2>Leiter Dashboard</h2>
-  <p>Hier können Sie News für Ihre Abteilung erstellen.</p>
-  <label for="abteilung">Kategorie:</label>
-  <select name="abteilung" id="abteilung">
-    <option value="">Bitte wählen</option>
-    <option value="jugendundschueler"> Jugend und Schüler</option>
-    <option value="pistolensport">Pistolensport</option>
-    <option value="damen">Damen</option>
-    <option value="senioren">Senioren</option>
-    <option value="tradition">Tradition</option>
-    <option value="bogen">Bogen</option>
-    <option value="schuetzenfest">Schützenfest</option>
-    <option value="meisterschaften">Meisterschaften</option>
-  </select>
-  
-  <form action="upload.php" method="post" enctype="multipart/form-data">
-  <input type="file" name="image" accept="image/*">
-  <input type="submit" value="Bild hochladen">
-  </form>
--->
+<div class="modal">
+  <div class="post-editor" #editor>
+    <h2>Beitrag bearbeiten</h2>
+    <div class="dropdown-wrapper">
+      <input type="checkbox" id="dropdown-toggle" class="dropdown-toggle" />
+      <label for="dropdown-toggle" class="plus-button">+</label>
+      <div class="dropdown-menu">
+        <a (click)="selectedFormat = 'textBild'">Format: Text über Bild</a>
+        <a (click)="selectedFormat = 'bildText'">Format: Bild über Text</a>
+        <a (click)="selectedFormat = 'nurText'">Format: Nur Text</a>
+        <a (click)="selectedFormat = 'nurBild'">Format: Nur Bild</a>
+      </div>
+    </div>
 
-  <h2>Beitrag erstellen</h2>
-<!--
-  <form [formGroup]="beitraegeFrom" (ngSubmit)="speichern()">
-    
-    <label for="abteilung">Kategorie:</label>
-    <select id="abteilung" (change)="onAbteilungChange($event)">
-      <option value="">Bitte wählen</option>
-      <option value="jugendundschueler">Jugend und Schüler</option>
-      <option value="pistolensport">Pistolensport</option>
-      <option value="damen">Damen</option>
-      <option value="senioren">Senioren</option>
-      <option value="tradition">Tradition</option>
-      <option value="bogen">Bogen</option>
-      <option value="schuetzenfest">Schützenfest</option>
-      <option value="meisterschaften">Meisterschaften</option>
-    </select>
-    
-    <label for="category">Kategorie</label>
-    <select id="category" formControlName="KategorieID">
-      <option *ngFor="let category of categories" [value]="category.KategorieID">{{ category.Name }}</option>
-    </select>
+    <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+      <div class="form-group">
+        <label for="title">Titel</label>
+        <input id="title" formControlName="Titel" type="text" />
+      </div>
 
-    <label>Titel:</label><br>
-    <input type="text" [(ngModel)]="titel"><br><br>
+      <div class="form-group">
+        <label for="category">Kategorie</label>
+        <select id="category" formControlName="KategorieID">
+          <option *ngFor="let category of categories" [value]="category.KategorieID">
+            {{ category.Name }}
+          </option>
+        </select>
+      </div>
 
-    <label for="content">Inhalt</label><br>
-    <textarea id="content" formControlName="Inhalt" rows="10"></textarea>><br><br>
+      <div class="form-group" *ngIf="selectedFormat !== 'nurBild'">
+        <label for="content">Inhalt</label>
+        <textarea id="content" formControlName="Inhalt" rows="5"></textarea>
+      </div>
 
-    <label>Bild hochladen:</label><br>
-    <input type="file" (change)="onFileSelected($event)" accept="image/*"><br><br>
+      <div class="form-group" *ngIf="selectedFormat !== 'nurText' && selectedFormat !== 'nurBild'">
+        <label for="image">Bild hochladen:</label>
+        <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+      </div>
 
-    <button (click)="speichern()">Beitrag speichern</button>
-  </form>
--->
+      <ng-container [ngSwitch]="selectedFormat">
+        <app-section-format
+          *ngSwitchCase="'textBild'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
 
-  <!--<app-news-builder></app-news-builder>-->
+        <app-section-format
+          *ngSwitchCase="'bildText'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
+
+        <app-section-format
+          *ngSwitchCase="'nurText'"
+          [mode]="getMode()"
+          [imgsource]="selectedImageURL">
+        </app-section-format>
+
+        <app-section-format
+          *ngSwitchCase="'nurBild'"
+          [mode]="getMode()"
+          [text]="postForm.get('Inhalt')?.value">
+        </app-section-format>
+      </ng-container>
+
+      <button type="submit" class="submit-button">Speichern</button>
+    </form>
+  </div>
 </div>
