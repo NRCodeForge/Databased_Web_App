@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Tabellenstruktur für Tabelle `abteilungen`
 --
-
+-- Liste der verschiedensten Abteilungen
 CREATE TABLE `abteilungen` (
   `AbteilungsID` int(11) NOT NULL,
   `Abteilungsname` varchar(100) NOT NULL,
@@ -48,7 +48,7 @@ INSERT INTO `abteilungen` (`AbteilungsID`, `Abteilungsname`, `Beschreibung`) VAL
 --
 -- Tabellenstruktur für Tabelle `beitraege`
 --
-
+-- Liste aller erstellten Beiträge und welcher Kategorie sie angehören
 CREATE TABLE `beitraege` (
   `BeitragsID` int(11) NOT NULL,
   `Titel` varchar(255) NOT NULL,
@@ -73,7 +73,7 @@ INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`,
 --
 -- Tabellenstruktur für Tabelle `benutzer`
 --
-
+-- Liste aller registrierten Nutzer
 CREATE TABLE `benutzer` (
   `BenutzerID` int(11) NOT NULL,
   `Vorname` varchar(45) NOT NULL,
@@ -99,7 +99,7 @@ INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`
 --
 -- Tabellenstruktur für Tabelle `downloads`
 --
-
+-- Liste der Downloads auf der Download seite
 CREATE TABLE `downloads` (
   `DownloadID` int(11) NOT NULL,
   `Titel` varchar(255) NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE `kategorien` (
 --
 -- Daten für Tabelle `kategorien`
 --
-
+-- Kategorien für Der Verein Seite, Abteilungen und Schützenfest seite 
 INSERT INTO `kategorien` (`KategorieID`, `Name`) VALUES
 (1, 'News'),
 (2, 'Bogenschießen'),
@@ -154,7 +154,7 @@ INSERT INTO `kategorien` (`KategorieID`, `Name`) VALUES
 --
 -- Tabellenstruktur für Tabelle `rollen`
 --
-
+-- Admin, Leiter und Mitglieder Rolle für verschiedene Rechte
 CREATE TABLE `rollen` (
   `RollenID` int(11) NOT NULL,
   `RollenName` varchar(45) NOT NULL
@@ -184,7 +184,7 @@ CREATE TABLE `seitenaufrufe` (
 --
 -- Daten für Tabelle `seitenaufrufe`
 --
-
+-- Seitenaufrufe für für die Statistik im Admin Dashboard
 INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
 (1, '/', '2025-06-07 06:21:14'),
 (2, '/news-component', '2025-06-07 07:34:22'),
@@ -739,7 +739,7 @@ CREATE TABLE `sektionen` (
 --
 -- Tabellenstruktur für Tabelle `termine`
 --
-
+-- Tabelle zum Planen der Termine 
 CREATE TABLE `termine` (
   `TerminID` int(11) NOT NULL,
   `Titel` varchar(255) NOT NULL,
