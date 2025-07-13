@@ -11,7 +11,6 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 import { LeiterDashboardComponent } from './leiter-dashboard/leiter-dashboard.component';
 import { StartseiteComponent } from './startseite/startseite.component';
 import { ContentManagerComponent } from './admin-dashboard/content-manager/content-manager.component';
-import { DepartmentManagerComponent } from './admin-dashboard/department-manager/department-manager.component';
 import { EventManagerComponent } from './admin-dashboard/event-manager/event-manager.component';
 import { CategoryManagerComponent } from './admin-dashboard/category-manager/category-manager.component';
 import { AbteilungenComponent } from './abteilungen/abteilungen.component';
@@ -48,10 +47,6 @@ export const routes: Routes = [
     component: AdminDashboardComponent,
     children: [
       { path: 'content', component: ContentManagerComponent ,
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      },
-      { path: 'departments', component: DepartmentManagerComponent,
         canActivate: [authGuard], // Schützt diese Route
         data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
       },
