@@ -1,167 +1,239 @@
 /* src/app/admin-dashboard/download-form-modal/download-form-modal.component.css */
+/* Diese Stile basieren auf den zuvor definierten Apple-ähnlichen Variablen */
+:root {
+  --apple-blue: #007AFF;
+  --apple-light-gray: #F5F5F7;
+  --apple-medium-gray: #E8E8ED;
+  --apple-dark-gray: #8E8E93;
+  --apple-text-dark: #1C1C1E; /* Dunkler Text für bessere Lesbarkeit */
+  --apple-text-light: #FFFFFF;
+  --apple-shadow: rgba(0, 0, 0, 0.18); /* Etwas stärkerer Schatten für mehr Pop */
+  --apple-border: #D1D1D1;
+  --apple-success: #34C759;
+  --apple-red: #FF3B30;
+  --modal-inner-bg: #FFFFFF; /* Solider, undurchsichtiger Hintergrund für den Inhalt des Modals */
+}
+
+/* Modal Overlay */
 .form-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.55); /* Etwas dunklerer, soliderer Hintergrund */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(0px); - Entfernt, da kein Glass-Effekt gewünscht ist */
+  /* -webkit-backdrop-filter: blur(0px); - Entfernt */
 }
 
+/* Formular Container */
 .form-container {
-  background-color: #fff;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: var(--modal-inner-bg); /* Solider weißer Hintergrund */
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 16px 36px var(--apple-shadow); /* Deutlicherer, aber weicherer Schatten für mehr Tiefe */
   width: 90%;
   max-width: 600px;
-  position: relative; /* Für die absolute Positionierung des Success-Overlays */
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid var(--apple-medium-gray); /* Leichter Rahmen für Definition */
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.98) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 h3 {
-  color: #555;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+  color: var(--apple-text-dark);
+  margin-top: 0;
+  margin-bottom: 25px;
+  border-bottom: 1px solid var(--apple-medium-gray);
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 1.8em;
+  font-weight: 700;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-weight: 700;
-  color: #444;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--apple-text-dark);
+  font-size: 1rem;
 }
 
 .form-group input[type="text"],
 .form-group textarea {
-  width: calc(100% - 20px);
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--apple-border);
+  border-radius: 10px;
+  font-size: 1rem;
   box-sizing: border-box;
+  background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  color: var(--apple-text-dark);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
 }
 
 .form-group textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 100px;
 }
 
 .form-group input[type="file"] {
   display: block;
   width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #e9ecef;
+  padding: 12px;
+  border: 1px solid var(--apple-border);
+  border-radius: 10px;
+  background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
   cursor: pointer;
-  font-size: 15px;
-  margin-top: 5px;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  color: var(--apple-text-dark);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group input[type="file"]:focus {
+  outline: none;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25);
 }
 
 .form-group input[type="file"]::-webkit-file-upload-button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 8px 15px;
+  background-color: var(--apple-blue);
+  color: var(--apple-text-light);
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   margin-right: 15px;
   transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .form-group input[type="file"]::-webkit-file-upload-button:hover {
-  background-color: #0056b3;
+  background-color: #005bb5;
 }
 
+/* Bildvorschau */
 .image-preview-container {
-  margin-top: 10px;
+  margin-top: 15px;
   text-align: center;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #fcfcfc;
+  border: 1px dashed var(--apple-dark-gray);
+  border-radius: 10px;
+  padding: 15px;
+  background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .image-preview {
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 180px;
+  max-height: 180px;
   width: auto;
   height: auto;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 8px;
+  border: 1px solid var(--apple-medium-gray);
 }
 
 .preview-info {
-  font-size: 0.85em;
-  color: #666;
-  margin-top: 5px;
-}
-
-.current-file-info {
   font-size: 0.9em;
-  color: #555;
+  color: var(--apple-dark-gray);
+  font-weight: 500;
   margin-top: 5px;
-  background-color: #e9f5ff;
-  padding: 8px;
-  border-left: 3px solid #007bff;
-  border-radius: 4px;
 }
 
-.current-file-info a {
-  color: #007bff;
-  text-decoration: none;
+/* Aktuelle Dateiinformationen */
+.current-file-info {
+  font-size: 0.95em;
+  color: var(--apple-text-dark);
+  margin-top: 10px;
+  background-color: #f0f8ff;
+  padding: 10px 15px;
+  border-left: 4px solid var(--apple-blue);
+  border-radius: 8px;
   word-break: break-all;
 }
 
-.current-file-info a:hover {
+.current-file-info a {
+  color: var(--apple-blue);
   text-decoration: underline;
+  transition: color 0.2s ease;
 }
 
+.current-file-info a:hover {
+  color: #005bb5;
+}
+
+/* Formular Aktionen (Buttons) */
 .form-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 30px;
+  gap: 1rem;
 }
 
 .form-actions button {
-  background-color: #28a745;
-  color: #fff;
-  padding: 10px 15px;
+  padding: 12px 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 15px;
-  margin-left: 10px; /* Adjusted from margin-right */
-  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
-.form-actions button:hover:not(:disabled) {
-  background-color: #218838;
+.form-actions button[type="submit"], .form-actions button:not([type="button"]) {
+  background-color: var(--apple-blue);
+  color: var(--apple-text-light);
 }
 
-.form-actions button:first-child { /* Changed to first-child for "Abbrechen" */
-  background-color: #6c757d;
+.form-actions button[type="submit"]:hover:not(:disabled), .form-actions button:not([type="button"]):hover:not(:disabled) {
+  background-color: #005bb5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.form-actions button:first-child:hover:not(:disabled) {
-  background-color: #5a6268;
+.form-actions button[type="button"] { /* Abbrechen Button */
+  background-color: var(--apple-medium-gray);
+  color: var(--apple-text-dark);
+}
+
+.form-actions button[type="button"]:hover:not(:disabled) {
+  background-color: #c0c0c0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
 .form-actions button:disabled {
-  background-color: #ccc;
+  background-color: #e0e0e0;
+  color: #a0a0a0;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 /* Success Message Animation */
@@ -171,13 +243,13 @@ h3 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--modal-inner-bg); /* Solider weißer Hintergrund für die Erfolgsmeldung */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1001; /* Higher than form-container */
+  z-index: 1001;
   animation: fadeInScale 0.3s ease-out;
-  border-radius: 8px; /* Match form-container border-radius */
+  border-radius: inherit;
   flex-direction: column;
 }
 
@@ -186,36 +258,14 @@ h3 {
 }
 
 .success-icon {
-  font-size: 4em;
-  color: #28a745; /* Green color */
-  margin-bottom: 20px;
-  animation: bounceIn 0.6s ease-out;
+  font-size: 4.5em;
+  color: var(--apple-success);
+  margin-bottom: 25px;
+  animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .success-message-content p {
-  font-size: 1.5em;
-  color: #333;
+  font-size: 1.6em;
+  color: var(--apple-text-dark);
   font-weight: 600;
-}
-
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes bounceIn {
-  0%, 20%, 40%, 60%, 80%, 100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-  50% {
-    -webkit-transform: translateY(-20px);
-    transform: translateY(-20px);
-  }
 }
