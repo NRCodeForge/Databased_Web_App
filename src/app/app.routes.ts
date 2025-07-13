@@ -78,8 +78,20 @@ export const routes: Routes = [
   {
     path: "dashboard/leiter",
     component: LeiterDashboardComponent,
-    canActivate: [authGuard], // Schützt diese Route
-    data: { role: 2 } // Nur Benutzer mit Rolle '2' (Leiter) dürfen hier rein
+    children: [
+      {
+        path: 'content', component: ContentManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 2 }
+      },
+      {
+        path: 'events', component: EventManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 2 }
+      }
+    ],
+    canActivate: [authGuard],
+    data: { role: 2 }
   },
 
 ];
