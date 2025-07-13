@@ -1,56 +1,84 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importieren
+import { CommonModule, DatePipe } from '@angular/common'; // DatePipe hinzugefügt für Datumformatierung
 import { ContentService } from '../../services/content.service';
-import { Post } from '../../models/post';
-import { PostEditorComponent } from '../post-editor/post-editor.component'; // Importieren
+import { Post } from '../../models/post'; // Post-Modell korrekt importiert
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { ContentFormModalComponent } from '../content-form-modal/content-form-modal.component'; // Beibehalten
 
 @Component({
   selector: 'app-content-manager',
-  standalone: true, // Sicherstellen, dass die Komponente eigenständig ist
-  imports: [CommonModule, PostEditorComponent], // CommonModule und PostEditorComponent hinzufügen
+  standalone: true,
+  imports: [CommonModule, FormsModule, ContentFormModalComponent, DatePipe], // DatePipe importiert
   templateUrl: './content-manager.component.html',
-  styleUrls: ['./content-manager.component.css']
+  styleUrl: './content-manager.component.css'
 })
 export class ContentManagerComponent implements OnInit {
-  posts: Post[] = [];
-  selectedPost: Post | null = null;
-  showPostEditor = false;
+  contents: Post[] = []; // Typ auf Post[] geändert
+  selectedContent: Partial<Post> | null = null; // Typ auf Partial<Post> geändert
+  showContentModal: boolean = false;
+  currentUserId: number | null = null;
 
-  constructor(private contentService: ContentService) { }
+  constructor(
+    private contentService: ContentService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.currentUserId = this.authService.getUserID();
+    this.loadContents();
   }
 
-  loadPosts(): void {
-    this.contentService.getPosts().subscribe(posts => {
-      this.posts = posts;
+  loadContents(): void {
+    this.contentService.getPosts().subscribe({ // Verwendet getPosts
+      next: (data) => {
+        this.contents = data;
+      },
+      error: (err) => {
+        console.error('Fehler beim Laden der Inhalte:', err);
+      }
     });
   }
 
-  editPost(post: Post): void {
-    this.selectedPost = post;
-    this.showPostEditor = true;
+  onAddContent(): void {
+    this.selectedContent = {
+      Titel: '',
+      Inhalt: '',
+      KategorieID: 0, // Standardwert oder Platzhalter
+      UserID: this.currentUserId || 0,
+      Erstellungsdatum: new Date().toISOString() // Setzt Erstellungsdatum
+    };
+    this.showContentModal = true;
   }
 
-  deletePost(post: Post): void {
-    if (confirm(`Beitrag "${post.Titel}" wirklich löschen?`)) {
-      this.contentService.deletePost(post.BeitragsID).subscribe(() => {
-        this.posts = this.posts.filter(p => p.BeitragsID !== post.BeitragsID);
-      }, error => {
-        alert('Fehler beim Löschen des Beitrags.');
-        console.error(error);
+  onEditContent(content: Post): void { // Typ auf Post geändert
+    this.selectedContent = { ...content }; // Erstellt eine Kopie des Post-Objekts
+    this.showContentModal = true;
+  }
+
+  onContentSaved(savedContent: Post): void { // Typ auf Post geändert
+    this.showContentModal = false;
+    this.selectedContent = null;
+    this.loadContents(); // Inhalte neu laden
+  }
+
+  onCancelEditFromModal(): void { // Methode zum Abbrechen
+    this.showContentModal = false;
+    this.selectedContent = null;
+  }
+
+  onDeleteContent(id: number): void {
+    if (confirm('Sind Sie sicher, dass Sie diesen Inhalt löschen möchten?')) {
+      this.contentService.deletePost(id).subscribe({ // Verwendet deletePost
+        next: () => {
+          alert('Inhalt erfolgreich gelöscht!');
+          this.loadContents();
+        },
+        error: (err) => {
+          console.error('Fehler beim Löschen des Inhalts:', err);
+          alert('Fehler beim Löschen des Inhalts.');
+        }
       });
     }
-  }
-
-  addPost(): void {
-    this.selectedPost = null;
-    this.showPostEditor = true;
-  }
-
-  onPostSaved(post: Post): void {
-    this.showPostEditor = false;
-    this.loadPosts();
   }
 }

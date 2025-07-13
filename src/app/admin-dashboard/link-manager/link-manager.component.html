@@ -3,44 +3,13 @@
 
   <button class="add-button" (click)="onAddDownload()">Neuen Download hinzufügen</button>
 
-  <div *ngIf="isEditing && selectedDownload" class="edit-form"> <h3>{{ selectedDownload.id ? 'Download bearbeiten' : 'Neuen Download hinzufügen' }}</h3>
-    <div class="form-group">
-      <label for="title">Titel:</label>
-      <input id="title" [(ngModel)]="selectedDownload.title" placeholder="Titel" required>
-    </div>
-    <div class="form-group">
-      <label for="description">Beschreibung:</label>
-      <textarea id="description" [(ngModel)]="selectedDownload.description" placeholder="Beschreibung"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="showcaseImageUpload">Showcase Bild hochladen:</label>
-      <input type="file" id="showcaseImageUpload" (change)="onFileSelected($event, 'showcase')" accept="image/*">
-      <div *ngIf="showcaseImagePreviewUrl" class="image-preview-container">
-        <img [src]="showcaseImagePreviewUrl" alt="Showcase Vorschau" class="image-preview">
-        <p class="preview-info">Aktuelles Bild / Vorschau</p>
-      </div>
-      <p *ngIf="selectedDownload.showcaseImage && !showcaseImagePreviewUrl" class="current-file-info">
-        Aktuell: <a [href]="selectedDownload.showcaseImage" target="_blank">{{ selectedDownload.showcaseImage | slice:0:50 }}...</a>
-      </p>
-    </div>
-
-    <div class="form-group">
-      <label for="downloadFileUpload">Download-Datei hochladen:</label>
-      <input type="file" id="downloadFileUpload" (change)="onFileSelected($event, 'download')">
-      <p *ngIf="selectedDownload.downloadUrl && !selectedDownloadFile" class="current-file-info">
-        Aktuell: <a [href]="selectedDownload.downloadUrl" target="_blank">{{ selectedDownload.downloadUrl | slice:0:50 }}...</a>
-      </p>
-    </div>
-
-    <div class="form-actions">
-      <button (click)="onSaveDownload()"
-              [disabled]="!selectedDownload.title || (!selectedDownload.id && !selectedDownloadFile)">
-        Speichern
-      </button>
-      <button (click)="onCancelEdit()">Abbrechen</button>
-    </div>
-  </div>
+  <app-download-form-modal
+    *ngIf="isEditing && selectedDownload"
+    [download]="selectedDownload"
+    [currentUserId]="currentUserId"
+    (downloadSaved)="onDownloadSaved($event)"
+    (cancelEdit)="onCancelEditFromModal()">
+  </app-download-form-modal>
 
   <div class="download-list-container">
     <h3>Bestehende Downloads</h3>
@@ -58,11 +27,16 @@
             <p class="download-url">Download-Link: <a [href]="download.downloadUrl" target="_blank">{{ download.downloadUrl | slice:0:50 }}...</a></p>
           </div>
           <div class="item-actions">
-            <button (click)="onEditDownload(download)">Bearbeiten</button>
-            <button (click)="onDeleteDownload(download.id)">Löschen</button>
-          </div>
+            <button class="btn-icon" (click)="onEditDownload(download)" title="Bearbeiten">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-danger" (click)="onDeleteDownload(download.id)" title="Löschen">
+              <i class="fas fa-trash-alt"></i>
+            </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
+

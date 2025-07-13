@@ -1,0 +1,48 @@
+<div class="form-overlay">
+  <div class="form-container">
+    <div *ngIf="showSuccessMessage" class="success-message-overlay">
+      <div class="success-message-content">
+        <i class="fas fa-check-circle success-icon"></i>
+        <p>{{ successMessageText }}</p>
+      </div>
+    </div>
+
+    <h3>{{ download?.id ? 'Download bearbeiten' : 'Neuen Download hinzufügen' }}</h3>
+    <div class="form-group">
+      <label for="title">Titel:</label>
+      <input id="title" [(ngModel)]="download!.title" placeholder="Titel" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Beschreibung:</label>
+      <textarea id="description" [(ngModel)]="download!.description" placeholder="Beschreibung"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="showcaseImageUpload">Showcase Bild hochladen:</label>
+      <input type="file" id="showcaseImageUpload" (change)="onFileSelected($event, 'showcase')" accept="image/*">
+      <div *ngIf="showcaseImagePreviewUrl" class="image-preview-container">
+        <img [src]="showcaseImagePreviewUrl" alt="Showcase Vorschau" class="image-preview">
+        <p class="preview-info">Aktuelles Bild / Vorschau</p>
+      </div>
+      <p *ngIf="download?.showcaseImage && !showcaseImagePreviewUrl" class="current-file-info">
+        Aktuell: <a [href]="download?.showcaseImage" target="_blank">{{ download?.showcaseImage | slice:0:50 }}...</a>
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="downloadFileUpload">Download-Datei hochladen:</label>
+      <input type="file" id="downloadFileUpload" (change)="onFileSelected($event, 'download')">
+      <p *ngIf="download?.downloadUrl && !selectedDownloadFile" class="current-file-info">
+        Aktuell: <a [href]="download?.downloadUrl" target="_blank">{{ download?.downloadUrl | slice:0:50 }}...</a>
+      </p>
+    </div>
+
+    <div class="form-actions">
+      <button (click)="onCancel()">Abbrechen</button>
+      <button (click)="onSaveDownload()"
+              [disabled]="!download?.title || (!download?.id && !selectedDownloadFile)">
+        Speichern
+      </button>
+    </div>
+  </div>
+</div>

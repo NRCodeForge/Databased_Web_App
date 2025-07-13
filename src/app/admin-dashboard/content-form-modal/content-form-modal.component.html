@@ -1,0 +1,90 @@
+<div class="modal-overlay">
+  <div class="modal-content">
+    <div *ngIf="showSuccessMessage" class="success-message-overlay">
+      <div class="success-message-content">
+        <i class="fas fa fa-check-circle success-icon"></i>
+        <p>{{ successMessageText }}</p>
+      </div>
+    </div>
+
+    <div class="post-editor" #editor>
+      <h2>{{ content?.BeitragsID ? 'Beitrag bearbeiten' : 'Neuen Beitrag erstellen' }}</h2>
+
+      <div class="form-group format-selection">
+        <label for="format-select">Format auswählen:</label>
+        <select id="format-select" [(ngModel)]="selectedFormat" [ngModelOptions]="{standalone: true}">
+          <option value="textBild">Text über Bild</option>
+          <option value="bildText">Bild über Text</option>
+          <option value="nurText">Nur Text</option>
+          <option value="nurBild">Nur Bild</option>
+        </select>
+      </div>
+
+      <form [formGroup]="postForm" (ngSubmit)="savePost()" class="form-container">
+        <div class="form-group">
+          <label for="title">Titel</label>
+          <input id="title" formControlName="Titel" type="text" placeholder="Titel des Beitrags"/>
+        </div>
+
+        <div class="form-group">
+          <label for="category">Kategorie</label>
+          <select id="category" formControlName="KategorieID">
+            <option [value]="''" disabled>Kategorie auswählen</option>
+            <option *ngFor="let category of categories" [value]="category.KategorieID">
+              {{ category.Name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group" *ngIf="selectedFormat !== 'nurBild'">
+          <label for="content">Inhalt</label>
+          <textarea id="content" formControlName="Inhalt" rows="5" placeholder="Inhalt des Beitrags"></textarea>
+        </div>
+
+        <div class="form-group" *ngIf="selectedFormat !== 'nurText'">
+          <label for="image">Bild hochladen:</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          <div *ngIf="selectedImageURL" class="image-preview-container">
+            <img [src]="selectedImageURL" alt="Vorschau" class="image-preview"/>
+            <span class="preview-text">Bildvorschau</span>
+          </div>
+        </div>
+
+        <ng-container [ngSwitch]="selectedFormat">
+          <app-section-format
+            *ngSwitchCase="'textBild'"
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+
+          <app-section-format
+            *ngSwitchCase="'bildText'"
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+
+          <app-section-format
+            *ngSwitchCase="'nurText'"
+            [mode]="getMode()"
+            [text]="postForm.get('Inhalt')?.value"
+            [imgsource]="''">
+          </app-section-format>
+
+          <app-section-format
+            *ngSwitchCase="'nurBild'"
+            [mode]="getMode()"
+            [text]="''"
+            [imgsource]="selectedImageURL">
+          </app-section-format>
+        </ng-container>
+
+        <div class="modal-actions">
+          <button type="button" (click)="onCancel()">Abbrechen</button>
+          <button type="submit" class="submit-button">Speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

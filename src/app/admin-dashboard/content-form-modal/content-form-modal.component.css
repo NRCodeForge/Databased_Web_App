@@ -1,0 +1,249 @@
+/* Grundlegende Apple-ähnliche Farben und Schriftarten */
+:root {
+  --apple-blue: #007AFF;
+  --apple-light-gray: #F5F5F7; /* Hellerer Hintergrund für Modal */
+  --apple-medium-gray: #E8E8ED; /* Für Border, Trennlinien, etc. */
+  --apple-dark-gray: #8E8E93;
+  --apple-text-dark: #1C1C1E; /* Dunklerer Text */
+  --apple-text-light: #FFFFFF;
+  --apple-shadow: rgba(0, 0, 0, 0.12); /* Deutlicherer, aber weicherer Schatten */
+  --apple-border: #D1D1D1;
+  --apple-success: #34C759;
+  --apple-red: #FF3B30; /* Für Löschen/Abbrechen */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Modal Overlay & Content */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45); /* Etwas dunklerer, aber immer noch transparenter Hintergrund */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px); /* Stärkerer Blur für Tiefe */
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  background-color: var(--apple-light-gray);
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px var(--apple-shadow); /* Mehr Tiefe */
+  width: 90%;
+  max-width: 800px; /* Erhöhte maximale Breite für mehr Platz */
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Geschmeidigerer Übergang */
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.98) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Erfolgsmeldung Styles */
+.success-message-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  animation: fadeInScale 0.3s ease-out;
+  border-radius: inherit; /* Erfolgsmeldung passt sich den Ecken des Modals an */
+  flex-direction: column;
+}
+
+.success-message-content {
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 4.5em; /* Etwas größer */
+  color: var(--apple-success);
+  margin-bottom: 25px; /* Mehr Abstand */
+  animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Elastischeres Bouncen */
+}
+
+.success-message-content p {
+  font-size: 1.6em; /* Deutlicher */
+  color: var(--apple-text-dark);
+  font-weight: 600;
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounceIn {
+  0%, 20%, 40%, 60%, 80%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Post Editor / Formular Styles */
+.post-editor {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Konsistenterer Abstand */
+}
+
+h2 {
+  color: var(--apple-text-dark);
+  margin-top: 0;
+  margin-bottom: 1.5rem; /* Mehr Abstand zum Formular */
+  text-align: center;
+  font-size: 2em; /* Größerer Titel */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem; /* Abstand zwischen Formularabschnitten */
+}
+
+.form-group {
+  margin-bottom: 0; /* Individuelle Abstände durch gap im Container */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem; /* Mehr Abstand zum Input */
+  font-weight: 600;
+  color: var(--apple-text-dark);
+  font-size: 1rem; /* Etwas größer */
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px 14px; /* Mehr Padding */
+  border: 1px solid var(--apple-medium-gray); /* Hellerer, subtilerer Border */
+  border-radius: 10px; /* Abgerundeter */
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: var(--apple-text-light);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06); /* Subtilerer Innenschatten */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--apple-blue);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.25); /* Breiterer, deutlicherer Fokus-Ring */
+}
+
+.form-group textarea {
+  min-height: 150px; /* Größeres Textfeld */
+}
+
+.form-group select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%238E8E93" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+}
+
+/* Bildvorschau-Container */
+.image-preview-container {
+  margin-top: 15px;
+  border: 1px dashed var(--apple-medium-gray); /* Gestrichelter Rahmen */
+  border-radius: 10px;
+  padding: 15px;
+  background-color: var(--apple-text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Leichter Schatten */
+}
+
+.image-preview {
+  max-width: 100%;
+  max-height: 250px; /* Höhere Bildvorschau */
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid var(--apple-medium-gray); /* Rahmen für das Bild */
+}
+
+.preview-text {
+  font-size: 0.9rem;
+  color: var(--apple-dark-gray);
+  font-weight: 500;
+}
+
+/* Modal-Aktionen (Buttons) */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem; /* Mehr Abstand zu den Buttons */
+}
+
+.modal-actions button {
+  padding: 12px 25px; /* Mehr Padding */
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Weicherer Schatten */
+}
+
+.modal-actions button.submit-button {
+  background-color: var(--apple-blue);
+  color: var(--apple-text-light);
+}
+
+.modal-actions button.submit-button:hover {
+  background-color: #005bb5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.modal-actions button:not(.submit-button) { /* Für den Abbrechen-Button */
+  background-color: var(--apple-medium-gray);
+  color: var(--apple-text-dark);
+}
+
+.modal-actions button:not(.submit-button):hover {
+  background-color: #d1d1d1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-actions button:disabled {
+  background-color: #e0e0e0;
+  color: #a0a0a0;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Spezifische Styles für Format-Auswahl (Dropdown) */
+.format-selection {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--apple-medium-gray); /* Trennlinie */
+  padding-bottom: 1rem;
+}

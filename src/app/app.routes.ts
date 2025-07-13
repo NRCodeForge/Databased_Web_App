@@ -7,7 +7,6 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { NewsComponent } from './news/news.component';
 import { TermineComponent } from './termine/termine.component';
-import { ForumComponent } from './forum/forum.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { LeiterDashboardComponent } from './leiter-dashboard/leiter-dashboard.component';
 import { StartseiteComponent } from './startseite/startseite.component';
@@ -43,7 +42,6 @@ export const routes: Routes = [
       { path: 'senioren', component:SeniorenComponent},
     ]},
   {path: "termin", component:TermineComponent},
-  {path: "forum", component:ForumComponent},
   {path: "der-verein", component:DerVereinComponent},
   {path: "downloads", component: DownloadsComponent}, // Route for the public downloads page
   {path: "dashboard/admin",
