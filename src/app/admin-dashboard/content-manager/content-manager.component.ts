@@ -1,5 +1,3 @@
-// src/app/admin-dashboard/content-manager/content-manager.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ContentService } from '../../services/content.service';

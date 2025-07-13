@@ -1,5 +1,3 @@
-// src/app/admin-dashboard/delete-form-modal/delete-form-modal.component.ts
-
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
