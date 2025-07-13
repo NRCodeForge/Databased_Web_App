@@ -41,8 +41,4 @@ export class DownloadService {
   deleteDownload(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-
-  reorderDownloads(orderUpdates: { id: number; order: number }[]): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/reorder`, { orderUpdates });
-  }
 }

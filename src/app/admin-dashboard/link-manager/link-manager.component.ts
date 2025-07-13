@@ -105,23 +105,4 @@ export class LinkManagerComponent implements OnInit {
     this.downloadToDelete = null; // Clear the download to delete
   }
 
-  drop(event: CdkDragDrop<Download[]>): void {
-    moveItemInArray(this.downloads, event.previousIndex, event.currentIndex);
-
-    const orderUpdates = this.downloads.map((download, index) => ({
-      id: download.id,
-      order: index + 1
-    }));
-
-    this.downloadService.reorderDownloads(orderUpdates).subscribe({
-      next: () => {
-        console.log('Reihenfolge im Backend aktualisiert.');
-      },
-      error: (err) => {
-        console.error('Fehler beim Aktualisieren der Reihenfolge:', err);
-        alert('Fehler beim Aktualisieren der Reihenfolge der Downloads.');
-        this.loadDownloads();
-      }
-    });
-  }
 }

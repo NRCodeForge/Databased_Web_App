@@ -19,12 +19,8 @@
 
   <div class="download-list-container">
     <h3>Bestehende Downloads</h3>
-    <div
-      cdkDropList
-      class="download-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="download-item" *ngFor="let download of downloads" cdkDrag>
-        <div class="drag-handle" cdkDragHandle>☰</div>
+    <div class="download-list">
+      <div class="download-item" *ngFor="let download of downloads">
         <div class="item-content">
           <img *ngIf="download.showcaseImage" [src]="download.showcaseImage" alt="{{ download.title }}" class="item-image">
           <div class="item-details">
