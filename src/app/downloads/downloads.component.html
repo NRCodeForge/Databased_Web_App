@@ -1,0 +1,22 @@
+<div class="downloads-container">
+  <h2>Verfügbare Downloads</h2>
+
+  <div class="downloads-grid">
+    <div class="download-card" *ngFor="let download of downloads">
+      <div class="card-image-container">
+        <img [src]="download.showcaseImage || 'assets/placeholder-download.png'" alt="{{ download.title }}" class="card-image">
+      </div>
+      <div class="card-content">
+        <h3>{{ download.title }}</h3>
+        <p *ngIf="download.description">{{ download.description }}</p>
+        <button class="download-button" (click)="onDownloadClick(download.downloadUrl, download.title)">
+          <i class="fas fa-download"></i> Jetzt herunterladen
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="downloads.length === 0" class="no-downloads-message">
+      <p>Derzeit sind keine Downloads verfügbar.</p>
+    </div>
+  </div>
+</div>

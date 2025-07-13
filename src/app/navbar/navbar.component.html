@@ -7,12 +7,12 @@
     <li><a routerLink="/der-verein" routerLinkActive="active">Der Verein</a></li>
     <li><a routerLink="/abteilung" routerLinkActive="active">Abteilungen</a></li>
     <li><a routerLink="/schuetzenfest" routerLinkActive="active">Schützenfest</a></li>
-    <li><a routerLink="/termin" routerLinkActive="active">Termin</a></li>
-
+    <li><a routerLink="/termin" routerLinkActive="active">Termine</a></li>
+    <li><a routerLink="/downloads" routerLinkActive="active">Downloads</a></li>
 
     <li *ngIf="authService.getUserRole() === 2">
-      <a routerLink="/dashboard/leiter" routerLinkActive="active">Leiter Dashboard</a>
-    </li>
+    <a routerLink="/dashboard/leiter" routerLinkActive="active">Leiter Dashboard</a>
+  </li>
 
     <li *ngIf="authService.getUserRole() === 3">
       <a routerLink="/dashboard/admin" routerLinkActive="active">Admin Dashboard</a>
@@ -23,7 +23,7 @@
     </ng-container>
     <ng-template #loginLink>
       <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-       <li><a routerLink="/registration" routerLinkActive="active">Registrieren</a></li>
+      <li><a routerLink="/registration" routerLinkActive="active">Registrieren</a></li>
     </ng-template>
 
   </ul>

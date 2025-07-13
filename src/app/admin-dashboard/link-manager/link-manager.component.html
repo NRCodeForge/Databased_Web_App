@@ -1,1 +1,68 @@
-<p>link-manager works!</p>
+<div class="link-manager-container">
+  <h2>Download Manager</h2>
+
+  <button class="add-button" (click)="onAddDownload()">Neuen Download hinzufügen</button>
+
+  <div *ngIf="isEditing && selectedDownload" class="edit-form"> <h3>{{ selectedDownload.id ? 'Download bearbeiten' : 'Neuen Download hinzufügen' }}</h3>
+    <div class="form-group">
+      <label for="title">Titel:</label>
+      <input id="title" [(ngModel)]="selectedDownload.title" placeholder="Titel" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Beschreibung:</label>
+      <textarea id="description" [(ngModel)]="selectedDownload.description" placeholder="Beschreibung"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="showcaseImageUpload">Showcase Bild hochladen:</label>
+      <input type="file" id="showcaseImageUpload" (change)="onFileSelected($event, 'showcase')" accept="image/*">
+      <div *ngIf="showcaseImagePreviewUrl" class="image-preview-container">
+        <img [src]="showcaseImagePreviewUrl" alt="Showcase Vorschau" class="image-preview">
+        <p class="preview-info">Aktuelles Bild / Vorschau</p>
+      </div>
+      <p *ngIf="selectedDownload.showcaseImage && !showcaseImagePreviewUrl" class="current-file-info">
+        Aktuell: <a [href]="selectedDownload.showcaseImage" target="_blank">{{ selectedDownload.showcaseImage | slice:0:50 }}...</a>
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label for="downloadFileUpload">Download-Datei hochladen:</label>
+      <input type="file" id="downloadFileUpload" (change)="onFileSelected($event, 'download')">
+      <p *ngIf="selectedDownload.downloadUrl && !selectedDownloadFile" class="current-file-info">
+        Aktuell: <a [href]="selectedDownload.downloadUrl" target="_blank">{{ selectedDownload.downloadUrl | slice:0:50 }}...</a>
+      </p>
+    </div>
+
+    <div class="form-actions">
+      <button (click)="onSaveDownload()"
+              [disabled]="!selectedDownload.title || (!selectedDownload.id && !selectedDownloadFile)">
+        Speichern
+      </button>
+      <button (click)="onCancelEdit()">Abbrechen</button>
+    </div>
+  </div>
+
+  <div class="download-list-container">
+    <h3>Bestehende Downloads</h3>
+    <div
+      cdkDropList
+      class="download-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="download-item" *ngFor="let download of downloads" cdkDrag>
+        <div class="drag-handle" cdkDragHandle>☰</div>
+        <div class="item-content">
+          <img *ngIf="download.showcaseImage" [src]="download.showcaseImage" alt="{{ download.title }}" class="item-image">
+          <div class="item-details">
+            <h4>{{ download.title }}</h4>
+            <p>{{ download.description }}</p>
+            <p class="download-url">Download-Link: <a [href]="download.downloadUrl" target="_blank">{{ download.downloadUrl | slice:0:50 }}...</a></p>
+          </div>
+          <div class="item-actions">
+            <button (click)="onEditDownload(download)">Bearbeiten</button>
+            <button (click)="onDeleteDownload(download.id)">Löschen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

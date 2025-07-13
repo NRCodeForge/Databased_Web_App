@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 07. Jul 2025 um 00:50
--- Server-Version: 10.4.27-MariaDB
--- PHP-Version: 8.2.0
+-- Erstellungszeit: 13. Jul 2025 um 13:18
+-- Server-Version: 10.4.32-MariaDB
+-- PHP-Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,6 +55,7 @@ CREATE TABLE `beitraege` (
   `Inhalt` text DEFAULT NULL,
   `Bild` longtext CHARACTER SET utf8 COLLATE utf8_general_nopad_ci DEFAULT NULL,
   `KategorieID` int(11) NOT NULL,
+  `Formart` int(11) DEFAULT NULL,
   `ErstelltVon` int(11) NOT NULL,
   `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp(),
   `Aenderungsdatum` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
@@ -64,14 +65,8 @@ CREATE TABLE `beitraege` (
 -- Daten für Tabelle `beitraege`
 --
 
-INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
-(4, 'News', 'Viele neune Infos', NULL, 2, 1, '2025-07-06 16:18:25', NULL),
-(5, 'Termisn', 'Hey', NULL, 9, 1, '2025-07-06 16:31:48', NULL),
-(6, 'Was geht ab!', 'Es wird nur Gewonnen', '', 5, 1, '2025-07-06 16:59:29', NULL),
-(7, 'Test 123', 'c546a51c6a51x', '', 3, 5, '2025-07-06 18:06:50', NULL),
-(8, 'ölkcsnölknlc', 'cnclknaüokncokn', '', 3, 5, '2025-07-06 18:07:16', NULL),
-(9, 'Alter', 'Mund', '', 1, 1, '2025-07-06 22:48:03', NULL),
-(10, 'WAs', 'Nöö', '', 6, 1, '2025-07-06 22:49:16', NULL);
+INSERT INTO `beitraege` (`BeitragsID`, `Titel`, `Inhalt`, `Bild`, `KategorieID`, `Formart`, `ErstelltVon`, `Erstellungsdatum`, `Aenderungsdatum`) VALUES
+(12, 'Schüler- und Jugendtraining', '\nDienstags von 18:00 - 19:30 Uhr\n\nWir bieten folgende Disziplinen für Schüler und Jugendliche an\n\nLuftgewehr 10m\nLuftpistole 10m\nArmbrust 10m\nKleinkaliber auf 50m\nWeiter Informationen können Sie beim Jugendsportleiter per Mail erfragen! \n\nRecurve Bogen Halle\nCompound Bogen Halle\nWeiter Informationen können Sie beim Bogensportleiter per Mail erfragen! \nWenn Ihr Interesse habt, dann kommt doch einfach vorbei und schaut euch alles an, Testet was Euch gefällt.\n\nWir freuen uns auf Euch!\n\nWICHTIG für Eltern\n\nBitte bringen sie die Einverständniserklärung für Ihr Kind beim ersten Mal ausgefüllt mit!\n\nEinverständniserklärung Eltern // PDF-Datei\n\nAuszug aus dem WaffG §27 Abs.3 (Verlinkung )\n\nhttps://www.gesetze-im-internet.de/waffg_2002/__27.html\n\n1.\n\nKindern, die das zwölfte Lebensjahr vollendet haben und noch nicht 14 Jahre alt sind, das Schießen in Schießstätten mit Druckluft-, Federdruckwaffen und Waffen, bei denen zum Antrieb der Geschosse kalte Treibgase verwendet werden (Anlage 2 Abschnitt 2 Unterabschnitt 2 Nr. 1.1 und 1.2),\n\n2.\n\nJugendlichen, die das 14. Lebensjahr vollendet haben und noch nicht 18 Jahre alt sind, auch das Schießen mit sonstigen Schusswaffen bis zu einem Kaliber von 5,6 mm lfB (.22 l.r.) für Munition mit Randfeuerzündung, wenn die Mündungsenergie höchstens 200 Joule (J) beträgt und Einzellader-Langwaffen mit glatten Läufen mit Kaliber 12 oder kleiner.\n\n ', '', 3, NULL, 5, '2025-07-07 00:33:23', '2025-07-07 00:34:42');
 
 -- --------------------------------------------------------
 
@@ -98,7 +93,34 @@ INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`
 (2, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$JrglxTJkfYvMZ0Z732ExBOyQGhR8RliZraywUuGmc6EAb0YueWvrS', 3, '2025-07-05 12:50:52'),
 (3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 2, '2025-07-05 12:54:23'),
 (4, 'Sarah', 'Jahnaschke', 'Klein@zwerg.mico', '$2b$10$qiNEtGwMZwOO.GhUa0QmieX9pSS4gZ5p4MbVuKqH2SaanKFimQWC.', 3, '2025-07-05 12:57:30'),
-(5, 'Niclas', 'RR', 'N@R.R', '$2b$10$0gbEGkujIatDx4OKsjy71OHnBFGmTLgze1WiFz7.KhmJUuAFAlZ72', 3, '2025-07-05 12:59:27');
+(5, 'Niclas', 'RR', 'N@R.R', '$2b$10$0gbEGkujIatDx4OKsjy71OHnBFGmTLgze1WiFz7.KhmJUuAFAlZ72', 3, '2025-07-05 12:59:27'),
+(7, 'Bob', 'Bürger', 'bob@bob.bob', '$2b$10$YwenK0fGaU0AhhrnPQc/ruJq1mcEWPyC4wwXRhn3gNPy6pmRB1Bwu', 2, '2025-07-07 08:56:18'),
+(8, 'Peter', 'Bob', 'PB@p.com', '$2b$10$bZxFmwEnbzuX2LVlKpMoBOzx6ebNpwF7W9lwUr4MLwrrizg62k4L6', 1, '2025-07-07 07:55:54');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `downloads`
+--
+
+CREATE TABLE `downloads` (
+  `DownloadID` int(11) NOT NULL,
+  `Titel` varchar(255) NOT NULL,
+  `Beschreibung` text DEFAULT NULL,
+  `ShowcaseImageURL` varchar(2048) DEFAULT NULL,
+  `DownloadURL` varchar(2048) NOT NULL,
+  `Reihenfolge` int(11) DEFAULT NULL,
+  `ErstelltVon` int(11) NOT NULL,
+  `Erstellungsdatum` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `downloads`
+--
+
+INSERT INTO `downloads` (`DownloadID`, `Titel`, `Beschreibung`, `ShowcaseImageURL`, `DownloadURL`, `Reihenfolge`, `ErstelltVon`, `Erstellungsdatum`) VALUES
+(1, 'Test', 'test', '/uploads/showcaseImage-1752404588025-659518588.jpeg', '/uploads/downloadFile-1752404588061-655085816.pdf', 1, 5, '2025-07-13 11:03:08'),
+(2, 'Help me ', 'Im Down', '/uploads/showcaseImage-1752405423358-33649594.jpeg', '/uploads/downloadFile-1752405423399-873658102.pdf', 2, 5, '2025-07-13 11:17:03');
 
 -- --------------------------------------------------------
 
@@ -265,104 +287,217 @@ INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
 (95, '/dashboard/admin', '2025-07-06 18:06:58'),
 (96, '/dashboard/admin/content', '2025-07-06 18:06:59'),
 (97, '/abteilung-component', '2025-07-06 18:07:17'),
-(98, '/dashboard/admin/content', '2025-07-06 18:29:55'),
-(99, '/news-component', '2025-07-06 18:30:18'),
-(100, '/der-verein-component', '2025-07-06 18:30:27'),
-(101, '/abteilung-component', '2025-07-06 18:30:29'),
-(102, '/termine-component', '2025-07-06 18:30:30'),
-(103, '/dashboard/leiter', '2025-07-06 18:30:30'),
-(104, '/dashboard/admin', '2025-07-06 18:30:34'),
-(105, '/login-component', '2025-07-06 18:30:35'),
-(106, '/', '2025-07-06 18:30:37'),
-(107, '/dashboard/admin', '2025-07-06 18:30:38'),
-(108, '/dashboard/leiter', '2025-07-06 18:30:39'),
-(109, '/dashboard/admin', '2025-07-06 18:30:40'),
-(110, '/dashboard/admin/content', '2025-07-06 18:30:41'),
-(111, '/dashboard/admin/content', '2025-07-06 19:09:42'),
-(112, '/dashboard/admin/users', '2025-07-06 19:09:44'),
-(113, '/dashboard/admin/content', '2025-07-06 19:09:45'),
-(114, '/news-component', '2025-07-06 19:09:46'),
-(115, '/dashboard/admin', '2025-07-06 19:09:48'),
-(116, '/dashboard/admin/content', '2025-07-06 19:09:50'),
-(117, '/dashboard/admin/content', '2025-07-06 19:10:11'),
-(118, '/dashboard/admin/content', '2025-07-06 19:30:53'),
-(119, '/login', '2025-07-06 19:30:56'),
-(120, '/', '2025-07-06 19:30:57'),
-(121, '/dashboard/admin', '2025-07-06 19:31:00'),
-(122, '/dashboard/admin/content', '2025-07-06 19:31:01'),
-(123, '/dashboard/admin/users', '2025-07-06 19:31:02'),
-(124, '/dashboard/admin/content', '2025-07-06 19:31:02'),
-(125, '/dashboard/admin/users', '2025-07-06 19:31:03'),
-(126, '/dashboard/admin/departments', '2025-07-06 19:31:10'),
-(127, '/dashboard/admin/events', '2025-07-06 19:31:10'),
-(128, '/dashboard/admin/departments', '2025-07-06 19:31:11'),
-(129, '/dashboard/admin/users', '2025-07-06 19:31:12'),
-(130, '/dashboard/admin/content', '2025-07-06 19:31:12'),
-(131, '/', '2025-07-06 19:31:33'),
-(132, '/dashboard/admin', '2025-07-06 19:31:37'),
-(133, '/dashboard/admin/content', '2025-07-06 19:31:37'),
-(134, '/dashboard/admin/users', '2025-07-06 19:32:15'),
-(135, '/dashboard/admin/content', '2025-07-06 19:32:15'),
-(136, '/dashboard/admin/content', '2025-07-06 19:35:34'),
-(137, '/dashboard/admin/content', '2025-07-06 19:35:43'),
-(138, '/dashboard/admin/users', '2025-07-06 19:35:52'),
-(139, '/dashboard/admin/content', '2025-07-06 19:35:53'),
-(140, '/dashboard/admin/users', '2025-07-06 19:35:53'),
-(141, '/dashboard/admin/content', '2025-07-06 19:35:54'),
-(142, '/dashboard/admin/content', '2025-07-06 19:38:10'),
-(143, '/dashboard/admin/content', '2025-07-06 19:41:08'),
-(144, '/dashboard/admin/content', '2025-07-06 19:43:03'),
-(145, '/login', '2025-07-06 19:43:09'),
-(146, '/', '2025-07-06 19:43:10'),
-(147, '/dashboard/admin', '2025-07-06 19:43:12'),
-(148, '/dashboard/admin/content', '2025-07-06 19:43:13'),
-(149, '/dashboard/admin/content', '2025-07-06 20:52:59'),
-(150, '/dashboard/admin/content', '2025-07-06 20:54:14'),
-(151, '/dashboard/admin/content', '2025-07-06 21:34:49'),
-(152, '/login', '2025-07-06 21:34:51'),
-(153, '/', '2025-07-06 21:34:52'),
-(154, '/dashboard/admin', '2025-07-06 21:34:53'),
-(155, '/dashboard/admin/content', '2025-07-06 21:34:54'),
-(156, '/dashboard/admin/content', '2025-07-06 21:35:58'),
-(157, '/dashboard/admin/content', '2025-07-06 21:36:05'),
-(158, '/dashboard/admin/content', '2025-07-06 21:37:57'),
-(159, '/dashboard/admin/content', '2025-07-06 21:50:05'),
-(160, '/dashboard/admin/content', '2025-07-06 21:50:27'),
-(161, '/dashboard/admin/content', '2025-07-06 21:51:24'),
-(162, '/dashboard/admin/content', '2025-07-06 21:51:35'),
-(163, '/dashboard/admin/content', '2025-07-06 21:55:30'),
-(164, '/dashboard/admin/content', '2025-07-06 22:04:05'),
-(165, '/dashboard/admin/content', '2025-07-06 22:04:18'),
-(166, '/dashboard/admin/content', '2025-07-06 22:39:55'),
-(167, '/login', '2025-07-06 22:39:58'),
-(168, '/', '2025-07-06 22:39:59'),
-(169, '/dashboard/admin', '2025-07-06 22:40:00'),
-(170, '/dashboard/admin/content', '2025-07-06 22:40:01'),
-(171, '/dashboard/admin/content', '2025-07-06 22:41:35'),
-(172, '/news', '2025-07-06 22:42:12'),
-(173, '/der-verein', '2025-07-06 22:42:15'),
-(174, '/dashboard/admin', '2025-07-06 22:42:15'),
-(175, '/dashboard/admin/content', '2025-07-06 22:42:17'),
-(176, '/news', '2025-07-06 22:43:10'),
-(177, '/termin', '2025-07-06 22:43:11'),
-(178, '/dashboard/admin', '2025-07-06 22:43:13'),
-(179, '/dashboard/admin/content', '2025-07-06 22:43:14'),
-(180, '/dashboard/admin/content', '2025-07-06 22:45:50'),
-(181, '/news', '2025-07-06 22:46:09'),
-(182, '/dashboard/admin', '2025-07-06 22:46:10'),
-(183, '/termin', '2025-07-06 22:46:12'),
-(184, '/dashboard/admin', '2025-07-06 22:46:12'),
-(185, '/dashboard/admin', '2025-07-06 22:47:49'),
-(186, '/dashboard/admin/content', '2025-07-06 22:47:49'),
-(187, '/news', '2025-07-06 22:48:07'),
-(188, '/dashboard/admin', '2025-07-06 22:48:10'),
-(189, '/dashboard/admin/content', '2025-07-06 22:48:11'),
-(190, '/news', '2025-07-06 22:48:25'),
-(191, '/dashboard/admin', '2025-07-06 22:48:27'),
-(192, '/dashboard/admin/content', '2025-07-06 22:48:28'),
-(193, '/news', '2025-07-06 22:49:18'),
-(194, '/dashboard/admin', '2025-07-06 22:49:20'),
-(195, '/dashboard/admin/content', '2025-07-06 22:49:22');
+(98, '/', '2025-07-06 22:23:33'),
+(99, '/dashboard/admin', '2025-07-06 22:23:35'),
+(100, '/dashboard/admin/users', '2025-07-06 22:23:43'),
+(101, '/dashboard/admin/content', '2025-07-06 22:23:48'),
+(102, '/dashboard/admin/users', '2025-07-06 22:47:42'),
+(103, '/termin', '2025-07-06 22:47:43'),
+(104, '/', '2025-07-06 23:01:47'),
+(105, '/termin', '2025-07-06 23:01:49'),
+(106, '/termin', '2025-07-06 23:04:30'),
+(107, '/', '2025-07-06 23:05:16'),
+(108, '/news', '2025-07-06 23:05:18'),
+(109, '/der-verein', '2025-07-06 23:05:21'),
+(110, '/abteilung', '2025-07-06 23:05:25'),
+(111, '/schuetzenfest', '2025-07-06 23:05:26'),
+(112, '/termin', '2025-07-06 23:05:29'),
+(113, '/dashboard/admin', '2025-07-06 23:05:30'),
+(114, '/news', '2025-07-06 23:05:32'),
+(115, '/der-verein', '2025-07-06 23:07:08'),
+(116, '/abteilung', '2025-07-06 23:07:09'),
+(117, '/schuetzenfest', '2025-07-06 23:07:10'),
+(118, '/termin', '2025-07-06 23:07:11'),
+(119, '/dashboard/admin', '2025-07-06 23:07:11'),
+(120, '/login', '2025-07-06 23:07:13'),
+(121, '/', '2025-07-06 23:07:15'),
+(122, '/dashboard/admin', '2025-07-06 23:07:16'),
+(123, '/dashboard/admin/content', '2025-07-06 23:07:34'),
+(124, '/der-verein', '2025-07-06 23:10:09'),
+(125, '/dashboard/admin', '2025-07-06 23:10:56'),
+(126, '/dashboard/admin/content', '2025-07-06 23:10:58'),
+(127, '/der-verein', '2025-07-06 23:12:29'),
+(128, '/dashboard/admin', '2025-07-06 23:14:00'),
+(129, '/dashboard/admin/content', '2025-07-06 23:14:02'),
+(130, '/der-verein', '2025-07-06 23:14:19'),
+(131, '/abteilung', '2025-07-06 23:15:26'),
+(132, '/der-verein', '2025-07-06 23:26:57'),
+(133, '/', '2025-07-06 23:44:05'),
+(134, '/termin', '2025-07-06 23:44:07'),
+(135, '/', '2025-07-06 23:45:31'),
+(136, '/termin', '2025-07-06 23:45:33'),
+(137, '/', '2025-07-06 23:45:47'),
+(138, '/registration', '2025-07-06 23:45:49'),
+(139, '/dashboard/admin', '2025-07-06 23:45:52'),
+(140, '/dashboard/admin/content', '2025-07-06 23:45:57'),
+(141, '/schuetzenfest', '2025-07-06 23:45:59'),
+(142, '/termin', '2025-07-06 23:46:00'),
+(143, '/schuetzenfest', '2025-07-06 23:46:01'),
+(144, '/abteilung', '2025-07-06 23:46:03'),
+(145, '/der-verein', '2025-07-06 23:46:04'),
+(146, '/termin', '2025-07-06 23:46:05'),
+(147, '/', '2025-07-06 23:49:17'),
+(148, '/termin', '2025-07-06 23:49:19'),
+(149, '/', '2025-07-06 23:49:49'),
+(150, '/termin', '2025-07-06 23:51:14'),
+(151, '/dashboard/admin', '2025-07-06 23:52:31'),
+(152, '/dashboard/admin/content', '2025-07-06 23:52:33'),
+(153, '/', '2025-07-06 23:56:29'),
+(154, '/termin', '2025-07-06 23:56:31'),
+(155, '/der-verein', '2025-07-06 23:56:42'),
+(156, '/news', '2025-07-06 23:56:43'),
+(157, '/dashboard/admin', '2025-07-06 23:56:44'),
+(158, '/', '2025-07-06 23:59:52'),
+(159, '/termin', '2025-07-06 23:59:55'),
+(160, '/', '2025-07-07 00:00:05'),
+(161, '/termin', '2025-07-07 00:00:06'),
+(162, '/termin', '2025-07-07 00:00:15'),
+(163, '/login', '2025-07-07 00:00:18'),
+(164, '/', '2025-07-07 00:00:26'),
+(165, '/termin', '2025-07-07 00:00:27'),
+(166, '/abteilung', '2025-07-07 00:01:54'),
+(167, '/dashboard/admin', '2025-07-07 00:01:56'),
+(168, '/', '2025-07-07 00:03:40'),
+(169, '/termin', '2025-07-07 00:03:42'),
+(170, '/', '2025-07-07 00:04:39'),
+(171, '/termin', '2025-07-07 00:04:40'),
+(172, '/', '2025-07-07 00:05:44'),
+(173, '/', '2025-07-07 00:05:46'),
+(174, '/termin', '2025-07-07 00:05:48'),
+(175, '/', '2025-07-07 00:06:22'),
+(176, '/termin', '2025-07-07 00:06:32'),
+(177, '/schuetzenfest', '2025-07-07 00:06:33'),
+(178, '/der-verein', '2025-07-07 00:06:35'),
+(179, '/abteilung', '2025-07-07 00:06:36'),
+(180, '/der-verein', '2025-07-07 00:06:36'),
+(181, '/news', '2025-07-07 00:06:37'),
+(182, '/news', '2025-07-07 00:22:26'),
+(183, '/dashboard/admin', '2025-07-07 00:22:29'),
+(184, '/dashboard/admin/content', '2025-07-07 00:23:10'),
+(185, '/news', '2025-07-07 00:23:38'),
+(186, '/der-verein', '2025-07-07 00:24:15'),
+(187, '/abteilung', '2025-07-07 00:24:16'),
+(188, '/news', '2025-07-07 00:24:31'),
+(189, '/abteilung', '2025-07-07 00:24:34'),
+(190, '/dashboard/admin', '2025-07-07 00:24:48'),
+(191, '/dashboard/admin/content', '2025-07-07 00:24:50'),
+(192, '/dashboard/admin/content', '2025-07-07 00:32:53'),
+(193, '/abteilung', '2025-07-07 00:33:29'),
+(194, '/der-verein', '2025-07-07 00:33:35'),
+(195, '/news', '2025-07-07 00:33:36'),
+(196, '/dashboard/admin', '2025-07-07 00:33:38'),
+(197, '/dashboard/admin/content', '2025-07-07 00:33:41'),
+(198, '/der-verein', '2025-07-07 00:34:45'),
+(199, '/abteilung', '2025-07-07 00:34:46'),
+(200, '/news', '2025-07-07 00:34:53'),
+(201, '/', '2025-07-07 08:20:03'),
+(202, '/abteilung', '2025-07-07 08:20:15'),
+(203, '/news', '2025-07-07 08:20:20'),
+(204, '/news', '2025-07-07 08:20:27'),
+(205, '/abteilung', '2025-07-07 08:20:48'),
+(206, '/dashboard/admin', '2025-07-07 08:55:31'),
+(207, '/dashboard/admin/users', '2025-07-07 08:55:33'),
+(208, '/dashboard/admin/users', '2025-07-07 08:55:46'),
+(209, '/login', '2025-07-07 08:56:28'),
+(210, '/', '2025-07-07 08:56:31'),
+(211, '/dashboard/leiter', '2025-07-07 08:56:33'),
+(212, '/login', '2025-07-07 08:56:35'),
+(213, '/', '2025-07-07 08:57:34'),
+(214, '/dashboard/admin', '2025-07-07 08:57:35'),
+(215, '/dashboard/admin/users', '2025-07-07 08:57:37'),
+(216, '/login', '2025-07-07 08:58:25'),
+(217, '/', '2025-07-07 08:59:26'),
+(218, '/dashboard/leiter', '2025-07-07 08:59:29'),
+(219, '/dashboard/leiter', '2025-07-07 09:35:20'),
+(220, '/dashboard/leiter', '2025-07-07 09:35:56'),
+(221, '/dashboard/leiter', '2025-07-07 09:36:52'),
+(222, '/login', '2025-07-07 09:37:04'),
+(223, '/', '2025-07-07 09:37:06'),
+(224, '/dashboard/admin', '2025-07-07 09:37:08'),
+(225, '/dashboard/admin/content', '2025-07-07 09:37:10'),
+(226, '/login', '2025-07-07 09:37:41'),
+(227, '/news', '2025-07-07 09:37:43'),
+(228, '/', '2025-07-07 09:37:45'),
+(229, '/', '2025-07-07 09:37:48'),
+(230, '/login', '2025-07-07 09:41:23'),
+(231, '/', '2025-07-07 09:41:27'),
+(232, '/dashboard/leiter', '2025-07-07 09:41:29'),
+(233, '/login', '2025-07-07 09:41:31'),
+(234, '/', '2025-07-07 09:41:34'),
+(235, '/dashboard/admin', '2025-07-07 09:41:36'),
+(236, '/dashboard/admin/content', '2025-07-07 09:41:38'),
+(237, '/dashboard/admin/users', '2025-07-07 09:41:41'),
+(238, '/login', '2025-07-07 09:42:13'),
+(239, '/', '2025-07-07 09:42:15'),
+(240, '/termin', '2025-07-07 09:42:18'),
+(241, '/schuetzenfest', '2025-07-07 09:42:19'),
+(242, '/abteilung', '2025-07-07 09:42:21'),
+(243, '/der-verein', '2025-07-07 09:42:22'),
+(244, '/news', '2025-07-07 09:42:23'),
+(245, '/', '2025-07-07 09:42:30'),
+(246, '/', '2025-07-07 09:45:43'),
+(247, '/', '2025-07-07 09:45:52'),
+(248, '/login', '2025-07-07 09:47:24'),
+(249, '/', '2025-07-07 09:47:27'),
+(250, '/news', '2025-07-07 09:49:38'),
+(251, '/der-verein', '2025-07-07 09:51:13'),
+(252, '/abteilung', '2025-07-07 09:51:31'),
+(253, '/schuetzenfest', '2025-07-07 09:52:11'),
+(254, '/termin', '2025-07-07 09:52:43'),
+(255, '/', '2025-07-07 09:55:04'),
+(256, '/registration', '2025-07-07 09:55:05'),
+(257, '/login', '2025-07-07 09:55:08'),
+(258, '/registration', '2025-07-07 09:55:25'),
+(259, '/login', '2025-07-07 09:56:04'),
+(260, '/', '2025-07-07 09:56:13'),
+(261, '/login', '2025-07-07 09:56:22'),
+(262, '/', '2025-07-07 09:56:36'),
+(263, '/login', '2025-07-07 09:56:39'),
+(264, '/', '2025-07-07 09:56:41'),
+(265, '/login', '2025-07-07 09:56:48'),
+(266, '/', '2025-07-07 09:56:55'),
+(267, '/dashboard/admin', '2025-07-07 09:57:00'),
+(268, '/dashboard/admin/content', '2025-07-07 09:57:05'),
+(269, '/dashboard/admin/users', '2025-07-07 09:57:23'),
+(270, '/login', '2025-07-07 09:57:49'),
+(271, '/', '2025-07-07 09:58:04'),
+(272, '/dashboard/leiter', '2025-07-07 09:58:06'),
+(273, '/news', '2025-07-07 09:59:00'),
+(274, '/dashboard/leiter', '2025-07-07 09:59:08'),
+(275, '/der-verein', '2025-07-07 09:59:12'),
+(276, '/dashboard/leiter', '2025-07-07 09:59:19'),
+(277, '/login', '2025-07-07 09:59:30'),
+(278, '/', '2025-07-07 09:59:37'),
+(279, '/dashboard/admin', '2025-07-07 09:59:38'),
+(280, '/dashboard/admin/content', '2025-07-07 09:59:39'),
+(281, '/news', '2025-07-07 09:59:53'),
+(282, '/dashboard/admin', '2025-07-07 09:59:55'),
+(283, '/dashboard/admin/content', '2025-07-07 09:59:56'),
+(284, '/news', '2025-07-07 10:00:01'),
+(285, '/dashboard/admin', '2025-07-07 10:00:03'),
+(286, '/dashboard/admin/content', '2025-07-07 10:00:05'),
+(287, '/dashboard/admin/events', '2025-07-07 10:00:41'),
+(288, '/dashboard/admin/departments', '2025-07-07 10:00:42'),
+(289, '/dashboard/admin/users', '2025-07-07 10:00:43'),
+(290, '/dashboard/admin/content', '2025-07-07 10:00:44'),
+(291, '/dashboard/admin/users', '2025-07-07 10:00:59'),
+(292, '/dashboard/admin/content', '2025-07-07 10:01:02'),
+(293, '/login', '2025-07-07 10:01:32'),
+(294, '/', '2025-07-07 10:01:35'),
+(295, '/registration', '2025-07-07 10:01:36'),
+(296, '/', '2025-07-13 10:47:09'),
+(297, '/downloads', '2025-07-13 10:47:11'),
+(298, '/login', '2025-07-13 10:47:13'),
+(299, '/', '2025-07-13 10:47:15'),
+(300, '/dashboard/admin', '2025-07-13 10:47:16'),
+(301, '/dashboard/admin', '2025-07-13 10:52:58'),
+(302, '/dashboard/admin/link-manager', '2025-07-13 10:52:59'),
+(303, '/dashboard/admin/link-manager', '2025-07-13 11:02:36'),
+(304, '/downloads', '2025-07-13 11:03:13'),
+(305, '/downloads', '2025-07-13 11:16:37'),
+(306, '/dashboard/admin', '2025-07-13 11:16:39'),
+(307, '/dashboard/admin/link-manager', '2025-07-13 11:16:40'),
+(308, '/downloads', '2025-07-13 11:17:11');
 
 -- --------------------------------------------------------
 
@@ -421,6 +556,13 @@ ALTER TABLE `benutzer`
   ADD KEY `fk_benutzer_rollen_idx` (`RollenID`);
 
 --
+-- Indizes für die Tabelle `downloads`
+--
+ALTER TABLE `downloads`
+  ADD PRIMARY KEY (`DownloadID`),
+  ADD KEY `fk_downloads_benutzer_idx` (`ErstelltVon`);
+
+--
 -- Indizes für die Tabelle `kategorien`
 --
 ALTER TABLE `kategorien`
@@ -466,13 +608,19 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
 --
 ALTER TABLE `benutzer`
-  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `BenutzerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT für Tabelle `downloads`
+--
+ALTER TABLE `downloads`
+  MODIFY `DownloadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `kategorien`
@@ -490,7 +638,7 @@ ALTER TABLE `rollen`
 -- AUTO_INCREMENT für Tabelle `seitenaufrufe`
 --
 ALTER TABLE `seitenaufrufe`
-  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`
@@ -520,6 +668,12 @@ ALTER TABLE `beitraege`
 --
 ALTER TABLE `benutzer`
   ADD CONSTRAINT `fk_benutzer_rollen` FOREIGN KEY (`RollenID`) REFERENCES `rollen` (`RollenID`);
+
+--
+-- Constraints der Tabelle `downloads`
+--
+ALTER TABLE `downloads`
+  ADD CONSTRAINT `fk_downloads_benutzer` FOREIGN KEY (`ErstelltVon`) REFERENCES `benutzer` (`BenutzerID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints der Tabelle `sektionen`

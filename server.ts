@@ -1,3 +1,4 @@
+// server.ts
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr/node';
 import express from 'express';
@@ -14,6 +15,10 @@ import { sendMail } from './src/app/services/email.service';
 
 // Importieren Sie den InjectionToken
 import { REQUEST } from './src/app/ssr.tokens';
+
+// NEU: Multer für Dateiuploads
+import multer from 'multer';
+import fs from 'fs'; // Zum Erstellen von Verzeichnissen
 
 export function app(): express.Express {
   const server = express();
@@ -45,6 +50,29 @@ export function app(): express.Express {
   server.use(express.static(browserDistFolder, {
     maxAge: '1y'
   }));
+
+  // NEU: Konfiguration für Multer
+  const uploadsDir = join(projectRoot, 'uploads');
+  // Erstelle das uploads-Verzeichnis, falls es nicht existiert
+  if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  }
+  // Stelle das uploads-Verzeichnis statisch bereit, damit die Dateien zugänglich sind
+  server.use('/uploads', express.static(uploadsDir));
+
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, uploadsDir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop());
+    }
+  });
+
+  const upload = multer({ storage: storage });
+
+
 // API-Endpunkt für die Registrierung
   server.post('/api/register', async (req, res) => {
     // ... (Ihr bestehender Code, unverändert)
@@ -247,7 +275,7 @@ export function app(): express.Express {
     }
   });
 
-    server.get('/api/beitraege', async (req, res) => {
+  server.get('/api/beitraege', async (req, res) => {
     const kategorieId = parseInt(req.query['kategorieId'] as string);
 
     if (isNaN(kategorieId)) {
@@ -266,6 +294,217 @@ export function app(): express.Express {
     }
     return;
   });
+
+  // #############################################################
+  // ##### NEUE API-ROUTEN FÜR DOWNLOADS #####
+  // #############################################################
+
+  // GET /api/downloads - Alle Download-Elemente abrufen, sortiert nach Reihenfolge
+  server.get('/api/downloads', async (req, res) => {
+    try {
+      const [downloads] = await pool.query('SELECT DownloadID AS id, Titel AS title, Beschreibung AS description, ShowcaseImageURL AS showcaseImage, DownloadURL AS downloadUrl, Reihenfolge AS `order` FROM downloads ORDER BY Reihenfolge ASC, DownloadID DESC');
+      return res.json(downloads);
+    } catch (error) {
+      console.error('Fehler beim Abrufen der Downloads:', error);
+      return res.status(500).json({ message: 'Serverfehler' });
+    }
+  });
+
+  // POST /api/downloads - Neues Download-Element erstellen (mit Dateiupload)
+  server.post('/api/downloads', upload.fields([
+    { name: 'showcaseImage', maxCount: 1 },
+    { name: 'downloadFile', maxCount: 1 }
+  ]), async (req, res) => {
+    const { title, description, userId } = req.body;
+    const showcaseImageFile = (req.files as any)?.showcaseImage?.[0];
+    const downloadFile = (req.files as any)?.downloadFile?.[0];
+
+    // Überprüfen Sie, ob die erforderlichen Felder und Dateien vorhanden sind
+    if (!title || !userId || !downloadFile) {
+      // Löschen Sie hochgeladene Dateien, wenn die Validierung fehlschlägt
+      if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
+      if (downloadFile) fs.unlinkSync(downloadFile.path);
+      return res.status(400).json({ message: 'Titel, Download-Datei und Benutzer-ID sind erforderlich.' });
+    }
+
+    const showcaseImageURL = showcaseImageFile ? `/uploads/${showcaseImageFile.filename}` : null;
+    const downloadURL = `/uploads/${downloadFile.filename}`;
+
+    try {
+      const [maxOrderResult] = await pool.query('SELECT MAX(Reihenfolge) AS maxOrder FROM downloads');
+      const maxOrder = (maxOrderResult as any[])[0].maxOrder || 0;
+      const newOrder = maxOrder + 1;
+
+      const sql = 'INSERT INTO downloads (Titel, Beschreibung, ShowcaseImageURL, DownloadURL, Reihenfolge, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, ?, ?, NOW())';
+      const [result] = await pool.query(sql, [title, description, showcaseImageURL, downloadURL, newOrder, userId]);
+      return res.status(201).json({ message: 'Download erfolgreich erstellt', downloadId: (result as any).insertId });
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Downloads:', error);
+      // Löschen Sie hochgeladene Dateien bei Datenbankfehlern
+      if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
+      if (downloadFile) fs.unlinkSync(downloadFile.path);
+      return res.status(500).json({ message: 'Serverfehler beim Erstellen des Downloads.' });
+    }
+  });
+
+  // PUT /api/downloads/:id - Ein bestehendes Download-Element aktualisieren (mit Dateiupload)
+  server.put('/api/downloads/:id', upload.fields([
+    { name: 'showcaseImage', maxCount: 1 },
+    { name: 'downloadFile', maxCount: 1 }
+  ]), async (req, res) => {
+    const { id } = req.params;
+    const { title, description, order, userId } = req.body; // userId ist hier der "ErstelltVon" Nutzer
+    const showcaseImageFile = (req.files as any)?.showcaseImage?.[0];
+    const downloadFile = (req.files as any)?.downloadFile?.[0];
+
+    const downloadId = parseInt(id, 10);
+    if (isNaN(downloadId)) {
+      if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
+      if (downloadFile) fs.unlinkSync(downloadFile.path);
+      return res.status(400).send('Ungültige DownloadID.');
+    }
+
+    try {
+      // Aktuelle Download-Info abrufen, um alte Dateipfade zu erhalten
+      const [currentDownloads] = await pool.query('SELECT ShowcaseImageURL, DownloadURL FROM downloads WHERE DownloadID = ?', [downloadId]);
+      const currentDownload = (currentDownloads as any[])[0];
+
+      let showcaseImageURL = req.body.showcaseImage; // Kann auch eine bestehende URL sein (wenn keine neue Datei hochgeladen wurde)
+      let downloadURL = req.body.downloadUrl; // Kann auch eine bestehende URL sein
+
+      // Wenn eine neue Showcase-Datei hochgeladen wurde
+      if (showcaseImageFile) {
+        if (currentDownload && currentDownload.ShowcaseImageURL) {
+          try {
+            fs.unlinkSync(join(projectRoot, currentDownload.ShowcaseImageURL)); // Alte Datei löschen
+          } catch (unlinkError) {
+            console.warn(`Konnte alte Showcase-Datei nicht löschen: ${currentDownload.ShowcaseImageURL}`, unlinkError);
+          }
+        }
+        showcaseImageURL = `/uploads/${showcaseImageFile.filename}`;
+      }
+
+      // Wenn eine neue Download-Datei hochgeladen wurde
+      if (downloadFile) {
+        if (currentDownload && currentDownload.DownloadURL) {
+          try {
+            fs.unlinkSync(join(projectRoot, currentDownload.DownloadURL)); // Alte Datei löschen
+          } catch (unlinkError) {
+            console.warn(`Konnte alte Download-Datei nicht löschen: ${currentDownload.DownloadURL}`, unlinkError);
+          }
+        }
+        downloadURL = `/uploads/${downloadFile.filename}`;
+      }
+
+      const sql = 'UPDATE downloads SET Titel = ?, Beschreibung = ?, ShowcaseImageURL = ?, DownloadURL = ?, Reihenfolge = ?, ErstelltVon = ? WHERE DownloadID = ?';
+      const [result] = await pool.query(sql, [title, description, showcaseImageURL, downloadURL, order, userId, downloadId]);
+
+      if ((result as any).affectedRows === 0) {
+        // Lösche hochgeladene Dateien, wenn der Download nicht gefunden wurde
+        if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
+        if (downloadFile) fs.unlinkSync(downloadFile.path);
+        return res.status(404).json({ message: 'Download nicht gefunden.' });
+      }
+      return res.status(200).json({ message: 'Download erfolgreich aktualisiert.' });
+    } catch (error) {
+      console.error(`Fehler beim Aktualisieren von Download ${downloadId}:`, error);
+      // Lösche hochgeladene Dateien bei Datenbankfehlern
+      if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
+      if (downloadFile) fs.unlinkSync(downloadFile.path);
+      return res.status(500).json({ message: 'Serverfehler beim Aktualisieren.' });
+    }
+  });
+
+  // DELETE /api/downloads/:id - Ein Download-Element löschen (und zugehörige Dateien)
+  server.delete('/api/downloads/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const downloadId = parseInt(id, 10);
+    if (isNaN(downloadId)) {
+      return res.status(400).send('Ungültige DownloadID.');
+    }
+
+    let connection;
+    try {
+      connection = await pool.getConnection();
+      await connection.beginTransaction();
+
+      // Dateipfade vor dem Löschen aus der DB abrufen
+      const [filesToDelete] = await connection.query('SELECT ShowcaseImageURL, DownloadURL FROM downloads WHERE DownloadID = ?', [downloadId]);
+      const filePaths = (filesToDelete as any[])[0];
+
+      const [result] = await connection.query('DELETE FROM downloads WHERE DownloadID = ?', [downloadId]);
+
+      if ((result as any).affectedRows === 0) {
+        await connection.rollback();
+        return res.status(404).json({ message: 'Download nicht gefunden.' });
+      }
+
+      // Dateien vom Server löschen
+      if (filePaths) {
+        if (filePaths.ShowcaseImageURL) {
+          try {
+            fs.unlinkSync(join(projectRoot, filePaths.ShowcaseImageURL));
+          } catch (unlinkError) {
+            console.warn(`Konnte Showcase-Datei nicht löschen: ${filePaths.ShowcaseImageURL}`, unlinkError);
+          }
+        }
+        if (filePaths.DownloadURL) {
+          try {
+            fs.unlinkSync(join(projectRoot, filePaths.DownloadURL));
+          } catch (unlinkError) {
+            console.warn(`Konnte Download-Datei nicht löschen: ${filePaths.DownloadURL}`, unlinkError);
+          }
+        }
+      }
+
+      await connection.commit();
+      return res.status(204).send(); // 204 No Content
+    } catch (error) {
+      if (connection) {
+        await connection.rollback();
+      }
+      console.error(`Fehler beim Löschen von Download ${downloadId}:`, error);
+      return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
+    } finally {
+      if (connection) {
+        connection.release();
+      }
+    }
+  });
+
+  // PUT /api/downloads/reorder - Reihenfolge von Download-Elementen aktualisieren (für Drag & Drop)
+  server.put('/api/downloads/reorder', async (req, res) => {
+    let connection; // Declare connection outside try block
+    const { orderUpdates } = req.body; // orderUpdates: [{ id: number, order: number }]
+
+    if (!Array.isArray(orderUpdates) || orderUpdates.length === 0) {
+      return res.status(400).json({ message: 'Ungültige Reihenfolge-Updates.' });
+    }
+
+    try {
+      connection = await pool.getConnection(); // Assign here
+      await connection.beginTransaction();
+
+      for (const update of orderUpdates) {
+        await connection.query('UPDATE downloads SET Reihenfolge = ? WHERE DownloadID = ?', [update.order, update.id]);
+      }
+
+      await connection.commit();
+      return res.status(200).json({ message: 'Reihenfolge erfolgreich aktualisiert.' });
+    } catch (error) {
+      if (connection) { // Check if connection is defined before rollback
+        await connection.rollback();
+      }
+      console.error('Fehler beim Aktualisieren der Reihenfolge der Downloads:', error);
+      return res.status(500).json({ message: 'Serverfehler beim Aktualisieren der Reihenfolge.' });
+    } finally {
+      if (connection) { // Check if connection is defined before release
+        connection.release();
+      }
+    }
+  });
+
 
   // #############################################################
   // ##### BESTEHENDE ROUTEN (Posts, Kategorien, etc.)       #####
@@ -374,7 +613,3 @@ function run(): void {
 }
 
 run();
-
-
-
-

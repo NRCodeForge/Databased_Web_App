@@ -21,8 +21,10 @@ import { BogenComponent } from './abteilungen/bogen/bogen.component';
 import { JugendundschuelerComponent } from './abteilungen/jugendundschueler/jugendundschueler.component';
 import { PistolensportComponent } from './abteilungen/pistolensport/pistolensport.component';
 import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
-import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component'; // Importieren
+import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component';
 import { SvFestComponent } from './sv-fest/sv-fest.component';
+import { DownloadsComponent } from './downloads/downloads.component'; // Already imported
+import { LinkManagerComponent } from './admin-dashboard/link-manager/link-manager.component'; // Importiere LinkManagerComponent
 import {authGuard} from "./guards/auth.guard";
 
 
@@ -43,32 +45,37 @@ export const routes: Routes = [
   {path: "termin", component:TermineComponent},
   {path: "forum", component:ForumComponent},
   {path: "der-verein", component:DerVereinComponent},
+  {path: "downloads", component: DownloadsComponent}, // Route for the public downloads page
   {path: "dashboard/admin",
     component: AdminDashboardComponent,
     children: [
       { path: 'content', component: ContentManagerComponent ,
         canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
       },
       { path: 'departments', component: DepartmentManagerComponent,
         canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
       },
       { path: 'events', component: EventManagerComponent ,
         canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
       },
       { path: 'categories', component: CategoryManagerComponent ,
         canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
       },
       { path: 'users', component: UserManagementComponent ,
         canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
-      }// Hinzugefügt
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
+      },
+      { path: 'link-manager', component: LinkManagerComponent, // Neue Route für den Link-Manager
+        canActivate: [authGuard], // Schützt diese Route
+        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
+      }
     ],
     canActivate: [authGuard], // Schützt diese Route
-    data: { role: 3 } // Nur Benutzer mit Rolle '1' (Admin) dürfen hier rein
+    data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
   },
   {
     path: "dashboard/leiter",
