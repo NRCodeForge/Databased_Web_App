@@ -5,10 +5,10 @@
       <input type="checkbox" id="dropdown-toggle" class="dropdown-toggle" />
       <label for="dropdown-toggle" class="plus-button">+</label>
       <div class="dropdown-menu">
-        <a (click)="selectedFormat = 'textBild'">Format: Text über Bild</a>
-        <a (click)="selectedFormat = 'bildText'">Format: Bild über Text</a>
-        <a (click)="selectedFormat = 'nurText'">Format: Nur Text</a>
-        <a (click)="selectedFormat = 'nurBild'">Format: Nur Bild</a>
+        <a (click)="selectedFormat = 'textBild'; toggleDropdown()">Format: Text über Bild</a>
+        <a (click)="selectedFormat = 'bildText'; toggleDropdown()">Format: Bild über Text</a>
+        <a (click)="selectedFormat = 'nurText'; toggleDropdown()">Format: Nur Text</a>
+        <a (click)="selectedFormat = 'nurBild'; toggleDropdown()">Format: Nur Bild</a>
       </div>
     </div>
 
@@ -35,6 +35,8 @@
       <div class="form-group" *ngIf="selectedFormat !== 'nurText' && selectedFormat !== 'nurBild'">
         <label for="image">Bild hochladen:</label>
         <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+        <br/>
+        <img *ngIf="selectedImageURL" [src]="selectedImageURL" alt="Preview" style="max-width: 300px; max-height: 300px;"/>
       </div>
 
       <ng-container [ngSwitch]="selectedFormat">

@@ -4,6 +4,7 @@
     <div *ngFor="let post of posts" class="news-article">
       <h2>{{ post.Titel }}</h2>
       <div class="pre-wrap">{{ post.Inhalt }}</div>
+      <img *ngIf="post.Bild" [src]="post.Bild" alt="Bild zum Artikel {{ post.Titel }}" class="news-image" />
       <p class="post-meta">
         Erstellt am: {{ post.Erstellungsdatum | date: 'dd.MM.yyyy' }}
       </p>

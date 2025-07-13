@@ -229,8 +229,12 @@ export class PostEditorComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = () => {
         this.selectedImageURL = reader.result as string;
+        // Im Formular das Bild als Base64-String speichern
+        this.postForm.patchValue({
+          Bild: this.selectedImageURL
+        });
       };
       reader.readAsDataURL(input.files[0]);
     }
@@ -240,6 +244,13 @@ export class PostEditorComponent implements OnInit {
     this.categoryService.getCategories().subscribe(categories => {
       this.categories = categories;
     });
+  }
+
+  toggleDropdown() {
+    const checkbox = document.getElementById('dropdown-toggle') as HTMLInputElement;
+    if (checkbox) {
+      checkbox.checked = false;
+    }
   }
 
   getMode(): 1 | 2 | 3 | 4 {
