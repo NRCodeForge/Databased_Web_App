@@ -1,27 +1,47 @@
 /**
- * @file This file defines the TypeScript interface for an event and a utility function
- * to parse event data from a CSV string.
+ * @file Dieses Modul definiert die Schnittstelle `Event` für Veranstaltungen und eine
+ * Hilfsfunktion zum Parsen von Veranstaltungsdaten aus einer CSV-Zeichenkette.
  */
 
 /**
- * Interface representing a single event parsed from the CSV.
+ * Schnittstelle zur Beschreibung eines einzelnen Events, das aus einer CSV-Zeile extrahiert wird.
+ *
+ * @export
+ * @interface Event
  */
 export interface Event {
-  /** The date of the event in 'YYYY-MM-DD' format. Can be a range (e.g., '2025-10-01 - 2025-10-19'). */
+  /**
+   * Das Datum des Events im Format 'YYYY-MM-DD'.
+   * Kann auch ein Datumsbereich sein (z.B. '2025-10-01 - 2025-10-19').
+   */
   date: string;
-  /** The time of the event (e.g., '09:00 Uhr', 'ganztägig'). Can be empty. */
+
+  /**
+   * Die Uhrzeit des Events (z.B. '09:00 Uhr', 'ganztägig').
+   * Kann leer sein.
+   */
   time: string;
-  /** The main title or name of the event. */
+
+  /**
+   * Haupttitel oder Name des Events.
+   */
   title: string;
-  /** Additional remarks or a subtitle for the event. Can be empty. */
+
+  /**
+   * Zusätzliche Bemerkungen oder Untertitel des Events.
+   * Kann leer sein.
+   */
   subtitle: string;
-  /** An array of categories or 'modes' that apply to the event. */
+
+  /**
+   * Liste der Kategorien oder "Modi", die für das Event gelten.
+   */
   modes: string[];
 }
 
 /**
- * Defines the mapping between CSV column indices (1-7) and their corresponding mode descriptions.
- * Note: When parsing from a CSV, these will correspond to 0-indexed columns in the parsed row array.
+ * Mapping zwischen CSV-Spaltenindices (1-7) und deren beschreibenden Kategorien.
+ * Hinweis: Beim Parsen aus der CSV entsprechen diese den 0-indizierten Spalten im Array.
  */
 const modeMapping: { [key: number]: string } = {
   1: 'Arbeitseinsatz',
@@ -34,71 +54,65 @@ const modeMapping: { [key: number]: string } = {
 };
 
 /**
- * Parses a CSV string containing event data into an array of Event objects.
+ * Parsen einer CSV-Zeichenkette mit Veranstaltungsdaten in ein Array von `Event`-Objekten.
  *
- * @param csvString The full content of the CSV file as a string.
- * @returns An array of `Event` objects.
+ * @param csvString Die komplette CSV-Datei als String.
+ * @returns Ein Array von `Event`-Objekten, die aus der CSV extrahiert wurden.
  */
 export function importEventsFromCsv(csvString: string): Event[] {
   const events: Event[] = [];
   const lines = csvString.split('\n');
 
-  // Determine actual data start and end rows.
-  // This is a heuristic and might need adjustment if CSV structure changes significantly.
+  // Ermitteln der Datenstart- und Endzeile (heuristisch)
   let dataStartRow = -1;
   let dataEndRow = lines.length;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
     if (line.startsWith('Mon,Datum,Uhrzeit,Veranstaltung')) {
-      dataStartRow = i + 1; // Data starts from the next line after the header
+      dataStartRow = i + 1; // Daten starten in der nächsten Zeile nach der Überschrift
       continue;
     }
-    // Heuristic for the start of the footer/metadata
     if (line.startsWith('ÜBERSCHRIFT') || line.startsWith('Termin muss noch geklärt werden')) {
-      dataEndRow = i; // Data ends before these lines
+      dataEndRow = i; // Daten enden vor diesen Zeilen
       break;
     }
   }
 
   if (dataStartRow === -1) {
-    console.warn("Could not find data header 'Mon,Datum,Uhrzeit,Veranstaltung'. Parsing might be inaccurate.");
-    dataStartRow = 0; // Attempt to parse from the beginning if header not found
+    console.warn("Konnte die Datenüberschrift 'Mon,Datum,Uhrzeit,Veranstaltung' nicht finden. Parsing könnte ungenau sein.");
+    dataStartRow = 0; // Versuch, vom Anfang zu parsen, falls Header fehlt
   }
 
-  // Iterate over relevant lines for event data
+  // Verarbeitung der relevanten Datenzeilen
   for (let i = dataStartRow; i < dataEndRow; i++) {
     const line = lines[i].trim();
     if (!line) {
-      continue; // Skip empty lines
+      continue; // Leere Zeilen überspringen
     }
 
-    // A simple split by comma might fail if commas are within quoted fields.
-    // For robust CSV parsing, a dedicated CSV parser library is recommended (e.g., 'csv-parse' for Node.js, or similar for browser).
-    // For this example, we'll assume no commas within fields or that simple split is sufficient.
+    // Einfache Trennung durch Komma (ohne Berücksichtigung von Anführungszeichen)
     const columns = line.split(',');
 
-    // Expected 0-indexed column positions after splitting
-    // Based on "Mon,Datum,Uhrzeit,Veranstaltung,Bemerkung / Info,1,2,3,4,5,6,7"
+    // Indizes der erwarteten Spalten (0-basiert)
     const DATE_COL_IDX = 1;
     const TIME_COL_IDX = 2;
     const TITLE_COL_IDX = 3;
     const SUBTITLE_COL_IDX = 4;
-    const MODES_START_COL_IDX = 5; // Column '1' in CSV maps to index 5
+    const MODES_START_COL_IDX = 5; // Spalte '1' in der CSV entspricht Index 5
 
-    // Basic validation and skipping of non-event rows
     const rawDate = columns[DATE_COL_IDX]?.trim() || '';
     const rawTitle = columns[TITLE_COL_IDX]?.trim() || '';
 
-    // Skip rows that are clearly not events (e.g., internal notes, empty entries, alternative dates)
+    // Überspringen von Zeilen, die keine Events darstellen
     if (
-      !rawDate && !rawTitle || // Entirely empty row (beyond initial empty ones)
+      (!rawDate && !rawTitle) ||
       rawTitle.includes('INTERNES ***') ||
       rawTitle.includes('ENTFÄLLT') ||
       rawTitle.includes('Findet stattfinden wenn') ||
       rawTitle.includes('Schützenfesttermine') ||
       rawTitle.includes('Alternativ Termin') ||
-      rawDate.toLowerCase() === 'xxx' // Row with 'xxx' date
+      rawDate.toLowerCase() === 'xxx'
     ) {
       continue;
     }
@@ -112,11 +126,10 @@ export function importEventsFromCsv(csvString: string): Event[] {
     for (let j = 0; j < 7; j++) {
       const modeColIdx = MODES_START_COL_IDX + j;
       if (columns[modeColIdx]?.trim().toLowerCase() === 'x') {
-        currentModes.push(modeMapping[j + 1]); // j+1 to match 1-indexed modeMapping keys
+        currentModes.push(modeMapping[j + 1]);
       }
     }
 
-    // Construct the event object
     const event: Event = {
       date: eventDate,
       time: eventTime,

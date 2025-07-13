@@ -1,45 +1,44 @@
-/* Grundlegende Apple-ähnliche Farben und Schriftarten - bleiben weitgehend gleich */
 :root {
   --apple-blue: #007AFF;
   --apple-light-gray: #F5F5F7;
   --apple-medium-gray: #E8E8ED;
   --apple-dark-gray: #8E8E93;
-  --apple-text-dark: #1C1C1E; /* Dunkler Text für bessere Lesbarkeit */
+  --apple-text-dark: #1C1C1E;
   --apple-text-light: #FFFFFF;
-  --apple-shadow-soft: rgba(0, 0, 0, 0.1); /* Weicherer Schatten */
-  --apple-shadow-strong: rgba(0, 0, 0, 0.18); /* Etwas stärkerer Schatten für mehr Pop */
+  --apple-shadow-soft: rgba(0, 0, 0, 0.1);
+  --apple-shadow-strong: rgba(0, 0, 0, 0.18);
   --apple-border: #D1D1D1;
   --apple-success: #34C759;
   --apple-red: #FF3B30;
-  --modal-inner-bg: #FFFFFF; /* Solider, undurchsichtiger Hintergrund für den Inhalt des Modals */
+  --modal-inner-bg: #FFFFFF;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-/* Modal Overlay & Content */
+
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Leichter transparenter Hintergrund */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(8px); /* Glasmorphismus-Effekt: Hintergrund verwischen */
-  -webkit-backdrop-filter: blur(8px); /* Für Safari */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .modal-content {
-  background-color: rgba(255, 255, 255, 0.6); /* Transparenter weißer Hintergrund für Glass-Effekt */
+  background-color: rgba(255, 255, 255, 0.6);
   padding: 30px;
-  border-radius: 18px; /* Stärker abgerundete Ecken */
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Glasmorphismus-Schatten */
-  border: 1px solid rgba(255, 255, 255, 0.18); /* Subtiler Rahmen für Glass-Effekt */
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   width: 90%;
   max-width: 800px;
   position: relative;
@@ -53,14 +52,13 @@ body {
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Erfolgsmeldung Styles */
 .success-message-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.8); /* Etwas transparenter für den Glas-Effekt */
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -97,7 +95,6 @@ body {
   50% { transform: translateY(-20px); }
 }
 
-/* Post Editor / Formular Styles */
 .post-editor {
   margin: 0 auto;
   display: flex;
@@ -115,7 +112,7 @@ h2 {
   line-height: 1.2;
 }
 
-.form-container { /* Bezieht sich auf den Formularbereich innerhalb des Modals */
+.form-container {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -139,10 +136,10 @@ h2 {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--apple-border);
-  border-radius: 12px; /* Abgerundetere Ecken für Input-Felder */
+  border-radius: 12px;
   font-size: 1rem;
   box-sizing: border-box;
-  background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
+  background-color: var(--apple-text-light);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
   color: var(--apple-text-dark);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -168,13 +165,12 @@ h2 {
   background-size: 20px;
 }
 
-/* Bildvorschau-Container */
 .image-preview-container {
   margin-top: 15px;
   border: 1px dashed var(--apple-dark-gray);
-  border-radius: 12px; /* Abgerundetere Ecken */
+  border-radius: 12px;
   padding: 15px;
-  background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
+  background-color: var(--apple-text-light);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -185,7 +181,7 @@ h2 {
 .image-preview {
   max-width: 100%;
   max-height: 250px;
-  border-radius: 10px; /* Abgerundetere Ecken */
+  border-radius: 10px;
   object-fit: contain;
   border: 1px solid var(--apple-medium-gray);
 }
@@ -196,7 +192,6 @@ h2 {
   font-weight: 500;
 }
 
-/* Modal-Aktionen (Buttons) */
 .modal-actions {
   display: flex;
   justify-content: flex-end;
@@ -207,12 +202,12 @@ h2 {
 .modal-actions button {
   padding: 12px 25px;
   border: none;
-  border-radius: 12px; /* Abgerundetere Ecken für Buttons */
+  border-radius: 12px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Verfeinerter Schatten */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
 }
 
 .modal-actions button.submit-button {
@@ -222,8 +217,8 @@ h2 {
 
 .modal-actions button.submit-button:hover {
   background-color: #005bb5;
-  transform: translateY(-2px); /* Etwas stärkerer Lift */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Stärkerer Hover-Schatten */
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .modal-actions button:not(.submit-button) {
@@ -233,8 +228,8 @@ h2 {
 
 .modal-actions button:not(.submit-button):hover {
   background-color: #c0c0c0;
-  transform: translateY(-2px); /* Etwas stärkerer Lift */
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); /* Stärkerer Hover-Schatten */
+  transform: translateY(-2px); 
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); 
 }
 
 .modal-actions button:disabled {
@@ -245,7 +240,6 @@ h2 {
   transform: none;
 }
 
-/* Spezifische Styles für Format-Auswahl (Dropdown) */
 .format-selection {
   margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--apple-medium-gray);

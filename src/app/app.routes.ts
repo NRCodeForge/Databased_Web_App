@@ -1,5 +1,3 @@
-// src/app/app.routes.ts
-
 import { Routes } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './login/login.component';
@@ -21,72 +19,106 @@ import { PistolensportComponent } from './abteilungen/pistolensport/pistolenspor
 import { SeniorenComponent } from './abteilungen/senioren/senioren.component';
 import { UserManagementComponent } from './admin-dashboard/user-management/user-management.component';
 import { SvFestComponent } from './sv-fest/sv-fest.component';
-import { DownloadsComponent } from './downloads/downloads.component'; // Already imported
-import { LinkManagerComponent } from './admin-dashboard/link-manager/link-manager.component'; // Importiere LinkManagerComponent
-import {authGuard} from "./guards/auth.guard";
+import { DownloadsComponent } from './downloads/downloads.component';
+import { LinkManagerComponent } from './admin-dashboard/link-manager/link-manager.component';
+import { authGuard } from "./guards/auth.guard";
 
-
+/**
+ * Definiert alle Routen der Angular-Anwendung inklusive der zugeordneten Komponenten und Guards.
+ *
+ * @remarks
+ * - Öffentliche Seiten wie Startseite, Login, News, Abteilungen etc.
+ * - Geschützte Admin- und Leiter-Dashboards mit rollenbasiertem Zugriffsschutz.
+ * - Nested Routes für Unterseiten der Abteilungen und Dashboards.
+ *
+ * @example
+ * ```typescript
+ * // Beispiel einer Route für die Startseite
+ * { path: '', component: StartseiteComponent }
+ * ```
+ */
 export const routes: Routes = [
-  {path: '', component: StartseiteComponent},
-  {path: 'schuetzenfest', component: SvFestComponent },
-  {path: "login", component:LoginComponent},
-  {path: "navbar", component:NavbarComponent},
-  {path: "registration", component:RegistrationComponent},
-  {path: "reset", component:ResetPasswordComponent},
-  {path: "news", component:NewsComponent},
-  {path: "abteilung", component:AbteilungenComponent, children: [
-      { path: 'bogen', component:BogenComponent},
-      { path: 'jugendundschueler', component:JugendundschuelerComponent},
-      { path: 'pistolensport', component:PistolensportComponent},
-      { path: 'senioren', component:SeniorenComponent},
-    ]},
-  {path: "termin", component:TermineComponent},
-  {path: "der-verein", component:DerVereinComponent},
-  {path: "downloads", component: DownloadsComponent}, // Route for the public downloads page
-  {path: "dashboard/admin",
-    component: AdminDashboardComponent,
+  { path: '', component: StartseiteComponent },
+
+  { path: 'schuetzenfest', component: SvFestComponent },
+  { path: "login", component: LoginComponent },
+  { path: "navbar", component: NavbarComponent },
+  { path: "registration", component: RegistrationComponent },
+  { path: "reset", component: ResetPasswordComponent },
+  { path: "news", component: NewsComponent },
+
+  {
+    path: "abteilung",
+    component: AbteilungenComponent,
     children: [
-      { path: 'content', component: ContentManagerComponent ,
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      },
-      { path: 'events', component: EventManagerComponent ,
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      },
-      { path: 'categories', component: CategoryManagerComponent ,
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      },
-      { path: 'users', component: UserManagementComponent ,
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      },
-      { path: 'link-manager', component: LinkManagerComponent, // Neue Route für den Link-Manager
-        canActivate: [authGuard], // Schützt diese Route
-        data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
-      }
-    ],
-    canActivate: [authGuard], // Schützt diese Route
-    data: { role: 3 } // Nur Benutzer mit Rolle '3' (Admin) dürfen hier rein
+      { path: 'bogen', component: BogenComponent },
+      { path: 'jugendundschueler', component: JugendundschuelerComponent },
+      { path: 'pistolensport', component: PistolensportComponent },
+      { path: 'senioren', component: SeniorenComponent },
+    ]
   },
+
+  { path: "termin", component: TermineComponent },
+  { path: "der-verein", component: DerVereinComponent },
+  { path: "downloads", component: DownloadsComponent },
+
+  {
+    path: "dashboard/admin",
+    component: AdminDashboardComponent,
+    canActivate: [authGuard],
+    data: { role: 3 }, // Nur Admins dürfen die Dashboard-Routen nutzen
+    children: [
+      {
+        path: 'content',
+        component: ContentManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 3 }
+      },
+      {
+        path: 'events',
+        component: EventManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 3 }
+      },
+      {
+        path: 'categories',
+        component: CategoryManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 3 }
+      },
+      {
+        path: 'users',
+        component: UserManagementComponent,
+        canActivate: [authGuard],
+        data: { role: 3 }
+      },
+      {
+        path: 'link-manager',
+        component: LinkManagerComponent,
+        canActivate: [authGuard],
+        data: { role: 3 }
+      }
+    ]
+  },
+
   {
     path: "dashboard/leiter",
     component: LeiterDashboardComponent,
+    canActivate: [authGuard],
+    data: { role: 2 }, // Nur Abteilungsleiter mit Rolle 2 dürfen hier rein
     children: [
       {
-        path: 'content', component: ContentManagerComponent,
+        path: 'content',
+        component: ContentManagerComponent,
         canActivate: [authGuard],
         data: { role: 2 }
       },
       {
-        path: 'events', component: EventManagerComponent,
+        path: 'events',
+        component: EventManagerComponent,
         canActivate: [authGuard],
         data: { role: 2 }
       }
-    ],
-    canActivate: [authGuard],
-    data: { role: 2 }
+    ]
   },
-
 ];

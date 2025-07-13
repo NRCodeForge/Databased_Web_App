@@ -4,14 +4,24 @@ import { CommonModule } from '@angular/common';       // Brauchen wir für allge
 import { RouterModule } from "@angular/router";       // Damit wir unsere Links benutzen können
 import { ReactiveFormsModule } from "@angular/forms"; // Für Formulare, falls wir die mal brauchen
 
-// Das hier ist unsere Startseiten-Komponente, die alles zusammenhält.
+/**
+ * Startseiten-Komponente der Anwendung.
+ *
+ * Diese Komponente dient als Einstiegspunkt der Applikation und
+ * bindet verschiedene Module und Unterkomponenten ein, um die
+ * Startseite aufzubauen.
+ *
+ * @remarks
+ * - `standalone: true` ermöglicht die Nutzung ohne Angular-Modul.
+ * - Importiert notwendige Module für Routing, Formulare und allgemeine Angular-Funktionalität.
+ */
 @Component({
-  selector: 'app-startseite',                     // So finden wir die Komponente in unserem HTML
-  standalone: true,                               // Das bedeutet, sie kann alleine stehen
-  imports: [CommonModule, SectionFormatComponent, ReactiveFormsModule, RouterModule ], // Diese anderen Sachen braucht unsere Komponente
-  templateUrl: './startseite.component.html',     // Hier liegt unser HTML-Code dafür
-  styleUrls: ['./startseite.component.css']       // Und hier das Design
+  selector: 'app-startseite',                     // CSS-Selektor zur Einbindung der Komponente im HTML
+  standalone: true,                               // Steht als eigenständige Komponente ohne Modul
+  imports: [CommonModule, SectionFormatComponent, ReactiveFormsModule, RouterModule], // Eingebundene Module und Komponenten
+  templateUrl: './startseite.component.html',    // Pfad zur HTML-Vorlage der Komponente
+  styleUrls: ['./startseite.component.css']      // Pfad zu den CSS-Styles der Komponente
 })
 export class StartseiteComponent {
-  // Im Moment ist hier noch nichts Besonderes drin, aber das kann sich ja noch ändern!
+  // Aktuell keine Logik implementiert – Platz für zukünftige Erweiterungen
 }

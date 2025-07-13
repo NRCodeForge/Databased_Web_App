@@ -1,51 +1,43 @@
-/* login.component.css */
-
-/* Der Hauptcontainer, der das Formular zentriert */
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 56px); /* 56px ist die Höhe der Navbar */
-  box-sizing: border-box; /* Stellt sicher, dass Padding die Größe nicht erhöht */
+  min-height: calc(100vh - 56px);
+  box-sizing: border-box;
 }
 
-/* Der Wrapper für das Login-Fenster selbst */
 .auth-form-wrapper {
-  background-color: var(--card-background); /* Nutzt die globale Karten-Hintergrundfarbe */
+  background-color: var(--card-background);
   padding: 40px;
-  border-radius: var(--abgerundet-ecken); /* Nutzt globale Abrundung */
-  box-shadow: var(--schatten-wert); /* Nutzt globalen Schatten */
-  border: 2px solid var(--primary-color); /* GRÜNER RAND */
+  border-radius: var(--abgerundet-ecken);
+  box-shadow: var(--schatten-wert);
+  border: 2px solid var(--primary-color);
   width: 100%;
   max-width: 400px;
   text-align: center;
   position: relative;
-  /* overflow: hidden; <-- DIESE ZEILE WIRD ENTFERNT */
   box-sizing: border-box;
 }
 
-/* Überschrift des Formulars */
 .auth-form-wrapper h2 {
   font-size: 28px;
   margin-bottom: 24px;
-  color: var(--text-color); /* Nutzt die globale Textfarbe */
+  color: var(--text-color);
 }
 
-/* Styling für das Formular selbst */
 form {
   text-align: left;
   margin-top: 20px;
 }
 
-/* Logo-Platzhalter und Logo-Styling */
 .logo-placeholder {
   position: absolute;
-  top: calc(var(--logo-offset-y) * -1); /* Nutzt globale Variable für den Offset */
+  top: calc(var(--logo-offset-y) * -1);
   left: 50%;
   transform: translateX(-50%);
-  width: var(--logo-groesse); /* Nutzt globale Größe */
+  width: var(--logo-groesse);
   height: var(--logo-groesse);
-  background-color: var(--primary-color); /* Nutzt die globale primäre Grünfarbe */
+  background-color: var(--primary-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -60,7 +52,6 @@ form {
   object-fit: contain;
 }
 
-/* Allgemeine Formulargruppen-Styles */
 .form-group {
   margin-bottom: 18px;
 }
@@ -69,13 +60,13 @@ form {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: var(--text-color-light); /* Nutzt die globale hellere Textfarbe */
+  color: var(--text-color-light);
 }
 
 .form-group input {
   width: calc(100% - 20px);
   padding: 12px 10px;
-  border: 1px solid var(--border-color); /* Nutzt die globale Randfarbe */
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 16px;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -83,15 +74,15 @@ form {
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary-color); /* Nutzt die globale primäre Grünfarbe */
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.25); /* Schatten passend zur Grünfarbe */
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.25);
 }
 
 /* Button-Styling */
 button {
   width: 100%;
   padding: 12px 20px;
-  background-color: var(--primary-color); /* Nutzt die globale primäre Grünfarbe */
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -103,25 +94,23 @@ button {
 }
 
 button:hover:not([disabled]) {
-  background-color: var(--primary-color-dark); /* Nutzt die globale dunklere primäre Grünfarbe */
-  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); /* Schatten passend zur Grünfarbe */
+  background-color: var(--primary-color-dark);
+  box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
 }
 
 button[disabled] {
-  background-color: var(--disabled-color); /* Nutzt globale Deaktiviert-Farbe */
+  background-color: var(--disabled-color);
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-/* Fehlermeldungen */
 .error-message {
-  color: var(--error-color); /* Nutzt die globale Fehlerfarbe */
+  color: var(--error-color);
   margin-top: 10px;
   margin-bottom: 15px;
   font-size: 14px;
 }
 
-/* Links unter dem Formular */
 .links {
   margin-top: 20px;
   display: flex;
@@ -130,7 +119,7 @@ button[disabled] {
 }
 
 .links a {
-  color: var(--link-color); /* Nutzt die globale Linkfarbe (grün) */
+  color: var(--link-color);
   text-decoration: none;
   cursor: pointer;
   font-size: 15px;
@@ -138,6 +127,6 @@ button[disabled] {
 }
 
 .links a:hover {
-  color: var(--link-hover-color); /* Nutzt die globale Hover-Linkfarbe (dunkelgrün) */
+  color: var(--link-hover-color);
   text-decoration: underline;
 }

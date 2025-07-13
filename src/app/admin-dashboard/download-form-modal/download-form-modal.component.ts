@@ -5,6 +5,11 @@ import { DownloadService } from '../../services/download.service';
 import { Download } from '../../models/download';
 import { AuthService } from '../../services/auth.service';
 
+/**
+ * Eine modale Komponente zur Erstellung oder Bearbeitung eines Download-Eintrags.
+ *
+ * Ermöglicht das Hochladen von Dateien und Vorschau-Bildern sowie das Speichern der Metadaten eines Downloads.
+ */
 @Component({
   selector: 'app-download-form-modal',
   standalone: true,
@@ -13,15 +18,39 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./download-form-modal.component.css']
 })
 export class DownloadFormModalComponent implements OnInit {
+  /**
+   * Der zu bearbeitende oder neu zu erstellende Download-Eintrag.
+   */
   @Input() download: Partial<Download> | null = null;
+
+  /**
+   * Die aktuelle Benutzer-ID, die dem erstellten Download zugewiesen werden soll.
+   */
   @Input() currentUserId: number | null = null;
+
+  /**
+   * Wird ausgelöst, wenn ein Download erfolgreich gespeichert wurde.
+   */
   @Output() downloadSaved = new EventEmitter<Download>();
+
+  /**
+   * Wird ausgelöst, wenn der Benutzer den Vorgang abbricht.
+   */
   @Output() cancelEdit = new EventEmitter<void>();
 
+  /** Die aktuell ausgewählte Vorschau-Bilddatei. */
   selectedShowcaseImageFile: File | null = null;
+
+  /** Die aktuell ausgewählte Download-Datei. */
   selectedDownloadFile: File | null = null;
+
+  /** URL-Vorschau des gewählten Vorschau-Bildes. */
   showcaseImagePreviewUrl: string | null = null;
+
+  /** Anzeige eines Erfolgshinweises nach erfolgreichem Speichern. */
   showSuccessMessage: boolean = false;
+
+  /** Text des Erfolgshinweises. */
   successMessageText: string = '';
 
   constructor(
@@ -29,12 +58,21 @@ export class DownloadFormModalComponent implements OnInit {
     private authService: AuthService
   ) {}
 
+  /**
+   * Initialisiert die Komponente und lädt ggf. vorhandene Bild-URL in die Vorschau.
+   */
   ngOnInit(): void {
     if (this.download && this.download.showcaseImage) {
       this.showcaseImagePreviewUrl = this.download.showcaseImage;
     }
   }
 
+  /**
+   * Behandelt die Auswahl von Dateien für Vorschau-Bild oder Download-Datei.
+   *
+   * @param event - Das Auswahlevent des Dateieingabefeldes.
+   * @param type - Gibt an, ob es sich um eine Vorschau- oder Download-Datei handelt.
+   */
   onFileSelected(event: Event, type: 'showcase' | 'download'): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -59,6 +97,10 @@ export class DownloadFormModalComponent implements OnInit {
     }
   }
 
+  /**
+   * Speichert den aktuellen Download-Eintrag (neu oder aktualisiert),
+   * inklusive Datei-Uploads und Metadaten.
+   */
   onSaveDownload(): void {
     if (!this.download || !this.download.title) {
       alert('Titel ist erforderlich.');
@@ -93,6 +135,7 @@ export class DownloadFormModalComponent implements OnInit {
     }
 
     if (this.download.id) {
+      // Update eines bestehenden Downloads
       this.downloadService.updateDownloadWithFiles(this.download.id, formData).subscribe({
         next: (savedDownload) => {
           this.showSuccessMessage = true;
@@ -108,6 +151,7 @@ export class DownloadFormModalComponent implements OnInit {
         }
       });
     } else {
+      // Erstellung eines neuen Downloads
       this.downloadService.createDownloadWithFiles(formData).subscribe({
         next: (savedDownload) => {
           this.showSuccessMessage = true;
@@ -125,6 +169,9 @@ export class DownloadFormModalComponent implements OnInit {
     }
   }
 
+  /**
+   * Bricht die Bearbeitung ab und gibt das `cancelEdit`-Event aus.
+   */
   onCancel(): void {
     this.cancelEdit.emit();
   }

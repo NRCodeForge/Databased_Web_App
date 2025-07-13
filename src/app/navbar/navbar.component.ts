@@ -1,23 +1,40 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // CommonModule importieren
-import { AuthService } from '../services/auth.service'; // AuthService importieren
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Router } from '@angular/router';
 
+/**
+ * Komponente für die Navigationsleiste (Navbar).
+ * Zeigt Navigationselemente an und verwaltet die Benutzer-Authentifizierung (Logout).
+ *
+ * @export
+ * @class NavbarComponent
+ */
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [ RouterLink, RouterLinkActive, CommonModule], // CommonModule hinzufügen
+  imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  // AuthService öffentlich machen, damit das Template darauf zugreifen kann
+  /**
+   * Erstellt eine neue Instanz von NavbarComponent.
+   * 
+   * @param authService Authentifizierungsservice für Zugriffsstatus und Logout
+   * @param router Router zur Navigation nach Logout
+   */
   constructor(
     public authService: AuthService,
     private router: Router
-  ) { }
-  // Logout-Funktion für den Button im Template
+  ) {}
+
+  /**
+   * Führt den Logout durch und leitet anschließend zur Login-Seite weiter.
+   *
+   * @returns {void}
+   */
   onLogout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);

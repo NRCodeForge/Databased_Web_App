@@ -1,16 +1,12 @@
-/* news.component.css */
-
-/* Unser Hauptbereich für die News-Seite. */
 .news-container {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
   background-color: var(--background-color, #f5f5f7);
-  border-radius: 16px; /* Etwas runder für ein modernes Gefühl */
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); /* Sanfter, aber präsenter Schatten */
+  border-radius: 16px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
 }
 
-/* Die große Überschrift. */
 h1 {
   text-align: center;
   color: var(--text-color, #1d1d1f);
@@ -19,24 +15,21 @@ h1 {
   font-weight: 700;
 }
 
-/* Jeder einzelne News-Artikel. */
 .news-article {
   background-color: var(--card-background, #ffffff);
   padding: 25px;
   margin-bottom: 20px;
-  border-radius: 14px; /* Etwas runder für ein modernes Gefühl */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); /* Sanfter, aber präsenter Schatten */
+  border-radius: 14px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   border: 1px solid var(--border-color, #e0e0e0);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Kleiner Effekt beim Drüberfahren mit der Maus. */
 .news-article:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Deutlicherer Hover-Schatten */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Überschrift des Artikels. */
 .news-article h2 {
   font-size: 1.8rem;
   color: var(--text-color, #1d1d1f);
@@ -44,7 +37,6 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Inhalt des Artikels. */
 .news-article p {
   font-size: 1.05rem;
   line-height: 1.6;
@@ -53,20 +45,17 @@ h1 {
   white-space: pre-wrap;
 }
 
-/* **NEU: Stil für Bilder innerhalb von News-Artikeln** */
 .news-article img {
-  max-width: 100%; /* Stellt sicher, dass das Bild nicht über den Container hinausragt */
-  height: auto; /* Behält das Seitenverhältnis des Bildes bei */
-  display: block; /* Entfernt zusätzlichen Platz unter dem Bild */
-  margin: 15px auto; /* Zentriert das Bild und fügt vertikalen Abstand hinzu */
-  border-radius: 8px; /* Leicht abgerundete Ecken für Bilder */
-  object-fit: contain; /* Stellt sicher, dass das gesamte Bild sichtbar ist und in den Rahmen passt */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtiler Schatten für Bilder */
-  border: 1px solid var(--border-color, #e0e0e0); /* Optional: leichter Rahmen */
+  max-width: 100%;
+  height: auto; 
+  display: block;
+  margin: 15px auto; 
+  border-radius: 8px;
+  object-fit: contain;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color, #e0e0e0);
 }
 
-
-/* Datum des Beitrags. */
 .post-meta {
   font-size: 0.9rem;
   color: var(--secondary-text, #6e6e73);
@@ -76,7 +65,6 @@ h1 {
   border-top: 1px dashed var(--border-color, #e0e0e0);
 }
 
-/* Wenn keine News da sind. */
 .no-news {
   text-align: center;
   font-style: italic;
@@ -84,7 +72,6 @@ h1 {
   padding: 20px;
 }
 
-/* Anpassungen für kleinere Bildschirme. */
 @media (max-width: 768px) {
   .news-container {
     margin: 20px auto;
@@ -111,5 +98,5 @@ h1 {
 
 .pre-wrap {
   white-space: pre-wrap;
-  word-wrap: break-word; /* optional */
+  word-wrap: break-word;
 }

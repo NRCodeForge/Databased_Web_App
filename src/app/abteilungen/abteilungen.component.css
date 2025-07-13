@@ -1,33 +1,32 @@
-/* src/app/abteilungen/abteilungen.component.css */
 .pre-wrap {
   white-space: pre-wrap;
-  word-wrap: break-word; /* optional */
+  word-wrap: break-word;
 }
 .abteilungen-container {
-  display: flex; /* For side-by-side layout of navigation and content */
+  display: flex;
   justify-content: center;
-  gap: 30px; /* Space between navigation and main content */
-  padding: 56px 20px 40px 20px; /* Top-padding for Navbar + general padding */
-  min-height: calc(100vh - 56px); /* Min-height after Navbar */
+  gap: 30px;
+  padding: 56px 20px 40px 20px;
+  min-height: calc(100vh - 56px);
   background-color: var(--background-color, #f5f5f7);
   box-sizing: border-box;
 }
 
 .abteilungen-nav {
-  flex-shrink: 0; /* Prevents the nav from shrinking */
-  width: 250px; /* Fixed width for the nav */
+  flex-shrink: 0;
+  width: 250px;
   background-color: var(--card-background, #ffffff);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  position: sticky; /* Makes the nav sticky when scrolling */
-  top: calc(56px + 20px); /* Navbar height + some spacing */
-  align-self: flex-start; /* Align to the top */
-  max-height: calc(100vh - 56px - 40px); /* Max height to prevent overflow */
-  overflow-y: auto; /* Scrollbar if content is too long */
+  position: sticky;
+  top: calc(56px + 20px);
+  align-self: flex-start;
+  max-height: calc(100vh - 56px - 40px);
+  overflow-y: auto;
 }
 
-.abteilungen-nav h2 { /* Changed from h3 to h2 to match abteilungen.component.html */
+.abteilungen-nav h2 {
   font-size: 1.2rem;
   margin-top: 0;
   margin-bottom: 15px;
@@ -43,13 +42,13 @@
 }
 
 .abteilungen-nav li {
-  margin-bottom: 10px; /* Adjusted to match der-verein.component.css list item spacing */
-  padding: 5px 0; /* Adjusted to match der-verein.component.css link padding */
+  margin-bottom: 10px;
+  padding: 5px 0;
   cursor: pointer;
-  color: var(--primary-blue, #007aff); /* Changed to primary-blue to match link style */
+  color: var(--primary-blue, #007aff);
   font-weight: 500;
-  display: block; /* Make the whole list item clickable like a link */
-  text-decoration: none; /* Remove underline */
+  display: block;
+  text-decoration: none;
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
@@ -57,13 +56,13 @@
   color: #005ecb;
   background-color: var(--hover-background, #e8e8ea);
   border-radius: 4px;
-  padding-left: 5px; /* Small visual effect on hover */
+  padding-left: 5px;
 }
 
 
 .abteilungen-content {
-  flex-grow: 1; /* Takes up remaining space */
-  max-width: 800px; /* Maximum width for better readability */
+  flex-grow: 1;
+  max-width: 800px;
   background-color: var(--card-background, #ffffff);
   padding: 40px;
   border-radius: 12px;
@@ -73,14 +72,14 @@
 }
 
 .abteilungen-content h2 {
-  font-size: 2.5rem; /* Matches h1 in der-verein.component.css */
+  font-size: 2.5rem; 
   margin-bottom: 30px;
-  text-align: center; /* Center align title */
+  text-align: center;
   color: var(--primary-blue, #007aff);
 }
 
-.abteilungen-content h3 { /* Added h3 styling for "Beiträge für Abteilung X" */
-  font-size: 2rem; /* Matches h2 in der-verein.component.css */
+.abteilungen-content h3 {
+  font-size: 2rem;
   margin-top: 40px;
   margin-bottom: 20px;
   padding-bottom: 10px;
@@ -88,8 +87,8 @@
   color: var(--text-color, #1d1d1f);
 }
 
-.abteilungen-content h4 { /* Added h4 styling for "Beitrag Titel" */
-  font-size: 1.5rem; /* Matches h3 in der-verein.component.css */
+.abteilungen-content h4 {
+  font-size: 1.5rem;
   margin-top: 30px;
   margin-bottom: 15px;
   color: var(--secondary-text, #6e6e73);
@@ -99,16 +98,16 @@
   margin-bottom: 15px;
 }
 
-.abteilungen-content small { /* Styling for the date */
-    display: block; /* Ensures it takes full width */
-    text-align: right; /* Aligns to the right */
+.abteilungen-content small {
+    display: block;
+    text-align: right;
     color: var(--secondary-text, #6e6e73);
     font-size: 0.85rem;
-    margin-top: -10px; /* Pull it slightly up */
+    margin-top: -10px;
     margin-bottom: 15px;
 }
 
-.abteilungen-content hr { /* Styling for horizontal rule */
+.abteilungen-content hr { 
     border: none;
     border-top: 1px solid var(--border-color, #d2d2d7);
     margin: 25px 0;
@@ -121,41 +120,41 @@
   padding-top: 50px;
 }
 
-/* Responsive Design */
+
 @media (max-width: 992px) {
   .abteilungen-container {
-    flex-direction: column; /* Navigation above content on smaller screens */
-    align-items: center; /* Center content */
+    flex-direction: column;
+    align-items: center;
   }
 
   .abteilungen-nav {
-    position: static; /* No longer sticky */
+    position: static;
     width: 100%;
-    max-width: 800px; /* Max-width like content */
+    max-width: 800px;
     margin-bottom: 30px;
-    box-shadow: none; /* Shadow only for main content */
-    border-bottom: 1px solid var(--border-color, #d2d2d7); /* Separator line */
+    box-shadow: none;
+    border-bottom: 1px solid var(--border-color, #d2d2d7);
     padding-bottom: 20px;
   }
 
   .abteilungen-nav ul {
-    display: flex; /* Links side-by-side for better space utilization */
-    flex-wrap: wrap; /* Wrap lines if too many links */
-    gap: 10px; /* Space between links */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     justify-content: center;
   }
 
   .abteilungen-nav li {
     margin-bottom: 0;
-    padding: 8px 12px; /* More padding for click area */
+    padding: 8px 12px;
     border: 1px solid var(--border-color, #d2d2d7);
     border-radius: 8px;
     background-color: var(--hover-background, #e8e8ea);
-    color: var(--text-color, #1d1d1f); /* Set text color for better visibility against background */
+    color: var(--text-color, #1d1d1f);
   }
 
   .abteilungen-nav li:hover {
-    padding-left: 12px; /* No extra padding on hover, as no side text */
+    padding-left: 12px;
   }
 
   .abteilungen-nav li.active {

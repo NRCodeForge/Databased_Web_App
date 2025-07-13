@@ -1,8 +1,6 @@
-/* src/app/admin-dashboard/admin-dashboard.component.css */
-
 .admin-dashboard {
   display: flex;
-  height: calc(100vh - 56px); /* Höhe abzüglich der Navbar */
+  height: calc(100vh - 56px);
 }
 
 .sidebar {

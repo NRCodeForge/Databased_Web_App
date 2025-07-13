@@ -1,5 +1,10 @@
 import * as nodemailer from 'nodemailer';
 
+/**
+ * Nodemailer Transporter für den Versand von E-Mails.
+ * 
+ * Konfigurieren Sie hier Ihren SMTP-Server und Authentifizierungsdaten.
+ */
 const transporter = nodemailer.createTransport({
   host: 'smtp.example.com', // Ersetzen Sie dies mit Ihrem SMTP-Host
   port: 587,
@@ -10,7 +15,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export async function sendMail(to: string, subject: string, text: string) {
+/**
+ * Sendet eine E-Mail mit den angegebenen Empfänger-, Betreff- und Textdaten.
+ *
+ * @param {string} to - Die Empfängeradresse der E-Mail
+ * @param {string} subject - Der Betreff der E-Mail
+ * @param {string} text - Der Textinhalt der E-Mail
+ * @returns {Promise<void>} Eine Promise, die beim Abschluss der E-Mail-Sendung aufgelöst wird
+ */
+export async function sendMail(to: string, subject: string, text: string): Promise<void> {
   const mailOptions = {
     from: '"Schützenverein Huchting" <your-email@example.com>',
     to: to,
