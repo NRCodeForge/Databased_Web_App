@@ -35,7 +35,14 @@
         <td>{{ user.Vorname }}</td>
         <td>{{ user.Nachname }}</td>
         <td>{{ user.Email }}</td>
-        <td>{{ user.RollenName }}</td>
+         <td>
+          <ng-container [ngSwitch]="user.RollenID">
+            <span *ngSwitchCase="3">Admin</span>
+            <span *ngSwitchCase="2">Abteilungleiter</span>
+            <span *ngSwitchCase="1">Mitglied</span>
+            <span *ngSwitchDefault>Unbekannt</span>
+          </ng-container>
+        </td>
         <td class="actions-cell">
           <button class="btn-icon" (click)="onEditUser(user)" title="Bearbeiten">
             <i class="fas fa-edit"></i>

@@ -39,7 +39,25 @@
       <tr *ngFor="let content of contents">
         <td>{{ content.BeitragsID }}</td>
         <td>{{ content.Titel }}</td>
-        <td>{{ content.Kategorie }}</td>
+        <td>
+          <ng-container [ngSwitch]="content.KategorieID">
+            <span *ngSwitchCase="1">News</span>
+            <span *ngSwitchCase="2">Bogenschießen</span>
+            <span *ngSwitchCase="3">Jugend und Schueler</span>
+            <span *ngSwitchCase="4">Pistolensport</span>
+            <span *ngSwitchCase="5">Senioren</span>
+            <span *ngSwitchCase="6">Damen</span>
+            <span *ngSwitchCase="7">Tradition</span>
+            <span *ngSwitchCase="8">Verein Infos</span>
+            <span *ngSwitchCase="9">Geschichte</span>
+            <span *ngSwitchCase="10">Vorstand</span>
+            <span *ngSwitchCase="11">Beitraege</span>
+            <span *ngSwitchCase="12">Einrichtung</span>
+            <span *ngSwitchCase="13">Kontakt und Anfahrt</span>
+            <span *ngSwitchCase="14">Schuetzenfest</span>
+            <span *ngSwitchDefault>Unbekannt</span>
+          </ng-container>
+        </td>
         <td>{{ content.Erstellungsdatum | date:'shortDate' }}</td>
         <td class="actions-cell">
           <button class="btn-icon" (click)="onEditContent(content)" title="Bearbeiten">
