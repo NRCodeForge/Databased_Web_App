@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Jul 2025 um 13:18
+-- Erstellungszeit: 13. Jul 2025 um 16:31
 -- Server-Version: 10.4.32-MariaDB
 -- PHP-Version: 8.0.30
 
@@ -497,7 +497,76 @@ INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
 (305, '/downloads', '2025-07-13 11:16:37'),
 (306, '/dashboard/admin', '2025-07-13 11:16:39'),
 (307, '/dashboard/admin/link-manager', '2025-07-13 11:16:40'),
-(308, '/downloads', '2025-07-13 11:17:11');
+(308, '/downloads', '2025-07-13 11:17:11'),
+(309, '/', '2025-07-13 12:54:34'),
+(310, '/news', '2025-07-13 12:54:35'),
+(311, '/', '2025-07-13 12:54:37'),
+(312, '/der-verein', '2025-07-13 12:54:38'),
+(313, '/termin', '2025-07-13 12:54:39'),
+(314, '/login', '2025-07-13 12:54:41'),
+(315, '/', '2025-07-13 12:54:44'),
+(316, '/news', '2025-07-13 12:54:47'),
+(317, '/events', '2025-07-13 12:54:48'),
+(318, '/der-verein', '2025-07-13 12:54:49'),
+(319, '/abteilung', '2025-07-13 12:54:50'),
+(320, '/schuetzenfest', '2025-07-13 12:54:50'),
+(321, '/termin', '2025-07-13 12:54:51'),
+(322, '/downloads', '2025-07-13 12:54:52'),
+(323, '/forum', '2025-07-13 12:54:53'),
+(324, '/events', '2025-07-13 13:05:29'),
+(325, '/login', '2025-07-13 13:05:40'),
+(326, '/', '2025-07-13 13:05:42'),
+(327, '/dashboard/admin', '2025-07-13 13:05:54'),
+(328, '/dashboard/admin/events', '2025-07-13 13:05:56'),
+(329, '/dashboard/admin/departments', '2025-07-13 13:05:57'),
+(330, '/dashboard/admin/departments', '2025-07-13 13:06:00'),
+(331, '/dashboard/admin/events', '2025-07-13 13:06:02'),
+(332, '/events', '2025-07-13 13:06:57'),
+(333, '/forum', '2025-07-13 13:07:25'),
+(334, '/downloads', '2025-07-13 13:07:25'),
+(335, '/termin', '2025-07-13 13:07:26'),
+(336, '/schuetzenfest', '2025-07-13 13:07:27'),
+(337, '/abteilung', '2025-07-13 13:07:28'),
+(338, '/der-verein', '2025-07-13 13:07:29'),
+(339, '/news', '2025-07-13 13:07:29'),
+(340, '/events', '2025-07-13 13:07:30'),
+(341, '/dashboard/admin', '2025-07-13 13:07:40'),
+(342, '/dashboard/admin/events', '2025-07-13 13:07:42'),
+(343, '/dashboard/admin/link-manager', '2025-07-13 13:07:43'),
+(344, '/dashboard/admin/events', '2025-07-13 13:07:43'),
+(345, '/dashboard/admin/events', '2025-07-13 13:07:46'),
+(346, '/dashboard/admin/users', '2025-07-13 13:07:58'),
+(347, '/dashboard/admin/content', '2025-07-13 13:08:00'),
+(348, '/dashboard/admin/content', '2025-07-13 13:10:03'),
+(349, '/', '2025-07-13 13:10:05'),
+(350, '/der-verein', '2025-07-13 13:10:07'),
+(351, '/news', '2025-07-13 13:10:07'),
+(352, '/abteilung', '2025-07-13 13:10:08'),
+(353, '/schuetzenfest', '2025-07-13 13:10:09'),
+(354, '/termin', '2025-07-13 13:10:10'),
+(355, '/', '2025-07-13 13:20:38'),
+(356, '/', '2025-07-13 13:24:48'),
+(357, '/termin', '2025-07-13 13:25:52'),
+(358, '/dashboard/admin', '2025-07-13 13:25:55'),
+(359, '/dashboard/admin/events', '2025-07-13 13:25:58'),
+(360, '/dashboard/admin/link-manager', '2025-07-13 13:25:58'),
+(361, '/dashboard/admin/events', '2025-07-13 13:25:59'),
+(362, '/dashboard/admin/departments', '2025-07-13 13:26:00'),
+(363, '/dashboard/admin/users', '2025-07-13 13:26:00'),
+(364, '/dashboard/admin/content', '2025-07-13 13:26:00'),
+(365, '/dashboard/admin/users', '2025-07-13 13:26:02'),
+(366, '/dashboard/admin/departments', '2025-07-13 13:26:03'),
+(367, '/dashboard/admin/events', '2025-07-13 13:26:03'),
+(368, '/dashboard/admin/content', '2025-07-13 13:27:55'),
+(369, '/dashboard/admin/users', '2025-07-13 13:27:55'),
+(370, '/dashboard/admin/link-manager', '2025-07-13 14:29:41'),
+(371, '/dashboard/admin/events', '2025-07-13 14:29:45'),
+(372, '/dashboard/admin/departments', '2025-07-13 14:29:46'),
+(373, '/dashboard/admin/users', '2025-07-13 14:29:49'),
+(374, '/dashboard/admin/content', '2025-07-13 14:29:50'),
+(375, '/dashboard/admin/events', '2025-07-13 14:29:53'),
+(376, '/dashboard/admin/link-manager', '2025-07-13 14:29:54'),
+(377, '/dashboard/admin/events', '2025-07-13 14:29:55');
 
 -- --------------------------------------------------------
 
@@ -526,8 +595,16 @@ CREATE TABLE `termine` (
   `Beschreibung` text DEFAULT NULL,
   `Datum` datetime NOT NULL,
   `Ort` varchar(255) DEFAULT NULL,
-  `ErstelltVon` int(11) NOT NULL
+  `ErstelltVon` int(11) NOT NULL,
+  `Wiederholungstyp` enum('Keine','Wöchentlich','Monatlich','Jährlich') NOT NULL DEFAULT 'Keine'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Daten für Tabelle `termine`
+--
+
+INSERT INTO `termine` (`TerminID`, `Titel`, `Beschreibung`, `Datum`, `Ort`, `ErstelltVon`, `Wiederholungstyp`) VALUES
+(1, 'Bob', 'cnjodwjv', '2025-07-15 18:00:00', NULL, 5, 'Wöchentlich');
 
 --
 -- Indizes der exportierten Tabellen
@@ -638,7 +715,7 @@ ALTER TABLE `rollen`
 -- AUTO_INCREMENT für Tabelle `seitenaufrufe`
 --
 ALTER TABLE `seitenaufrufe`
-  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=378;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`
@@ -650,7 +727,7 @@ ALTER TABLE `sektionen`
 -- AUTO_INCREMENT für Tabelle `termine`
 --
 ALTER TABLE `termine`
-  MODIFY `TerminID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `TerminID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints der exportierten Tabellen
