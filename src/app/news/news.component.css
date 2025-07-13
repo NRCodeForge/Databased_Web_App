@@ -6,8 +6,8 @@
   margin: 40px auto;
   padding: 20px;
   background-color: var(--background-color, #f5f5f7);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 16px; /* Etwas runder für ein modernes Gefühl */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08); /* Sanfter, aber präsenter Schatten */
 }
 
 /* Die große Überschrift. */
@@ -24,8 +24,8 @@ h1 {
   background-color: var(--card-background, #ffffff);
   padding: 25px;
   margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  border-radius: 14px; /* Etwas runder für ein modernes Gefühl */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); /* Sanfter, aber präsenter Schatten */
   border: 1px solid var(--border-color, #e0e0e0);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -33,7 +33,7 @@ h1 {
 /* Kleiner Effekt beim Drüberfahren mit der Maus. */
 .news-article:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); /* Deutlicherer Hover-Schatten */
 }
 
 /* Überschrift des Artikels. */
@@ -52,6 +52,19 @@ h1 {
   margin-bottom: 15px;
   white-space: pre-wrap;
 }
+
+/* **NEU: Stil für Bilder innerhalb von News-Artikeln** */
+.news-article img {
+  max-width: 100%; /* Stellt sicher, dass das Bild nicht über den Container hinausragt */
+  height: auto; /* Behält das Seitenverhältnis des Bildes bei */
+  display: block; /* Entfernt zusätzlichen Platz unter dem Bild */
+  margin: 15px auto; /* Zentriert das Bild und fügt vertikalen Abstand hinzu */
+  border-radius: 8px; /* Leicht abgerundete Ecken für Bilder */
+  object-fit: contain; /* Stellt sicher, dass das gesamte Bild sichtbar ist und in den Rahmen passt */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtiler Schatten für Bilder */
+  border: 1px solid var(--border-color, #e0e0e0); /* Optional: leichter Rahmen */
+}
+
 
 /* Datum des Beitrags. */
 .post-meta {

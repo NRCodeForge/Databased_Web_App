@@ -1,4 +1,4 @@
-/* Grundlegende Apple-ähnliche Farben und Schriftarten */
+/* Grundlegende Apple-ähnliche Farben und Schriftarten - bleiben weitgehend gleich */
 :root {
   --apple-blue: #007AFF;
   --apple-light-gray: #F5F5F7;
@@ -6,7 +6,8 @@
   --apple-dark-gray: #8E8E93;
   --apple-text-dark: #1C1C1E; /* Dunkler Text für bessere Lesbarkeit */
   --apple-text-light: #FFFFFF;
-  --apple-shadow: rgba(0, 0, 0, 0.18); /* Etwas stärkerer Schatten für mehr Pop */
+  --apple-shadow-soft: rgba(0, 0, 0, 0.1); /* Weicherer Schatten */
+  --apple-shadow-strong: rgba(0, 0, 0, 0.18); /* Etwas stärkerer Schatten für mehr Pop */
   --apple-border: #D1D1D1;
   --apple-success: #34C759;
   --apple-red: #FF3B30;
@@ -24,27 +25,27 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.55); /* Etwas dunklerer, soliderer Hintergrund */
+  background-color: rgba(0, 0, 0, 0.4); /* Leichter transparenter Hintergrund */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  /* backdrop-filter: blur(0px); - Entfernt, da kein Glass-Effekt gewünscht ist */
-  /* -webkit-backdrop-filter: blur(0px); - Entfernt */
+  backdrop-filter: blur(8px); /* Glasmorphismus-Effekt: Hintergrund verwischen */
+  -webkit-backdrop-filter: blur(8px); /* Für Safari */
 }
 
 .modal-content {
-  background-color: var(--modal-inner-bg); /* Solider weißer Hintergrund */
+  background-color: rgba(255, 255, 255, 0.6); /* Transparenter weißer Hintergrund für Glass-Effekt */
   padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 16px 36px var(--apple-shadow); /* Deutlicherer, aber weicherer Schatten für mehr Tiefe */
+  border-radius: 18px; /* Stärker abgerundete Ecken */
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Glasmorphismus-Schatten */
+  border: 1px solid rgba(255, 255, 255, 0.18); /* Subtiler Rahmen für Glass-Effekt */
   width: 90%;
   max-width: 800px;
   position: relative;
   max-height: 90vh;
   overflow-y: auto;
   animation: modalFadeIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border: 1px solid var(--apple-medium-gray); /* Leichter Rahmen für Definition */
 }
 
 @keyframes modalFadeIn {
@@ -59,7 +60,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--modal-inner-bg); /* Solider weißer Hintergrund für die Erfolgsmeldung */
+  background-color: rgba(255, 255, 255, 0.8); /* Etwas transparenter für den Glas-Effekt */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +115,7 @@ h2 {
   line-height: 1.2;
 }
 
-.form-container {
+.form-container { /* Bezieht sich auf den Formularbereich innerhalb des Modals */
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -138,7 +139,7 @@ h2 {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--apple-border);
-  border-radius: 10px;
+  border-radius: 12px; /* Abgerundetere Ecken für Input-Felder */
   font-size: 1rem;
   box-sizing: border-box;
   background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
@@ -171,7 +172,7 @@ h2 {
 .image-preview-container {
   margin-top: 15px;
   border: 1px dashed var(--apple-dark-gray);
-  border-radius: 10px;
+  border-radius: 12px; /* Abgerundetere Ecken */
   padding: 15px;
   background-color: var(--apple-text-light); /* Solider weißer Hintergrund */
   display: flex;
@@ -184,7 +185,7 @@ h2 {
 .image-preview {
   max-width: 100%;
   max-height: 250px;
-  border-radius: 8px;
+  border-radius: 10px; /* Abgerundetere Ecken */
   object-fit: contain;
   border: 1px solid var(--apple-medium-gray);
 }
@@ -206,12 +207,12 @@ h2 {
 .modal-actions button {
   padding: 12px 25px;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px; /* Abgerundetere Ecken für Buttons */
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); /* Etwas stärkerer Schatten für Buttons */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Verfeinerter Schatten */
 }
 
 .modal-actions button.submit-button {
@@ -221,8 +222,8 @@ h2 {
 
 .modal-actions button.submit-button:hover {
   background-color: #005bb5;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px); /* Etwas stärkerer Lift */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Stärkerer Hover-Schatten */
 }
 
 .modal-actions button:not(.submit-button) {
@@ -232,8 +233,8 @@ h2 {
 
 .modal-actions button:not(.submit-button):hover {
   background-color: #c0c0c0;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  transform: translateY(-2px); /* Etwas stärkerer Lift */
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.22); /* Stärkerer Hover-Schatten */
 }
 
 .modal-actions button:disabled {
