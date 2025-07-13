@@ -16,10 +16,17 @@ import { sendMail } from './src/app/services/email.service';
 // Importieren Sie den InjectionToken
 import { REQUEST } from './src/app/ssr.tokens';
 
-// NEU: Multer für Dateiuploads
+// Multer für Dateiuploads
 import multer from 'multer';
 import fs from 'fs'; // Zum Erstellen von Verzeichnissen
 
+/**
+ * Erstellt und konfiguriert eine Express-Anwendung.
+ * Diese Funktion richtet Middleware, API-Routen, Dateiuploads,
+ * Datenbankverbindungen und Angular Universal für das serverseitige Rendering ein.
+ *
+ * @returns {express.Express} Die konfigurierte Express-Anwendungsinstanz.
+ */
 export function app(): express.Express {
   const server = express();
   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
@@ -28,15 +35,21 @@ export function app(): express.Express {
 
   const commonEngine = new CommonEngine();
 
+  // Lädt Umgebungsvariablen aus der data.env-Datei
   const projectRoot = resolve(serverDistFolder, '../../../');
   dotenv.config({ path: join(projectRoot, 'data.env') });
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
+  // Standard-Middleware anwenden
   server.use(cors());
   server.use(express.json());
 
+  /**
+   * @description Datenbankverbindungspool für MySQL.
+   * Verwendet Anmeldeinformationen aus den Umgebungsvariablen.
+   */
   const pool = mysql.createPool({
     host: process.env['DB_HOST'],
     user: process.env['DB_USER'],
@@ -47,17 +60,21 @@ export function app(): express.Express {
     queueLimit: 0
   });
 
+  // Statische Dateien aus dem Browser-Distributionsordner bereitstellen
   server.use(express.static(browserDistFolder, {
     maxAge: '1y'
   }));
 
-  // NEU: Konfiguration für Multer
+  /**
+   * @description Multer-Konfiguration für die Handhabung von Dateiuploads.
+   * Dateien werden im Verzeichnis 'uploads' im Projektstamm gespeichert.
+   */
   const uploadsDir = join(projectRoot, 'uploads');
   // Erstelle das uploads-Verzeichnis, falls es nicht existiert
   if (!fs.existsSync(uploadsDir)){
     fs.mkdirSync(uploadsDir, { recursive: true });
   }
-  // Stelle das uploads-Verzeichnis statisch bereit, damit die Dateien zugänglich sind
+  // Stelle das uploads-Verzeichnis statisch bereit, damit Dateien per URL zugänglich sind
   server.use('/uploads', express.static(uploadsDir));
 
   const storage = multer.diskStorage({
@@ -72,10 +89,20 @@ export function app(): express.Express {
 
   const upload = multer({ storage: storage });
 
-
-// API-Endpunkt für die Registrierung
+  /**
+   * @route POST /api/register
+   * @description Registriert einen neuen Benutzer.
+   * @param {object} req.body - Die Registrierungsdaten des Benutzers.
+   * @param {string} req.body.email - Die E-Mail-Adresse des Benutzers.
+   * @param {string} req.body.password - Das Passwort des Benutzers.
+   * @param {string} req.body.vorname - Der Vorname des Benutzers.
+   * @param {string} req.body.nachname - Der Nachname des Benutzers.
+   * @returns {object} 201 - Erfolgsmeldung und die ID des neuen Benutzers.
+   * @returns {object} 400 - Wenn Pflichtfelder fehlen.
+   * @returns {object} 409 - Wenn bereits ein Benutzer mit der E-Mail existiert.
+   * @returns {object} 500 - Serverfehler bei der Registrierung.
+   */
   server.post('/api/register', async (req, res) => {
-    // ... (Ihr bestehender Code, unverändert)
     const { email, password, vorname, nachname } = req.body;
 
     if (!email || !password || !vorname || !nachname) {
@@ -89,8 +116,8 @@ export function app(): express.Express {
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      const defaultRole = 1; // Angenommen '1' ist die Standardrolle
-      const time = new Date().toISOString()
+      const defaultRole = 1; // Standard-Rollen-ID
+      const time = new Date().toISOString();
       const [result] = await pool.query(
         'INSERT INTO benutzer (Email, Passwort, Vorname, Nachname, RollenID, ErstelltAm) VALUES (?, ?, ?, ?, ?, ?)',
         [email, hashedPassword, vorname, nachname, defaultRole, time]
@@ -102,6 +129,18 @@ export function app(): express.Express {
       return res.status(500).json({ message: 'Serverfehler bei der Registrierung.' });
     }
   });
+
+  /**
+   * @route POST /api/send-email
+   * @description Sendet eine E-Mail über den konfigurierten E-Mail-Dienst.
+   * @param {object} req.body - Die E-Mail-Details.
+   * @param {string} req.body.to - Die E-Mail-Adresse des Empfängers.
+   * @param {string} req.body.subject - Der Betreff der E-Mail.
+   * @param {string} req.body.text - Der Inhalt der E-Mail.
+   * @returns {object} 200 - Erfolgsmeldung.
+   * @returns {object} 400 - Wenn Pflichtfelder fehlen.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.post('/api/send-email', async (req, res) => {
     const { to, subject, text } = req.body;
 
@@ -118,9 +157,17 @@ export function app(): express.Express {
     }
   });
 
-  // API-Endpunkt für den Login
+  /**
+   * @route POST /api/login
+   * @description Authentifiziert einen Benutzer und gibt ein JWT zurück.
+   * @param {object} req.body - Die Anmeldeinformationen.
+   * @param {string} req.body.email - Die E-Mail des Benutzers.
+   * @param {string} req.body.password - Das Passwort des Benutzers.
+   * @returns {object} 200 - Das JWT für den authentifizierten Benutzer.
+   * @returns {object} 401 - Ungültige Anmeldeinformationen.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.post('/api/login', async (req, res) => {
-    // ... (Ihr bestehender Code, unverändert)
     const { email, password } = req.body;
     try {
       const [rows] = await pool.query('SELECT * FROM benutzer WHERE Email = ?', [email]);
@@ -142,12 +189,17 @@ export function app(): express.Express {
   });
 
   // #############################################################
-  // ##### NEUE API-ROUTEN FÜR DIE BENUTZERVERWALTUNG (ADMIN) #####
+  // ##### BENUTZERVERWALTUNGS-API-ROUTEN (ADMIN)             #####
   // #############################################################
 
+  /**
+   * @route GET /api/users
+   * @description Ruft eine Liste aller Benutzer ab.
+   * @returns {object[]} 200 - Ein Array von Benutzerobjekten.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.get('/api/users', async (req, res) => {
     try {
-      // KORREKTUR: Wählt die korrekten Spalten und erstellt 'Benutzername' zur Anzeige
       const sql = `
         SELECT
           BenutzerID as UserID,
@@ -166,9 +218,20 @@ export function app(): express.Express {
     }
   });
 
-  // POST /api/users - Neuen Benutzer erstellen
+  /**
+   * @route POST /api/users
+   * @description Erstellt einen neuen Benutzer (Admin-Aktion).
+   * @param {object} req.body - Die Daten des neuen Benutzers.
+   * @param {string} req.body.Vorname - Der Vorname des Benutzers.
+   * @param {string} req.body.Nachname - Der Nachname des Benutzers.
+   * @param {string} req.body.Email - Die E-Mail des Benutzers.
+   * @param {string} req.body.Passwort - Das Passwort des Benutzers.
+   * @param {number} req.body.RollenID - Die Rollen-ID des Benutzers.
+   * @returns {object} 201 - Erfolgsmeldung und die ID des neuen Benutzers.
+   * @returns {object} 400 - Wenn Pflichtfelder fehlen.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.post('/api/users', async (req, res) => {
-    // KORREKTUR: Verwendet Vorname und Nachname
     const { Vorname, Nachname, Email, Passwort, RollenID } = req.body;
     if (!Vorname || !Nachname || !Email || !Passwort || !RollenID) {
       return res.status(400).json({ message: 'Alle Felder sind erforderlich.' });
@@ -184,11 +247,19 @@ export function app(): express.Express {
     }
   });
 
+  /**
+   * @route PUT /api/users/:id
+   * @description Aktualisiert die Informationen eines bestehenden Benutzers.
+   * @param {string} req.params.id - Die ID des zu aktualisierenden Benutzers.
+   * @param {object} req.body - Die zu aktualisierenden Benutzerdaten. Kann optional ein neues Passwort enthalten.
+   * @returns {object} 200 - Erfolgsmeldung.
+   * @returns {object} 400 - Wenn die Benutzer-ID ungültig ist.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.put('/api/users/:id', async (req, res) => {
     const { id } = req.params;
     const { Vorname, Nachname, Email, RollenID, Passwort } = req.body;
 
-    // Überprüfen, ob die ID eine gültige Zahl ist
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {
       return res.status(400).send('Ungültige UserID.');
@@ -196,14 +267,12 @@ export function app(): express.Express {
 
     try {
       if (Passwort && Passwort.length > 0) {
-        // Fall 1: Passwort wird geändert
         const hashedPassword = await bcrypt.hash(Passwort, 10);
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ?, Passwort = ? WHERE BenutzerID = ?',
           [Vorname, Nachname, Email, RollenID, hashedPassword, userId]
         );
       } else {
-        // Fall 2: Passwort wird NICHT geändert
         await pool.query(
           'UPDATE benutzer SET Vorname = ?, Nachname = ?, Email = ?, RollenID = ? WHERE BenutzerID = ?',
           [Vorname, Nachname, Email, RollenID, userId]
@@ -216,11 +285,17 @@ export function app(): express.Express {
     }
   });
 
-  // DELETE /api/users/:id - Einen Benutzer löschen
+  /**
+   * @route DELETE /api/users/:id
+   * @description Löscht einen Benutzer.
+   * @param {string} req.params.id - Die ID des zu löschenden Benutzers.
+   * @returns {void} 204 - Kein Inhalt, was die erfolgreiche Löschung anzeigt.
+   * @returns {object} 400 - Wenn die Benutzer-ID ungültig ist.
+   * @returns {object} 404 - Wenn der Benutzer nicht gefunden wird.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.delete('/api/users/:id', async (req, res) => {
     const { id } = req.params;
-
-    // Überprüfen, ob die ID eine gültige Zahl ist
     const userId = parseInt(id, 10);
     if (isNaN(userId)) {
       return res.status(400).send('Ungültige UserID.');
@@ -228,19 +303,25 @@ export function app(): express.Express {
 
     try {
       const [result] = await pool.query('DELETE FROM benutzer WHERE BenutzerID = ?', [userId]);
-
-      // Prüfen, ob eine Zeile tatsächlich gelöscht wurde
       if ((result as any).affectedRows === 0) {
         return res.status(404).json({ message: 'Benutzer nicht gefunden.' });
       }
-
-      // Erfolgreich gelöscht
-      return res.status(204).send(); // 204 No Content ist die Standardantwort für erfolgreiches Löschen
+      return res.status(204).send();
     } catch (error) {
       console.error(`Fehler beim Löschen von Benutzer ${userId}:`, error);
       return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
     }
   });
+
+  /**
+   * @route POST /api/track-view
+   * @description Verfolgt einen Seitenaufruf für Analysezwecke.
+   * @param {object} req.body - Der Anfragekörper.
+   * @param {string} req.body.path - Der Pfad der aufgerufenen Seite.
+   * @returns {object} 201 - Erfolgsmeldung.
+   * @returns {object} 400 - Wenn der Pfad fehlt.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.post('/api/track-view', async (req, res) => {
     const { path } = req.body;
     if (!path) {
@@ -256,10 +337,14 @@ export function app(): express.Express {
     }
   });
 
-// GET /api/page-views - Ruft aggregierte Daten für das Dashboard ab
+  /**
+   * @route GET /api/page-views
+   * @description Ruft aggregierte Seitenaufrufdaten für die letzten 30 Tage ab.
+   * @returns {object[]} 200 - Ein Array von Objekten, die jeweils ein Datum ('Tag') und die Anzahl der Aufrufe ('Aufrufe') enthalten.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.get('/api/page-views', async (req, res) => {
     try {
-      // Diese Abfrage zählt die Aufrufe pro Tag für die letzten 30 Tage
       const sql = `
       SELECT DATE(AufrufZeitstempel) as Tag, COUNT(AufrufID) as Aufrufe
       FROM seitenaufrufe
@@ -275,6 +360,14 @@ export function app(): express.Express {
     }
   });
 
+  /**
+   * @route GET /api/beitraege
+   * @description Ruft Beiträge nach Kategorie-ID ab.
+   * @param {string} req.query.kategorieId - Die ID der Kategorie.
+   * @returns {object[]} 200 - Ein Array von Beitragsobjekten.
+   * @returns {object} 400 - Wenn die Kategorie-ID ungültig ist.
+   * @returns {object} 500 - Datenbankfehler.
+   */
   server.get('/api/beitraege', async (req, res) => {
     const kategorieId = parseInt(req.query['kategorieId'] as string);
 
@@ -296,10 +389,15 @@ export function app(): express.Express {
   });
 
   // #############################################################
-  // ##### NEUE API-ROUTEN FÜR DOWNLOADS #####
+  // ##### DOWNLOADS-API-ROUTEN                             #####
   // #############################################################
 
-  // GET /api/downloads - Alle Download-Elemente abrufen, sortiert nach Reihenfolge
+  /**
+   * @route GET /api/downloads
+   * @description Ruft alle Download-Elemente ab, sortiert nach ihrer Reihenfolge.
+   * @returns {object[]} 200 - Ein Array von Download-Elementen.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.get('/api/downloads', async (req, res) => {
     try {
       const [downloads] = await pool.query('SELECT DownloadID AS id, Titel AS title, Beschreibung AS description, ShowcaseImageURL AS showcaseImage, DownloadURL AS downloadUrl, Reihenfolge AS `order` FROM downloads ORDER BY Reihenfolge ASC, DownloadID DESC');
@@ -310,7 +408,19 @@ export function app(): express.Express {
     }
   });
 
-  // POST /api/downloads - Neues Download-Element erstellen (mit Dateiupload)
+  /**
+   * @route POST /api/downloads
+   * @description Erstellt ein neues Download-Element mit Dateiuploads.
+   * @param {object} req - Die multipart/form-data Anfrage.
+   * @param {string} req.body.title - Der Titel des Downloads.
+   * @param {string} [req.body.description] - Die Beschreibung des Downloads.
+   * @param {string} req.body.userId - Die ID des Benutzers, der den Download erstellt.
+   * @param {File} req.files.showcaseImage - Die optionale Vorschaubild-Datei.
+   * @param {File} req.files.downloadFile - Die erforderliche Download-Datei.
+   * @returns {object} 201 - Erfolgsmeldung und die ID des neuen Downloads.
+   * @returns {object} 400 - Wenn erforderliche Felder oder Dateien fehlen.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.post('/api/downloads', upload.fields([
     { name: 'showcaseImage', maxCount: 1 },
     { name: 'downloadFile', maxCount: 1 }
@@ -319,9 +429,7 @@ export function app(): express.Express {
     const showcaseImageFile = (req.files as any)?.showcaseImage?.[0];
     const downloadFile = (req.files as any)?.downloadFile?.[0];
 
-    // Überprüfen Sie, ob die erforderlichen Felder und Dateien vorhanden sind
     if (!title || !userId || !downloadFile) {
-      // Löschen Sie hochgeladene Dateien, wenn die Validierung fehlschlägt
       if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
       if (downloadFile) fs.unlinkSync(downloadFile.path);
       return res.status(400).json({ message: 'Titel, Download-Datei und Benutzer-ID sind erforderlich.' });
@@ -340,20 +448,28 @@ export function app(): express.Express {
       return res.status(201).json({ message: 'Download erfolgreich erstellt', downloadId: (result as any).insertId });
     } catch (error) {
       console.error('Fehler beim Erstellen des Downloads:', error);
-      // Löschen Sie hochgeladene Dateien bei Datenbankfehlern
       if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
       if (downloadFile) fs.unlinkSync(downloadFile.path);
       return res.status(500).json({ message: 'Serverfehler beim Erstellen des Downloads.' });
     }
   });
 
-  // PUT /api/downloads/:id - Ein bestehendes Download-Element aktualisieren (mit Dateiupload)
+  /**
+   * @route PUT /api/downloads/:id
+   * @description Aktualisiert ein bestehendes Download-Element, mit optionalem Dateiaustausch.
+   * @param {string} req.params.id - Die ID des zu aktualisierenden Downloads.
+   * @param {object} req - Die multipart/form-data Anfrage.
+   * @returns {object} 200 - Erfolgsmeldung.
+   * @returns {object} 400 - Ungültige Download-ID.
+   * @returns {object} 404 - Download nicht gefunden.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.put('/api/downloads/:id', upload.fields([
     { name: 'showcaseImage', maxCount: 1 },
     { name: 'downloadFile', maxCount: 1 }
   ]), async (req, res) => {
     const { id } = req.params;
-    const { title, description, order, userId } = req.body; // userId ist hier der "ErstelltVon" Nutzer
+    const { title, description, order, userId } = req.body;
     const showcaseImageFile = (req.files as any)?.showcaseImage?.[0];
     const downloadFile = (req.files as any)?.downloadFile?.[0];
 
@@ -365,18 +481,16 @@ export function app(): express.Express {
     }
 
     try {
-      // Aktuelle Download-Info abrufen, um alte Dateipfade zu erhalten
       const [currentDownloads] = await pool.query('SELECT ShowcaseImageURL, DownloadURL FROM downloads WHERE DownloadID = ?', [downloadId]);
       const currentDownload = (currentDownloads as any[])[0];
 
-      let showcaseImageURL = req.body.showcaseImage; // Kann auch eine bestehende URL sein (wenn keine neue Datei hochgeladen wurde)
-      let downloadURL = req.body.downloadUrl; // Kann auch eine bestehende URL sein
+      let showcaseImageURL = req.body.showcaseImage;
+      let downloadURL = req.body.downloadUrl;
 
-      // Wenn eine neue Showcase-Datei hochgeladen wurde
       if (showcaseImageFile) {
         if (currentDownload && currentDownload.ShowcaseImageURL) {
           try {
-            fs.unlinkSync(join(projectRoot, currentDownload.ShowcaseImageURL)); // Alte Datei löschen
+            fs.unlinkSync(join(projectRoot, currentDownload.ShowcaseImageURL));
           } catch (unlinkError) {
             console.warn(`Konnte alte Showcase-Datei nicht löschen: ${currentDownload.ShowcaseImageURL}`, unlinkError);
           }
@@ -384,11 +498,10 @@ export function app(): express.Express {
         showcaseImageURL = `/uploads/${showcaseImageFile.filename}`;
       }
 
-      // Wenn eine neue Download-Datei hochgeladen wurde
       if (downloadFile) {
         if (currentDownload && currentDownload.DownloadURL) {
           try {
-            fs.unlinkSync(join(projectRoot, currentDownload.DownloadURL)); // Alte Datei löschen
+            fs.unlinkSync(join(projectRoot, currentDownload.DownloadURL));
           } catch (unlinkError) {
             console.warn(`Konnte alte Download-Datei nicht löschen: ${currentDownload.DownloadURL}`, unlinkError);
           }
@@ -400,7 +513,6 @@ export function app(): express.Express {
       const [result] = await pool.query(sql, [title, description, showcaseImageURL, downloadURL, order, userId, downloadId]);
 
       if ((result as any).affectedRows === 0) {
-        // Lösche hochgeladene Dateien, wenn der Download nicht gefunden wurde
         if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
         if (downloadFile) fs.unlinkSync(downloadFile.path);
         return res.status(404).json({ message: 'Download nicht gefunden.' });
@@ -408,17 +520,23 @@ export function app(): express.Express {
       return res.status(200).json({ message: 'Download erfolgreich aktualisiert.' });
     } catch (error) {
       console.error(`Fehler beim Aktualisieren von Download ${downloadId}:`, error);
-      // Lösche hochgeladene Dateien bei Datenbankfehlern
       if (showcaseImageFile) fs.unlinkSync(showcaseImageFile.path);
       if (downloadFile) fs.unlinkSync(downloadFile.path);
       return res.status(500).json({ message: 'Serverfehler beim Aktualisieren.' });
     }
   });
 
-  // DELETE /api/downloads/:id - Ein Download-Element löschen (und zugehörige Dateien)
+  /**
+   * @route DELETE /api/downloads/:id
+   * @description Löscht ein Download-Element und die zugehörigen Dateien vom Server.
+   * @param {string} req.params.id - Die ID des zu löschenden Downloads.
+   * @returns {void} 204 - Kein Inhalt, was die erfolgreiche Löschung anzeigt.
+   * @returns {object} 400 - Ungültige Download-ID.
+   * @returns {object} 404 - Download nicht gefunden.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.delete('/api/downloads/:id', async (req, res) => {
     const { id } = req.params;
-
     const downloadId = parseInt(id, 10);
     if (isNaN(downloadId)) {
       return res.status(400).send('Ungültige DownloadID.');
@@ -429,7 +547,6 @@ export function app(): express.Express {
       connection = await pool.getConnection();
       await connection.beginTransaction();
 
-      // Dateipfade vor dem Löschen aus der DB abrufen
       const [filesToDelete] = await connection.query('SELECT ShowcaseImageURL, DownloadURL FROM downloads WHERE DownloadID = ?', [downloadId]);
       const filePaths = (filesToDelete as any[])[0];
 
@@ -440,7 +557,6 @@ export function app(): express.Express {
         return res.status(404).json({ message: 'Download nicht gefunden.' });
       }
 
-      // Dateien vom Server löschen
       if (filePaths) {
         if (filePaths.ShowcaseImageURL) {
           try {
@@ -459,31 +575,35 @@ export function app(): express.Express {
       }
 
       await connection.commit();
-      return res.status(204).send(); // 204 No Content
+      return res.status(204).send();
     } catch (error) {
-      if (connection) {
-        await connection.rollback();
-      }
+      if (connection) await connection.rollback();
       console.error(`Fehler beim Löschen von Download ${downloadId}:`, error);
       return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
     } finally {
-      if (connection) {
-        connection.release();
-      }
+      if (connection) connection.release();
     }
   });
 
-  // PUT /api/downloads/reorder - Reihenfolge von Download-Elementen aktualisieren (für Drag & Drop)
+  /**
+   * @route PUT /api/downloads/reorder
+   * @description Aktualisiert die Anzeigereihenfolge mehrerer Download-Elemente.
+   * @param {object} req.body - Der Anfragekörper.
+   * @param {Array<{id: number, order: number}>} req.body.orderUpdates - Ein Array von Objekten, die jeweils eine Download-ID und ihre neue Reihenfolge enthalten.
+   * @returns {object} 200 - Erfolgsmeldung.
+   * @returns {object} 400 - Wenn die Update-Daten ungültig sind.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.put('/api/downloads/reorder', async (req, res) => {
-    let connection; // Declare connection outside try block
-    const { orderUpdates } = req.body; // orderUpdates: [{ id: number, order: number }]
+    let connection;
+    const { orderUpdates } = req.body;
 
     if (!Array.isArray(orderUpdates) || orderUpdates.length === 0) {
       return res.status(400).json({ message: 'Ungültige Reihenfolge-Updates.' });
     }
 
     try {
-      connection = await pool.getConnection(); // Assign here
+      connection = await pool.getConnection();
       await connection.beginTransaction();
 
       for (const update of orderUpdates) {
@@ -493,36 +613,47 @@ export function app(): express.Express {
       await connection.commit();
       return res.status(200).json({ message: 'Reihenfolge erfolgreich aktualisiert.' });
     } catch (error) {
-      if (connection) { // Check if connection is defined before rollback
-        await connection.rollback();
-      }
+      if (connection) await connection.rollback();
       console.error('Fehler beim Aktualisieren der Reihenfolge der Downloads:', error);
       return res.status(500).json({ message: 'Serverfehler beim Aktualisieren der Reihenfolge.' });
     } finally {
-      if (connection) { // Check if connection is defined before release
-        connection.release();
-      }
+      if (connection) connection.release();
     }
   });
 
-
   // #############################################################
-  // ##### BESTEHENDE ROUTEN (Posts, Kategorien, etc.)       #####
+  // ##### BESTEHENDE CONTENT-MANAGEMENT-ROUTEN (Beiträge etc.) #####
   // #############################################################
 
-  // ... (Alle Ihre weiteren bestehenden Routen hier)
-  // Content-Management Routen...
+  /**
+   * @route GET /api/posts
+   * @description Ruft alle Beiträge ab, sortiert nach den neuesten zuerst.
+   * @returns {object[]} 200 - Ein Array aller Beitragsobjekte.
+   */
   server.get('/api/posts', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM beitraege order by BeitragsID DESC');
     return res.json(rows);
   });
 
+  /**
+   * @route POST /api/posts
+   * @description Erstellt einen neuen Beitrag.
+   * @param {object} req.body - Die Beitragsdaten.
+   * @returns {object} 201 - Das neu erstellte Beitragsobjekt.
+   */
   server.post('/api/posts', async (req, res) => {
     const { Titel, Inhalt, KategorieID, Bild, UserID} = req.body;
     const [result] = await pool.query('INSERT INTO beitraege (Titel, Inhalt, Bild, KategorieID, ErstelltVon, Erstellungsdatum) VALUES (?, ?, ?, ?, ?, NOW());', [Titel, Inhalt, Bild, KategorieID, UserID]);
     return res.status(201).json({ BeitragsID: (result as any).insertId, Titel, Inhalt, Bild, KategorieID, UserID });
   });
 
+  /**
+   * @route PUT /api/posts/:id
+   * @description Aktualisiert einen bestehenden Beitrag.
+   * @param {string} req.params.id - Die ID des zu aktualisierenden Beitrags.
+   * @param {object} req.body - Die aktualisierten Beitragsdaten.
+   * @returns {object} 200 - Das aktualisierte Beitragsobjekt.
+   */
   server.put('/api/posts/:id', async (req, res) => {
     const { id } = req.params;
     const { Titel, Inhalt, KategorieID, Bild, UserID} = req.body;
@@ -530,8 +661,17 @@ export function app(): express.Express {
     return res.json({ BeitragsID: id, Titel, Inhalt, Bild, KategorieID, UserID });
   });
 
+  /**
+   * @route DELETE /api/posts/:id
+   * @description Löscht einen Beitrag.
+   * @param {string} req.params.id - Die ID des zu löschenden Beitrags.
+   * @returns {void} 204 - Kein Inhalt, was die erfolgreiche Löschung anzeigt.
+   * @returns {object} 400 - Ungültige Beitrags-ID.
+   * @returns {object} 404 - Beitrag nicht gefunden.
+   * @returns {object} 500 - Serverfehler.
+   */
   server.delete('/api/posts/:id', async (req, res) => {
-    const beitragsID = parseInt(req.params.id, 10);  // parseInt direkt hier
+    const beitragsID = parseInt(req.params.id, 10);
     if (isNaN(beitragsID)) {
       return res.status(400).send('Ungültige BeitragsID.');
     }
@@ -540,50 +680,38 @@ export function app(): express.Express {
       if ((result as any).affectedRows === 0) {
         return res.status(404).json({ message: 'Beitrag nicht gefunden.' });
       }
-      return res.status(204).send();  // 204 No Content für erfolgreichen Löschvorgang
+      return res.status(204).send();
     } catch (error) {
       console.error(`Fehler beim Löschen von Beitrag ${beitragsID}:`, error);
       return res.status(500).json({ message: 'Serverfehler beim Löschen.' });
     }
   });
 
+  /**
+   * @route GET /api/categories
+   * @description Ruft alle Kategorien ab.
+   * @returns {object[]} 200 - Ein Array von Kategorieobjekten.
+   */
   server.get('/api/categories', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM kategorien');
     return res.json(rows);
   });
 
+  /**
+   * @route GET /api/departments
+   * @description Ruft alle Abteilungen ab.
+   * @returns {object[]} 200 - Ein Array von Abteilungsobjekten.
+   */
   server.get('/api/departments', async (req, res) => {
     const [rows] = await pool.query('SELECT * FROM abteilungen');
     return res.json(rows);
   });
 
-  // Angular Universal & Static Files
-  server.get('*', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [
-          { provide: APP_BASE_HREF, useValue: baseUrl },
-          // Use the InjectionToken instead of a string
-          { provide: REQUEST, useValue: req },
-        ],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
-
-
-  // 1. Statische Dateien aus dem 'browser' Ordner bereitstellen
-  server.get('*.*', express.static(browserDistFolder, {
-    maxAge: '1y'
-  }));
-
-  // 2. Alle anderen Anfragen an den Angular Universal Engine weiterleiten
+  /**
+   * @description Fängt alle Anfragen ab, die nicht von einer API-Route behandelt wurden,
+   * und rendert die Angular-Anwendung serverseitig mit Universal.
+   * Dies ist entscheidend für SEO und die initiale Ladeleistung.
+   */
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
@@ -604,6 +732,13 @@ export function app(): express.Express {
 
   return server;
 }
+
+/**
+ * Startet den Express-Server und lässt ihn auf dem konfigurierten Port lauschen.
+ * Der Port wird aus der Umgebungsvariable 'PORT' gelesen, andernfalls wird 4200 verwendet.
+ *
+ * @returns {void}
+ */
 function run(): void {
   const port = process.env['PORT'] || 4200;
   const server = app();
@@ -612,4 +747,5 @@ function run(): void {
   });
 }
 
+// Startet die Anwendung
 run();
