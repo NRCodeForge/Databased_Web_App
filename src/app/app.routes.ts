@@ -22,6 +22,7 @@ import { SvFestComponent } from './sv-fest/sv-fest.component';
 import { DownloadsComponent } from './downloads/downloads.component';
 import { LinkManagerComponent } from './admin-dashboard/link-manager/link-manager.component';
 import { authGuard } from "./guards/auth.guard";
+import { KalenderComponent } from './kalender/kalender.component';
 
 /**
  * Definiert alle Routen der Angular-Anwendung inklusive der zugeordneten Komponenten und Guards.
@@ -46,6 +47,7 @@ export const routes: Routes = [
   { path: "registration", component: RegistrationComponent },
   { path: "reset", component: ResetPasswordComponent },
   { path: "news", component: NewsComponent },
+  { path: "kalender", component: KalenderComponent},
 
   {
     path: "abteilung",
