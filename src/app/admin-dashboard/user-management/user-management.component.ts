@@ -1,25 +1,31 @@
-// Datei: src/app/admin-dashboard/user-management/user-management.component.ts
+// src/app/admin-dashboard/user-management/user-management.component.ts
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
+// import { FormsModule } from '@angular/forms'; // Removed as form is now in modal
+import { DeleteFormModalComponent } from '../delete-form-modal/delete-form-modal.component';
+import { UserFormModalComponent } from '../user-form-modal/user-form-modal.component'; // Import the new user form modal
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, DeleteFormModalComponent, UserFormModalComponent], // Added UserFormModalComponent, Removed FormsModule
   templateUrl: './user-management.component.html',
-  styleUrls: ['./user-management.component.css']
+  styleUrl: './user-management.component.css'
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
-  isFormVisible = false;
-  isEditMode = false;
-  currentUser: User = this.getEmptyUser();
+  // Renamed selectedUser to userToEdit as it's passed to the modal
+  userToEdit: Partial<User> | null = null;
+  // Replaced isEditing with showUserModal to control modal visibility
+  showUserModal: boolean = false;
 
-  constructor(private userService: UserService) {}
+  showDeleteConfirmModal: boolean = false;
+  userToDelete: User | null = null;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -27,82 +33,65 @@ export class UserManagementComponent implements OnInit {
 
   loadUsers(): void {
     this.userService.getUsers().subscribe({
-      next: (data) => this.users = data,
-      error: (err) => console.error('Fehler beim Laden der Benutzer:', err)
+      next: (data) => {
+        this.users = data;
+      },
+      error: (err) => {
+        console.error('Fehler beim Laden der Benutzer:', err);
+      }
     });
   }
 
-  private getEmptyUser(): User {
-    return {
-      UserID: 0,
+  onAddUser(): void {
+    this.userToEdit = {
       Vorname: '',
       Nachname: '',
       Email: '',
-      RollenID: 1,
-      ErstelltAm: new Date().toISOString(),
-      Passwort: ''
+      RollenID: 1 // Default role, adjust as necessary
     };
+    this.showUserModal = true; // Show the modal
   }
 
-  openCreateForm(): void {
-    this.isEditMode = false;
-    this.currentUser = this.getEmptyUser();
-    this.isFormVisible = true;
+  onEditUser(user: User): void {
+    this.userToEdit = { ...user };
+    this.showUserModal = true; // Show the modal
   }
 
-  openEditForm(user: User): void {
-    this.isEditMode = true;
-    this.currentUser = { ...user, Passwort: '' };
-    this.isFormVisible = true;
+  // New method to handle user saved from the modal
+  onUserSaved(savedUser: User): void {
+    this.showUserModal = false; // Hide the modal
+    this.userToEdit = null; // Clear selected user
+    this.loadUsers(); // Reload data to reflect changes
+    // Potentially add a notification here similar to ContentManager
+    // this.showNotification('Benutzer erfolgreich gespeichert!', 'success');
   }
 
-  closeForm(): void {
-    this.isFormVisible = false;
+  // New method to handle cancellation from the modal
+  onCancelUserModal(): void {
+    this.showUserModal = false; // Hide the modal
+    this.userToEdit = null; // Clear selected user
   }
 
-  saveUser(): void {
-    if (this.isEditMode) {
-      const { UserID, ...updateData } = this.currentUser;
-      if (!updateData.Passwort) {
-        delete updateData.Passwort;
-      }
-      console.log(updateData.RollenID);
-      this.userService.updateUser(UserID, updateData).subscribe({
-
-        next: () => this.onSaveSuccess(),
-        error: (err) => console.error('Fehler beim Aktualisieren:', err)
-      });
-    } else {
-      this.userService.createUser(this.currentUser).subscribe({
-        next: () => this.onSaveSuccess(),
-        error: (err) => console.error('Fehler beim Erstellen:', err)
-      });
+  onDeleteUser(id: number): void {
+    this.userToDelete = this.users.find(u => u.UserID === id) || null;
+    if (this.userToDelete) {
+      this.showDeleteConfirmModal = true;
     }
   }
 
-  confirmDelete(user: User): void {
-    // Verwenden von Vorname und Nachname für die Bestätigungsnachricht
-    if (confirm(`Sind Sie sicher, dass Sie den Benutzer "${user.Vorname} ${user.Nachname}" löschen möchten?`)) {
-      this.userService.deleteUser(user.UserID).subscribe({
-        next: () => this.loadUsers(),
-        error: (err) => console.error('Fehler beim Löschen:', err)
+  onDeleteConfirmation(confirmed: boolean): void {
+    this.showDeleteConfirmModal = false;
+    if (confirmed && this.userToDelete?.UserID) {
+      this.userService.deleteUser(this.userToDelete.UserID).subscribe({
+        next: () => {
+          console.log('Benutzer erfolgreich gelöscht!');
+          this.loadUsers();
+        },
+        error: (err) => {
+          console.error('Fehler beim Löschen des Benutzers:', err);
+        }
       });
     }
-  }
-
-  private onSaveSuccess(): void {
-    this.loadUsers();
-    this.closeForm();
-  }
-
-  getRolleName(RolleID: number) {
-    if (RolleID === 1) {
-      return "User";
-    }else if (RolleID === 2) {
-      return "Leiter";
-    } else if (RolleID === 3) {
-      return "Admin";
-    }
-    return "";
+    this.userToDelete = null;
   }
 }

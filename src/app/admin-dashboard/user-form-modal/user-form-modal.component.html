@@ -1,0 +1,58 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h3>{{ user && user.UserID ? 'Benutzer bearbeiten' : 'Neuen Benutzer erstellen' }}</h3>
+    <form [formGroup]="userForm" (ngSubmit)="saveUser()">
+      <div class="form-group">
+        <label for="Vorname">Vorname:</label>
+        <input id="Vorname" type="text" formControlName="Vorname" required>
+        <div *ngIf="userForm.get('Vorname')?.invalid && userForm.get('Vorname')?.touched" class="error-message">
+          Vorname ist erforderlich.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="Nachname">Nachname:</label>
+        <input id="Nachname" type="text" formControlName="Nachname" required>
+        <div *ngIf="userForm.get('Nachname')?.invalid && userForm.get('Nachname')?.touched" class="error-message">
+          Nachname ist erforderlich.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="Email">E-Mail:</label>
+        <input id="Email" type="email" formControlName="Email" required>
+        <div *ngIf="userForm.get('Email')?.invalid && userForm.get('Email')?.touched" class="error-message">
+          Eine gültige E-Mail ist erforderlich.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="RollenID">Rolle:</label>
+        <select id="RollenID" formControlName="RollenID" required>
+          <option value="">Bitte wählen Sie eine Rolle</option>
+          <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+        </select>
+        <div *ngIf="userForm.get('RollenID')?.invalid && userForm.get('RollenID')?.touched" class="error-message">
+          Rolle ist erforderlich.
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="!user?.UserID || userForm.get('Passwort')?.value || userForm.get('Passwort')?.touched">
+        <label for="Passwort">Passwort (leer lassen, um nicht zu ändern):</label>
+        <input id="Passwort" type="password" formControlName="Passwort">
+        <div *ngIf="userForm.get('Passwort')?.invalid && userForm.get('Passwort')?.touched" class="error-message">
+          Passwort ist erforderlich für neue Benutzer.
+        </div>
+      </div>
+      <div class="form-group" *ngIf="user?.UserID && !userForm.get('Passwort')?.touched">
+        <button type="button" (click)="onPasswordChangeClick()" class="btn btn-secondary">Passwort ändern</button>
+      </div>
+
+
+      <div class="modal-actions">
+        <button type="submit" [disabled]="userForm.invalid" class="btn btn-primary">Speichern</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Abbrechen</button>
+      </div>
+    </form>
+  </div>
+</div>

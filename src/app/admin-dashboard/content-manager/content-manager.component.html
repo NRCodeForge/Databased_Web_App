@@ -1,6 +1,12 @@
 <div class="content-manager-container">
   <h2>Inhaltsmanager</h2>
 
+  <div *ngIf="notificationMessage" class="notification-message-wrapper">
+    <div class="notification-message" [ngClass]="{'success': notificationType === 'success', 'error': notificationType === 'error'}">
+      {{ notificationMessage }}
+    </div>
+  </div>
+
   <button class="add-button" (click)="onAddContent()">Neuen Inhalt hinzufügen</button>
 
   <app-content-form-modal
@@ -10,6 +16,12 @@
     (contentSaved)="onContentSaved($event)"
     (cancelEdit)="onCancelEditFromModal()">
   </app-content-form-modal>
+
+  <app-delete-form-modal
+    *ngIf="showDeleteConfirmationModal && postToDelete"
+    [itemName]="postToDelete.Titel"
+    (confirmDelete)="onDeleteConfirmation($event)">
+  </app-delete-form-modal>
 
   <div class="content-list-container">
     <h3>Bestehende Inhalte</h3>
@@ -33,7 +45,7 @@
           <button class="btn-icon" (click)="onEditContent(content)" title="Bearbeiten">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="btn-icon btn-danger" (click)="onDeleteContent(content.BeitragsID)" title="Löschen">
+          <button class="btn-icon btn-danger" (click)="onDeleteContent(content)" title="Löschen">
             <i class="fas fa-trash-alt"></i>
           </button>
         </td>

@@ -11,6 +11,12 @@
     (cancelEdit)="onCancelEditFromModal()">
   </app-download-form-modal>
 
+  <app-delete-form-modal
+    *ngIf="showDeleteConfirmModal && downloadToDelete"
+    [itemName]="downloadToDelete.title"
+    (confirmDelete)="onDeleteConfirmation($event)">
+  </app-delete-form-modal>
+
   <div class="download-list-container">
     <h3>Bestehende Downloads</h3>
     <div
@@ -33,10 +39,9 @@
             <button class="btn-icon btn-danger" (click)="onDeleteDownload(download.id)" title="Löschen">
               <i class="fas fa-trash-alt"></i>
             </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-</div>
-

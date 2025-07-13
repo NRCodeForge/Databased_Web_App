@@ -37,7 +37,7 @@ export class UserService {
   }
 
   // Einen neuen Benutzer erstellen
-  createUser(user: User): Observable<User> {
+  createUser(user: Partial<User>): Observable<User> {
     return this.http.post<User>(`${this.apiBaseUrl}/api/users`, user);
   }
 

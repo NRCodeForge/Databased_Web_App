@@ -1,22 +1,31 @@
-<!-- src/app/admin-dashboard/user-management/user-management.component.html -->
-
 <div class="user-management-container">
-  <div class="header">
-    <h3>Benutzerverwaltung</h3>
-    <button class="btn btn-primary" (click)="openCreateForm()">
-      <i class="fas fa-plus"></i> Neuen Benutzer erstellen
-    </button>
-  </div>
+  <h2>Benutzerverwaltung</h2>
 
-  <div class="table-responsive">
-    <table class="table table-striped">
+  <button class="add-button" (click)="onAddUser()">Neuen Benutzer hinzufügen</button>
+
+  <app-user-form-modal
+    *ngIf="showUserModal && userToEdit"
+    [user]="userToEdit"
+    (userSaved)="onUserSaved($event)"
+    (cancelEdit)="onCancelUserModal()">
+  </app-user-form-modal>
+
+  <app-delete-form-modal
+    *ngIf="showDeleteConfirmModal && userToDelete"
+    [itemName]="userToDelete.Vorname + ' ' + userToDelete.Nachname"
+    (confirmDelete)="onDeleteConfirmation($event)">
+  </app-delete-form-modal>
+
+  <div class="user-list-container">
+    <h3>Bestehende Benutzer</h3>
+    <table class="user-table">
       <thead>
       <tr>
         <th>ID</th>
         <th>Vorname</th>
-        <th>Nachnahme</th>
-        <th>Email</th>
-        <th>Rollen ID</th>
+        <th>Nachname</th>
+        <th>E-Mail</th>
+        <th>Rolle</th>
         <th>Aktionen</th>
       </tr>
       </thead>
@@ -24,57 +33,19 @@
       <tr *ngFor="let user of users">
         <td>{{ user.UserID }}</td>
         <td>{{ user.Vorname }}</td>
-        <td>{{ user.Nachname }}</td> <!-- Zeigt den kombinierten Namen an -->
+        <td>{{ user.Nachname }}</td>
         <td>{{ user.Email }}</td>
-        <td>{{ getRolleName(user.RollenID) }}</td>
-
-        <td>
-          <button class="btn-icon" (click)="openEditForm(user)" title="Bearbeiten">
+        <td>{{ user.RollenName }}</td>
+        <td class="actions-cell">
+          <button class="btn-icon" (click)="onEditUser(user)" title="Bearbeiten">
             <i class="fas fa-edit"></i>
           </button>
-          <button class="btn-icon btn-danger" (click)="confirmDelete(user)" title="Löschen">
+          <button class="btn-icon btn-danger" (click)="onDeleteUser(user.UserID)" title="Löschen">
             <i class="fas fa-trash-alt"></i>
           </button>
         </td>
       </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<!-- FORMULAR / MODAL - Angepasst für Vorname und Nachname -->
-<div class="form-overlay" *ngIf="isFormVisible">
-  <div class="form-container">
-    <h4>{{ isEditMode ? 'Benutzer bearbeiten' : 'Neuen Benutzer erstellen' }}</h4>
-    <form (ngSubmit)="saveUser()">
-      <div class="form-group">
-        <label for="vorname">Vorname</label>
-        <input type="text" id="vorname" [(ngModel)]="currentUser.Vorname" name="vorname" required>
-      </div>
-      <div class="form-group">
-        <label for="nachname">Nachname</label>
-        <input type="text" id="nachname" [(ngModel)]="currentUser.Nachname" name="nachname" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="currentUser.Email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Neues Passwort</label>
-        <input type="password" id="password" [(ngModel)]="currentUser.Passwort" name="password" [placeholder]="isEditMode ? 'Leer lassen, um nicht zu ändern' : ''">
-      </div>
-      <div class="form-group">
-        <label for="role">Rolle</label>
-        <select id="role" [(ngModel)]="currentUser.RollenID" name="role" required>
-          <option [value]="3">Admin</option>
-          <option [value]="2">Abteilungsleiter</option>
-          <option [value]="1">Mitglied</option>
-        </select>
-      </div>
-      <div class="form-actions">
-        <button type="button" class="btn btn-secondary" (click)="closeForm()">Abbrechen</button>
-        <button type="submit" class="btn btn-primary">Speichern</button>
-      </div>
-    </form>
   </div>
 </div>
