@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Jul 2025 um 16:31
--- Server-Version: 10.4.32-MariaDB
--- PHP-Version: 8.0.30
+-- Erstellungszeit: 13. Jul 2025 um 23:12
+-- Server-Version: 10.4.27-MariaDB
+-- PHP-Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -90,9 +90,6 @@ CREATE TABLE `benutzer` (
 
 INSERT INTO `benutzer` (`BenutzerID`, `Vorname`, `Nachname`, `Email`, `Passwort`, `RollenID`, `ErstelltAm`) VALUES
 (1, 's', 's', 's@s.s', '$2b$10$wTdVSy2UEnW1G8CGVct.VO/r3sGepXFlQrYxLz4OaGvR8zNGKl6cW', 3, '2025-07-05 12:22:43'),
-(2, 'Jan', 'Boos', 'JB@gmail.com', '$2b$10$JrglxTJkfYvMZ0Z732ExBOyQGhR8RliZraywUuGmc6EAb0YueWvrS', 3, '2025-07-05 12:50:52'),
-(3, 'Aleks', 'Oost', 'AJ@geil.schilff', '$2b$10$QvXGvys.FOkQzHpzuLq5yO8UZ8A9QTF9kES7g7k4ri5kyM3W1CNVS', 2, '2025-07-05 12:54:23'),
-(4, 'Sarah', 'Jahnaschke', 'Klein@zwerg.mico', '$2b$10$qiNEtGwMZwOO.GhUa0QmieX9pSS4gZ5p4MbVuKqH2SaanKFimQWC.', 3, '2025-07-05 12:57:30'),
 (5, 'Niclas', 'RR', 'N@R.R', '$2b$10$0gbEGkujIatDx4OKsjy71OHnBFGmTLgze1WiFz7.KhmJUuAFAlZ72', 3, '2025-07-05 12:59:27'),
 (7, 'Bob', 'Bürger', 'bob@bob.bob', '$2b$10$YwenK0fGaU0AhhrnPQc/ruJq1mcEWPyC4wwXRhn3gNPy6pmRB1Bwu', 2, '2025-07-07 08:56:18'),
 (8, 'Peter', 'Bob', 'PB@p.com', '$2b$10$bZxFmwEnbzuX2LVlKpMoBOzx6ebNpwF7W9lwUr4MLwrrizg62k4L6', 1, '2025-07-07 07:55:54');
@@ -119,8 +116,7 @@ CREATE TABLE `downloads` (
 --
 
 INSERT INTO `downloads` (`DownloadID`, `Titel`, `Beschreibung`, `ShowcaseImageURL`, `DownloadURL`, `Reihenfolge`, `ErstelltVon`, `Erstellungsdatum`) VALUES
-(1, 'Test', 'test', '/uploads/showcaseImage-1752404588025-659518588.jpeg', '/uploads/downloadFile-1752404588061-655085816.pdf', 1, 5, '2025-07-13 11:03:08'),
-(2, 'Help me ', 'Im Down', '/uploads/showcaseImage-1752405423358-33649594.jpeg', '/uploads/downloadFile-1752405423399-873658102.pdf', 2, 5, '2025-07-13 11:17:03');
+(3, 'Hund', 'Gefährlicher Kampfhunf', '/uploads/showcaseImage-1752440545237-386130442.jpg', '/uploads/downloadFile-1752440545239-22281390.jpg', 2, 1, '2025-07-13 21:02:25');
 
 -- --------------------------------------------------------
 
@@ -566,7 +562,162 @@ INSERT INTO `seitenaufrufe` (`AufrufID`, `Pfad`, `AufrufZeitstempel`) VALUES
 (374, '/dashboard/admin/content', '2025-07-13 14:29:50'),
 (375, '/dashboard/admin/events', '2025-07-13 14:29:53'),
 (376, '/dashboard/admin/link-manager', '2025-07-13 14:29:54'),
-(377, '/dashboard/admin/events', '2025-07-13 14:29:55');
+(377, '/dashboard/admin/events', '2025-07-13 14:29:55'),
+(378, '/dashboard/admin/content', '2025-07-13 19:13:14'),
+(379, '/dashboard/admin/users', '2025-07-13 19:13:17'),
+(380, '/dashboard/admin/departments', '2025-07-13 19:13:20'),
+(381, '/dashboard/admin/events', '2025-07-13 19:13:21'),
+(382, '/dashboard/admin/link-manager', '2025-07-13 19:13:22'),
+(383, '/dashboard/admin/events', '2025-07-13 19:13:23'),
+(384, '/dashboard/admin/content', '2025-07-13 19:13:24'),
+(385, '/dashboard/admin/content', '2025-07-13 19:19:23'),
+(386, '/dashboard/admin/users', '2025-07-13 19:19:30'),
+(387, '/dashboard/admin/users', '2025-07-13 19:22:15'),
+(388, '/downloads', '2025-07-13 19:22:21'),
+(389, '/kalender', '2025-07-13 19:22:22'),
+(390, '/termin', '2025-07-13 19:22:26'),
+(391, '/schuetzenfest', '2025-07-13 19:22:27'),
+(392, '/der-verein', '2025-07-13 19:22:29'),
+(393, '/dashboard/admin', '2025-07-13 19:22:30'),
+(394, '/dashboard/admin/link-manager', '2025-07-13 19:22:31'),
+(395, '/dashboard/admin/users', '2025-07-13 19:23:03'),
+(396, '/dashboard/admin/users', '2025-07-13 19:25:39'),
+(397, '/dashboard/admin/users', '2025-07-13 19:26:56'),
+(398, '/dashboard/admin/content', '2025-07-13 19:27:00'),
+(399, '/dashboard/admin/users', '2025-07-13 19:27:02'),
+(400, '/dashboard/admin/content', '2025-07-13 19:27:03'),
+(401, '/dashboard/admin/users', '2025-07-13 19:27:05'),
+(402, '/dashboard/admin/content', '2025-07-13 19:27:06'),
+(403, '/dashboard/admin/departments', '2025-07-13 19:27:08'),
+(404, '/dashboard/admin/content', '2025-07-13 19:27:09'),
+(405, '/dashboard/admin/departments', '2025-07-13 19:27:41'),
+(406, '/dashboard/admin/departments', '2025-07-13 19:30:21'),
+(407, '/dashboard/admin/content', '2025-07-13 19:30:22'),
+(408, '/dashboard/admin/users', '2025-07-13 19:30:25'),
+(409, '/dashboard/admin/content', '2025-07-13 19:30:26'),
+(410, '/dashboard/admin/content', '2025-07-13 19:32:04'),
+(411, '/dashboard/admin/content', '2025-07-13 19:32:33'),
+(412, '/dashboard/admin/content', '2025-07-13 19:34:20'),
+(413, '/dashboard/admin/users', '2025-07-13 19:34:23'),
+(414, '/dashboard/admin/departments', '2025-07-13 19:34:24'),
+(415, '/dashboard/admin/content', '2025-07-13 19:34:27'),
+(416, '/news', '2025-07-13 19:34:30'),
+(417, '/der-verein', '2025-07-13 19:34:32'),
+(418, '/abteilung', '2025-07-13 19:34:33'),
+(419, '/schuetzenfest', '2025-07-13 19:34:34'),
+(420, '/abteilung', '2025-07-13 19:34:35'),
+(421, '/termin', '2025-07-13 19:34:35'),
+(422, '/kalender', '2025-07-13 19:34:35'),
+(423, '/downloads', '2025-07-13 19:34:36'),
+(424, '/dashboard/admin', '2025-07-13 19:34:39'),
+(425, '/dashboard/admin/content', '2025-07-13 19:35:19'),
+(426, '/dashboard/admin/departments', '2025-07-13 19:35:20'),
+(427, '/dashboard/admin/users', '2025-07-13 19:35:21'),
+(428, '/dashboard/admin/content', '2025-07-13 19:35:24'),
+(429, '/dashboard/admin/users', '2025-07-13 19:35:26'),
+(430, '/dashboard/admin/content', '2025-07-13 19:35:56'),
+(431, '/dashboard/admin/users', '2025-07-13 19:36:25'),
+(432, '/dashboard/admin/departments', '2025-07-13 19:36:27'),
+(433, '/dashboard/admin/link-manager', '2025-07-13 19:36:28'),
+(434, '/dashboard/admin/events', '2025-07-13 19:37:38'),
+(435, '/dashboard/admin/departments', '2025-07-13 19:37:38'),
+(436, '/dashboard/admin/users', '2025-07-13 19:37:39'),
+(437, '/dashboard/admin/content', '2025-07-13 19:37:39'),
+(438, '/dashboard/admin/link-manager', '2025-07-13 19:37:40'),
+(439, '/downloads', '2025-07-13 19:45:07'),
+(440, '/dashboard/admin', '2025-07-13 19:45:07'),
+(441, '/dashboard/admin/link-manager', '2025-07-13 19:45:08'),
+(442, '/dashboard/admin/link-manager', '2025-07-13 19:51:29'),
+(443, '/dashboard/admin/link-manager', '2025-07-13 19:59:04'),
+(444, '/dashboard/admin/content', '2025-07-13 20:01:57'),
+(445, '/dashboard/admin/users', '2025-07-13 20:01:58'),
+(446, '/dashboard/admin/events', '2025-07-13 20:01:59'),
+(447, '/dashboard/admin/link-manager', '2025-07-13 20:01:59'),
+(448, '/dashboard/admin/content', '2025-07-13 20:02:00'),
+(449, '/dashboard/admin/link-manager', '2025-07-13 20:02:01'),
+(450, '/schuetzenfest', '2025-07-13 20:03:26'),
+(451, '/termin', '2025-07-13 20:03:28'),
+(452, '/downloads', '2025-07-13 20:03:30'),
+(453, '/dashboard/admin', '2025-07-13 20:03:31'),
+(454, '/dashboard/admin/content', '2025-07-13 20:03:34'),
+(455, '/dashboard/admin/users', '2025-07-13 20:03:35'),
+(456, '/dashboard/admin/content', '2025-07-13 20:03:37'),
+(457, '/dashboard/admin/users', '2025-07-13 20:03:38'),
+(458, '/dashboard/admin/content', '2025-07-13 20:03:38'),
+(459, '/dashboard/admin/content', '2025-07-13 20:04:39'),
+(460, '/dashboard/admin/link-manager', '2025-07-13 20:04:41'),
+(461, '/dashboard/admin/link-manager', '2025-07-13 20:10:09'),
+(462, '/dashboard/admin/link-manager', '2025-07-13 20:12:05'),
+(463, '/dashboard/admin/link-manager', '2025-07-13 20:13:41'),
+(464, '/dashboard/admin/link-manager', '2025-07-13 20:15:10'),
+(465, '/dashboard/admin/link-manager', '2025-07-13 20:18:56'),
+(466, '/abteilung', '2025-07-13 20:25:15'),
+(467, '/schuetzenfest', '2025-07-13 20:25:16'),
+(468, '/termin', '2025-07-13 20:25:18'),
+(469, '/downloads', '2025-07-13 20:25:20'),
+(470, '/dashboard/admin', '2025-07-13 20:25:21'),
+(471, '/dashboard/admin/users', '2025-07-13 20:25:23'),
+(472, '/dashboard/admin/content', '2025-07-13 20:25:26'),
+(473, '/dashboard/admin/users', '2025-07-13 20:25:26'),
+(474, '/dashboard/admin/content', '2025-07-13 20:25:30'),
+(475, '/dashboard/admin/users', '2025-07-13 20:25:33'),
+(476, '/dashboard/admin/content', '2025-07-13 20:25:35'),
+(477, '/dashboard/admin/link-manager', '2025-07-13 20:25:37'),
+(478, '/dashboard/admin/events', '2025-07-13 20:25:37'),
+(479, '/dashboard/admin/users', '2025-07-13 20:25:38'),
+(480, '/dashboard/admin/content', '2025-07-13 20:25:39'),
+(481, '/dashboard/admin/users', '2025-07-13 20:25:41'),
+(482, '/dashboard/admin/content', '2025-07-13 20:25:41'),
+(483, '/dashboard/admin/content', '2025-07-13 20:30:14'),
+(484, '/dashboard/admin/events', '2025-07-13 20:30:16'),
+(485, '/dashboard/admin/link-manager', '2025-07-13 20:30:16'),
+(486, '/dashboard/admin/link-manager', '2025-07-13 20:35:01'),
+(487, '/dashboard/admin/link-manager', '2025-07-13 20:36:03'),
+(488, '/dashboard/admin/link-manager', '2025-07-13 20:36:43'),
+(489, '/dashboard/admin/link-manager', '2025-07-13 20:38:23'),
+(490, '/dashboard/admin/link-manager', '2025-07-13 20:39:18'),
+(491, '/dashboard/admin/link-manager', '2025-07-13 20:41:34'),
+(492, '/dashboard/admin/link-manager', '2025-07-13 20:44:48'),
+(493, '/dashboard/admin/link-manager', '2025-07-13 20:46:08'),
+(494, '/dashboard/admin/link-manager', '2025-07-13 20:52:51'),
+(495, '/dashboard/admin/link-manager', '2025-07-13 20:57:48'),
+(496, '/dashboard/admin/link-manager', '2025-07-13 21:00:25'),
+(497, '/dashboard/admin/link-manager', '2025-07-13 21:00:51'),
+(498, '/dashboard/admin/link-manager', '2025-07-13 21:01:03'),
+(499, '/dashboard/admin/link-manager', '2025-07-13 21:01:31'),
+(500, '/dashboard/admin/link-manager', '2025-07-13 21:02:31'),
+(501, '/news', '2025-07-13 21:02:35'),
+(502, '/dashboard/admin', '2025-07-13 21:02:38'),
+(503, '/dashboard/admin/content', '2025-07-13 21:02:38'),
+(504, '/dashboard/admin/link-manager', '2025-07-13 21:02:42'),
+(505, '/dashboard/admin/events', '2025-07-13 21:02:43'),
+(506, '/dashboard/admin/users', '2025-07-13 21:02:43'),
+(507, '/dashboard/admin/link-manager', '2025-07-13 21:02:44'),
+(508, '/dashboard/admin/link-manager', '2025-07-13 21:02:46'),
+(509, '/dashboard/admin/link-manager', '2025-07-13 21:03:00'),
+(510, '/dashboard/admin/link-manager', '2025-07-13 21:04:04'),
+(511, '/dashboard/admin/events', '2025-07-13 21:04:09'),
+(512, '/dashboard/admin/users', '2025-07-13 21:04:09'),
+(513, '/dashboard/admin/content', '2025-07-13 21:04:10'),
+(514, '/dashboard/admin/users', '2025-07-13 21:04:11'),
+(515, '/dashboard/admin/content', '2025-07-13 21:04:47'),
+(516, '/dashboard/admin/users', '2025-07-13 21:04:49'),
+(517, '/dashboard/admin/users', '2025-07-13 21:05:20'),
+(518, '/login', '2025-07-13 21:06:22'),
+(519, '/login', '2025-07-13 21:06:52'),
+(520, '/downloads', '2025-07-13 21:07:12'),
+(521, '/downloads', '2025-07-13 21:08:15'),
+(522, '/login', '2025-07-13 21:09:26'),
+(523, '/', '2025-07-13 21:09:27'),
+(524, '/dashboard/admin', '2025-07-13 21:09:42'),
+(525, '/login', '2025-07-13 21:09:46'),
+(526, '/', '2025-07-13 21:10:28'),
+(527, '/dashboard/leiter', '2025-07-13 21:10:29'),
+(528, '/dashboard/leiter/content', '2025-07-13 21:10:31'),
+(529, '/dashboard/leiter/events', '2025-07-13 21:10:31'),
+(530, '/dashboard/leiter/content', '2025-07-13 21:10:35'),
+(531, '/dashboard/leiter/events', '2025-07-13 21:10:44'),
+(532, '/dashboard/leiter/content', '2025-07-13 21:10:45');
 
 -- --------------------------------------------------------
 
@@ -604,7 +755,7 @@ CREATE TABLE `termine` (
 --
 
 INSERT INTO `termine` (`TerminID`, `Titel`, `Beschreibung`, `Datum`, `Ort`, `ErstelltVon`, `Wiederholungstyp`) VALUES
-(1, 'Bob', 'cnjodwjv', '2025-07-15 18:00:00', NULL, 5, 'Wöchentlich');
+(1, 'Bob', 'Hallo bock zu labern ;)', '2025-07-15 18:00:00', 'Delmenhorst', 5, 'Wöchentlich');
 
 --
 -- Indizes der exportierten Tabellen
@@ -685,7 +836,7 @@ ALTER TABLE `abteilungen`
 -- AUTO_INCREMENT für Tabelle `beitraege`
 --
 ALTER TABLE `beitraege`
-  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `BeitragsID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT für Tabelle `benutzer`
@@ -697,7 +848,7 @@ ALTER TABLE `benutzer`
 -- AUTO_INCREMENT für Tabelle `downloads`
 --
 ALTER TABLE `downloads`
-  MODIFY `DownloadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `DownloadID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `kategorien`
@@ -715,7 +866,7 @@ ALTER TABLE `rollen`
 -- AUTO_INCREMENT für Tabelle `seitenaufrufe`
 --
 ALTER TABLE `seitenaufrufe`
-  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=378;
+  MODIFY `AufrufID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=533;
 
 --
 -- AUTO_INCREMENT für Tabelle `sektionen`
