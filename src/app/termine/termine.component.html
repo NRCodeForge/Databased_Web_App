@@ -55,8 +55,8 @@
 
       <div class="form-group">
         <label for="geburtsdatum">Geburtsdatum *</label>
-        <input id="geburtsdatum" type="date" formControlName="geburtsdatum" class="form-control">
-        <div *ngIf="termineForm.get('geburtsdatum')?.touched && termineForm.get('geburtsdatum')?.errors?.['required']" class="error-message">
+        <input id="geburtsdatum" type="date" formControlName="dateOfBirth" class="form-control">
+        <div *ngIf="termineForm.get('dateOfBirth')?.touched && termineForm.get('dateOfBirth')?.errors?.['required']" class="error-message">
           Geburtsdatum ist ein Pflichtfeld.
         </div>
       </div>

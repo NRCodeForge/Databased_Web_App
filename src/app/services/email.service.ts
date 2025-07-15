@@ -2,16 +2,16 @@ import * as nodemailer from 'nodemailer';
 
 /**
  * Nodemailer Transporter für den Versand von E-Mails.
- * 
+ *
  * Konfigurieren Sie hier Ihren SMTP-Server und Authentifizierungsdaten.
  */
 const transporter = nodemailer.createTransport({
-  host: 'smtp.example.com', // Ersetzen Sie dies mit Ihrem SMTP-Host
-  port: 587,
-  secure: false, // true für Port 465, false für andere Ports
+  host: 'wp10428856.mailout.server-he.de', // Ersetzt mit dem ausgelesenen Host
+  port: 465, // Verwendet Port 465 für SSL/TLS
+  secure: true, // true für Port 465, false für andere Ports
   auth: {
-    user: 'your-email@example.com', // Ihre E-Mail-Adresse
-    pass: 'your-password' // Ihr Passwort
+    user: 'wp10428856-noreply', // Ihre E-Mail-Adresse
+    pass: '11SvH_reply_!*' // Ihr Passwort
   }
 });
 
@@ -25,7 +25,7 @@ const transporter = nodemailer.createTransport({
  */
 export async function sendMail(to: string, subject: string, text: string): Promise<void> {
   const mailOptions = {
-    from: '"Schützenverein Huchting" <your-email@example.com>',
+    from: '"Schützenverein Huchting" <noreply@schuetzenverein-huchting.de>',
     to: to,
     subject: subject,
     text: text

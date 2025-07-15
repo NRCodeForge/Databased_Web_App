@@ -51,7 +51,7 @@ export class TermineComponent implements OnInit {
       nachname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefon: ['', [Validators.pattern(/^\+?\d{6,15}$/)]], // Optionales Muster für Telefonnummern
-      wunschtermin: [''], // Optionales Feld ohne Validator
+      dateOfBirth: ['', Validators.required], // Optionales Feld ohne Validator
       disziplinen: this.fb.array([], this.minSelectedCheckboxes(1)), // Mindestens eine Checkbox muss ausgewählt sein
       nachricht: [''], // Optionales Textfeld
       captcha: ['', Validators.required] // Captcha als Pflichtfeld
@@ -149,7 +149,7 @@ export class TermineComponent implements OnInit {
         const leaderEmailData = {
           to: email,
           subject: `Neue Terminanfrage für ${selectedDisciplines.join(', ')}`,
-          text: `Hallo Abteilungsleiter/in,\n\nSie haben eine neue Terminanfrage von ${formValue.anrede} ${formValue.vorname} ${formValue.nachname}.\n\nKontaktdaten:\nE-Mail: ${formValue.email}\nTelefon: ${formValue.telefon || 'Nicht angegeben'}\n\nGewählte Disziplinen: ${selectedDisciplines.join(', ')}\n\nNachricht des Anfragenden:\n${formValue.nachricht || 'Keine Nachricht hinterlassen.'}\n\nBitte kontaktieren Sie die Person, um einen Termin zu vereinbaren.\n\nMit freundlichen Grüßen,\nIhr Webseiten-Bot`
+          text: `Hallo Abteilungsleiter/in,\n\nSie haben eine neue Terminanfrage von ${formValue.anrede} ${formValue.vorname} ${formValue.nachname}.\n\nKontaktdaten:\nE-Mail: ${formValue.email}\nTelefon: ${formValue.telefon || 'Nicht angegeben'}\nGeburtsdatum: ${formValue.dateOfBirth.toString()}\nGewählte Disziplinen: ${selectedDisciplines.join(', ')}\n\nNachricht des Anfragenden:\n${formValue.nachricht || 'Keine Nachricht hinterlassen.'}\n\nBitte kontaktieren Sie die Person, um einen Termin zu vereinbaren.\n\nMit freundlichen Grüßen,\nIhr Webseiten-Bot`
         };
         emailRequests.push(this.http.post('/api/send-email', leaderEmailData));
       });
